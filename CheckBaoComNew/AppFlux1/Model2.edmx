@@ -1,0 +1,717 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DATA0006">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="WORK_ORDER_NUMBER" Type="char" MaxLength="16" Nullable="false" />
+          <Property Name="INVENTORY_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="CUST_PART_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="ROOT_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="WHOUSE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="ENGG_RTE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="PROD_RTE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="CSI_USER_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="EMPLOYEE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="BOM_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="SUB_LEVELS" Type="number" Precision="10" Scale="0" />
+          <Property Name="PRIORITY_CODE" Type="char" MaxLength="1" />
+          <Property Name="ENGG_STATUS" Type="number" Precision="10" Scale="0" />
+          <Property Name="PROD_STATUS" Type="number" Precision="10" Scale="0" />
+          <Property Name="ENGG_PROD_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="ENGG_RTE_MOD_FLAG" Type="char" MaxLength="1" />
+          <Property Name="PROD_RTE_MOD_FLAG" Type="char" MaxLength="1" />
+          <Property Name="BOM_MOD_FLAG" Type="char" MaxLength="1" />
+          <Property Name="QUAN_SCH" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_REJ" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_PROD" Type="number" Precision="20" Scale="7" />
+          <Property Name="ENT_DATE" Type="date" />
+          <Property Name="ENT_TIME" Type="number" Precision="10" Scale="0" />
+          <Property Name="SCH_COMPL_DATE" Type="date" />
+          <Property Name="PROJ_START_DATE" Type="date" />
+          <Property Name="PROJ_COMPL_DATE" Type="date" />
+          <Property Name="CANCEL_HOLD_DATE" Type="date" />
+          <Property Name="ACT_COMPL_DATE" Type="date" />
+          <Property Name="CUST_PART_REV_NO" Type="char" MaxLength="5" />
+          <Property Name="BOM_REV_NO" Type="char" MaxLength="10" />
+          <Property Name="TAG_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DT_PTRAV_PRN" Type="date" />
+          <Property Name="DT_ETRAV_PRN" Type="date" />
+          <Property Name="SCRAP_RATE" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_BAL" Type="number" Precision="20" Scale="7" />
+          <Property Name="BASE_WO" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="PARENT_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="RMA_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="JOB_COST_FLAG" Type="char" MaxLength="1" />
+          <Property Name="LOCATION_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DIRECT_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="PARTS_PER_PANEL" Type="number" Precision="20" Scale="7" />
+          <Property Name="PRODUCTION_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="MATERIAL_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="OVERHEAD_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="EDITED_BY" Type="number" Precision="10" Scale="0" />
+          <Property Name="PLANNED_QTY" Type="number" Precision="20" Scale="7" />
+          <Property Name="RELEASE_DATE" Type="date" />
+          <Property Name="TRAV_PRINTED_BY_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="LOT_NUMBER_COUNT" Type="number" Precision="10" Scale="0" />
+          <Property Name="HOLD_STEP_NO" Type="number" Precision="10" Scale="0" />
+          <Property Name="HARD_LINK_TO_PARENT" Type="char" MaxLength="1" />
+          <Property Name="ANALYSIS_CODE_1" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_2" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_3" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_4" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_5" Type="char" MaxLength="20" />
+          <Property Name="DATE_CODE" Type="char" MaxLength="10" />
+          <Property Name="QUAN_SCH_PANELS" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_REJ_PANELS" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_PROD_PANELS" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_BAL_PANELS" Type="number" Precision="20" Scale="7" />
+          <Property Name="XOUT_UNIT_PTR" Type="number" Precision="20" Scale="7" />
+          <Property Name="PARTS_PER_XOUT" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_SCH_XOUT" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_REJ_XOUT" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_PROD_XOUT" Type="number" Precision="20" Scale="7" />
+          <Property Name="QUAN_BAL_XOUT" Type="number" Precision="20" Scale="7" />
+        </EntityType>
+        <EntityType Name="DATA0035">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="PRODUCTION_PARAMETER" Type="char" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="DATA0038">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TTYPE" Type="number" Precision="10" Scale="0" />
+          <Property Name="SOURCE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEPT_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_INST_1_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_INST_2_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_INST_3_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_INST_4_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_INST_5_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_1_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_2_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_3_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_4_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_5_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_6_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_7_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_8_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_9_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="DEF_ROUT_PARA_10_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="PARAMETER_1" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_2" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_3" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_4" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_5" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_6" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_7" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_8" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_9" Type="char" MaxLength="60" />
+          <Property Name="PARAMETER_10" Type="char" MaxLength="60" />
+          <Property Name="SETUP_TIME" Type="number" Precision="10" Scale="0" />
+          <Property Name="QUEUE_TIME" Type="number" Precision="10" Scale="0" />
+          <Property Name="PROCESS_TIME" Type="number" Precision="10" Scale="0" />
+          <Property Name="PERCENT_COMPLETE" Type="number" Precision="20" Scale="7" />
+          <Property Name="STEP_NUMBER" Type="number" Precision="10" Scale="0" />
+          <Property Name="UNIT_VALUE" Type="number" Precision="20" Scale="7" />
+          <Property Name="UNIT_FLAG" Type="char" MaxLength="1" />
+          <Property Name="YIELD" Type="number" Precision="20" Scale="7" />
+          <Property Name="STEP_HOLD" Type="char" MaxLength="1" />
+          <Property Name="WIP_APPROVAL_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="PROCESS_NAME" Type="char" MaxLength="50" />
+          <Property Name="CIMNET_KEY" Type="raw" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="DATA0050">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="CUSTOMER_PART_NUMBER" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CUSTOMER_PART_DESC" Type="char" MaxLength="40" />
+          <Property Name="CP_REV" Type="char" MaxLength="5" />
+          <Property Name="QTY_SCH" Type="number" Precision="20" Scale="7" />
+          <Property Name="QTY_REJ" Type="number" Precision="20" Scale="7" />
+          <Property Name="QTY_ON_HAND" Type="number" Precision="20" Scale="7" />
+          <Property Name="QTY_ALLOC" Type="number" Precision="20" Scale="7" />
+          <Property Name="EST_SCRAP" Type="number" Precision="20" Scale="7" />
+          <Property Name="ENGG_ROUTE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="PROD_ROUTE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="CUSTOMER_PTR" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="BOM_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="PROD_CODE_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="ENGG_ROUTE_MOD_FLAG" Type="char" MaxLength="1" />
+          <Property Name="PROD_ROUTE_MOD_FLAG" Type="char" MaxLength="1" />
+          <Property Name="MFG_LEAD_TIME" Type="number" Precision="10" Scale="0" />
+          <Property Name="ACTIVE_S_ORDERS" Type="number" Precision="10" Scale="0" />
+          <Property Name="ACTIVE_W_ORDERS" Type="number" Precision="10" Scale="0" />
+          <Property Name="UNPLANNED_REL_S" Type="number" Precision="10" Scale="0" />
+          <Property Name="PLANNED_REL_S" Type="number" Precision="10" Scale="0" />
+          <Property Name="FIRM_REL_S" Type="number" Precision="10" Scale="0" />
+          <Property Name="SHELF_LIFE" Type="number" Precision="10" Scale="0" />
+          <Property Name="LAST_SO_DATE" Type="date" />
+          <Property Name="OPT_LOT_SIZE" Type="number" Precision="10" Scale="0" />
+          <Property Name="FIXED_SCRAP_RATE" Type="number" Precision="20" Scale="7" />
+          <Property Name="CATALOG_NUMBER" Type="char" MaxLength="10" />
+          <Property Name="STANDARD_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="STANDARD_MATERIAL" Type="number" Precision="20" Scale="7" />
+          <Property Name="STANDARD_OVERHEAD" Type="number" Precision="20" Scale="7" />
+          <Property Name="INTERNAL_ECN_COUNTER" Type="number" Precision="10" Scale="0" />
+          <Property Name="EXTERNAL_ECN_COUNTER" Type="number" Precision="10" Scale="0" />
+          <Property Name="GENERIC_BOM_POINTER" Type="number" Precision="10" Scale="0" />
+          <Property Name="CURRENT_ACT_ACTIVITY" Type="number" Precision="20" Scale="7" />
+          <Property Name="CURRENT_ACT_MATERIAL" Type="number" Precision="20" Scale="7" />
+          <Property Name="LAST_CURNT_COST_UPDT" Type="date" />
+          <Property Name="LAST_STD_COST_UPDT" Type="date" />
+          <Property Name="ALLOW_EDIT_FLAG" Type="char" MaxLength="1" />
+          <Property Name="REPORT_UNIT_VALUE1" Type="number" Precision="20" Scale="7" />
+          <Property Name="REPORT_UNIT_VALUE2" Type="number" Precision="20" Scale="7" />
+          <Property Name="REPORT_UNIT_VALUE3" Type="number" Precision="20" Scale="7" />
+          <Property Name="SALES_ORDER_UNIT_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="SALES_ORDER_UNIT_VAL" Type="number" Precision="20" Scale="7" />
+          <Property Name="ON_HOLD_DATE" Type="date" />
+          <Property Name="ON_HOLD_BY_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="RELEASE_OPT_LOT_SIZE" Type="number" Precision="10" Scale="0" />
+          <Property Name="SET_UP_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="PROCESS_COST" Type="number" Precision="20" Scale="7" />
+          <Property Name="INDIRECT_MATERIAL1" Type="number" Precision="20" Scale="7" />
+          <Property Name="INDIRECT_MATERIAL2" Type="number" Precision="20" Scale="7" />
+          <Property Name="DIRECT_MATERIAL" Type="number" Precision="20" Scale="7" />
+          <Property Name="OVER_HEAD" Type="number" Precision="20" Scale="7" />
+          <Property Name="ONHOLD_PLANNING_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="ONHOLD_RELEASE_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="ONHOLD_SALES_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="CUSTPART_ENT_DATE" Type="date" />
+          <Property Name="LAST_MODIFIED_BY_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="LAST_MODIFIED_DATE" Type="date" />
+          <Property Name="AUTO_PLANNING_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="AUTO_RELEASE_FLAG" Type="number" Precision="10" Scale="0" />
+          <Property Name="CUR_MONTH_OPEN_BAL" Type="number" Precision="20" Scale="7" />
+          <Property Name="ANALYSIS_CODE_1" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_2" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_3" Type="char" MaxLength="20" />
+          <Property Name="ACTIVE_FLAG" Type="char" MaxLength="1" />
+          <Property Name="CONSUME_FORECASTS" Type="number" Precision="10" Scale="0" />
+          <Property Name="BACKWARD_DAYS" Type="number" Precision="10" Scale="0" />
+          <Property Name="FORWARD_DAYS" Type="number" Precision="10" Scale="0" />
+          <Property Name="PLANNING_HORIZON" Type="number" Precision="10" Scale="0" />
+          <Property Name="RAW_HORIZON" Type="number" Precision="10" Scale="0" />
+          <Property Name="VISIBILITY_HORIZON" Type="number" Precision="10" Scale="0" />
+          <Property Name="DAYS_EARLY_SCHEDULE" Type="number" Precision="10" Scale="0" />
+          <Property Name="LOT_NUMBER_COUNT" Type="number" Precision="10" Scale="0" />
+          <Property Name="APPLY_IN_TRANSIT" Type="number" Precision="10" Scale="0" />
+          <Property Name="DO_SMOOTHING" Type="number" Precision="10" Scale="0" />
+          <Property Name="SMOOTHING_THRESHOLD" Type="number" Precision="10" Scale="0" />
+          <Property Name="ANALYSIS_CODE_4" Type="char" MaxLength="20" />
+          <Property Name="ANALYSIS_CODE_5" Type="char" MaxLength="20" />
+          <Property Name="PRODUCTION_PART_PTR" Type="number" Precision="10" Scale="0" />
+          <Property Name="PLAN_INNER_LAYER" Type="char" MaxLength="1" />
+          <Property Name="LAST_SO_PRICE" Type="number" Precision="21" Scale="8" />
+          <Property Name="PBS_PART" Type="number" Precision="10" Scale="0" />
+          <Property Name="LAST_MODIFIED_TIME" Type="number" Precision="10" Scale="0" />
+          <Property Name="MIN_STOCK" Type="number" Precision="20" Scale="7" />
+          <Property Name="CIMNET_KEY" Type="raw" MaxLength="12" />
+          <Property Name="LONG_CUSTOMER_PART_NUMBER" Type="char" MaxLength="100" />
+          <Property Name="LONG_CUSTOMER_PART_DESC" Type="char" MaxLength="100" />
+          <Property Name="DATE_CODE_FLAG" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="DATA0006" EntityType="Self.DATA0006" Schema="ADMIN" store:Type="Tables" />
+          <EntitySet Name="DATA0035" EntityType="Self.DATA0035" Schema="ADMIN" store:Type="Tables" />
+          <EntitySet Name="DATA0038" EntityType="Self.DATA0038" Schema="ADMIN" store:Type="Tables" />
+          <EntitySet Name="DATA0050" EntityType="Self.DATA0050" Schema="ADMIN" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DATA0006">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="Int32" Nullable="false" />
+          <Property Name="WORK_ORDER_NUMBER" Type="String" MaxLength="16" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="INVENTORY_PTR" Type="Int32" />
+          <Property Name="CUST_PART_PTR" Type="Int32" />
+          <Property Name="ROOT_PTR" Type="Int32" />
+          <Property Name="WHOUSE_PTR" Type="Int32" />
+          <Property Name="ENGG_RTE_PTR" Type="Int32" />
+          <Property Name="PROD_RTE_PTR" Type="Int32" />
+          <Property Name="CSI_USER_PTR" Type="Int32" />
+          <Property Name="EMPLOYEE_PTR" Type="Int32" />
+          <Property Name="BOM_PTR" Type="Int32" />
+          <Property Name="SUB_LEVELS" Type="Int32" />
+          <Property Name="PRIORITY_CODE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ENGG_STATUS" Type="Int32" />
+          <Property Name="PROD_STATUS" Type="Int32" />
+          <Property Name="ENGG_PROD_FLAG" Type="Int32" />
+          <Property Name="ENGG_RTE_MOD_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PROD_RTE_MOD_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BOM_MOD_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="QUAN_SCH" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_REJ" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_PROD" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="ENT_DATE" Type="DateTime" />
+          <Property Name="ENT_TIME" Type="Int32" />
+          <Property Name="SCH_COMPL_DATE" Type="DateTime" />
+          <Property Name="PROJ_START_DATE" Type="DateTime" />
+          <Property Name="PROJ_COMPL_DATE" Type="DateTime" />
+          <Property Name="CANCEL_HOLD_DATE" Type="DateTime" />
+          <Property Name="ACT_COMPL_DATE" Type="DateTime" />
+          <Property Name="CUST_PART_REV_NO" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="BOM_REV_NO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="TAG_PTR" Type="Int32" />
+          <Property Name="DT_PTRAV_PRN" Type="DateTime" />
+          <Property Name="DT_ETRAV_PRN" Type="DateTime" />
+          <Property Name="SCRAP_RATE" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_BAL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="BASE_WO" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PARENT_PTR" Type="Int32" />
+          <Property Name="RMA_PTR" Type="Int32" />
+          <Property Name="JOB_COST_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LOCATION_PTR" Type="Int32" />
+          <Property Name="DIRECT_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="PARTS_PER_PANEL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="PRODUCTION_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="MATERIAL_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="OVERHEAD_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="EDITED_BY" Type="Int32" />
+          <Property Name="PLANNED_QTY" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="RELEASE_DATE" Type="DateTime" />
+          <Property Name="TRAV_PRINTED_BY_PTR" Type="Int32" />
+          <Property Name="LOT_NUMBER_COUNT" Type="Int32" />
+          <Property Name="HOLD_STEP_NO" Type="Int32" />
+          <Property Name="HARD_LINK_TO_PARENT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_1" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_2" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_3" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_4" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_5" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="DATE_CODE" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QUAN_SCH_PANELS" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_REJ_PANELS" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_PROD_PANELS" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_BAL_PANELS" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="XOUT_UNIT_PTR" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="PARTS_PER_XOUT" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_SCH_XOUT" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_REJ_XOUT" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_PROD_XOUT" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QUAN_BAL_XOUT" Type="Decimal" Precision="20" Scale="7" />
+        </EntityType>
+        <EntityType Name="DATA0050">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="Int32" Nullable="false" />
+          <Property Name="CUSTOMER_PART_NUMBER" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CUSTOMER_PART_DESC" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="CP_REV" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTY_SCH" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QTY_REJ" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QTY_ON_HAND" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="QTY_ALLOC" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="EST_SCRAP" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="ENGG_ROUTE_PTR" Type="Int32" />
+          <Property Name="PROD_ROUTE_PTR" Type="Int32" />
+          <Property Name="CUSTOMER_PTR" Type="Int32" Nullable="false" />
+          <Property Name="BOM_PTR" Type="Int32" />
+          <Property Name="PROD_CODE_PTR" Type="Int32" />
+          <Property Name="ENGG_ROUTE_MOD_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PROD_ROUTE_MOD_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="MFG_LEAD_TIME" Type="Int32" />
+          <Property Name="ACTIVE_S_ORDERS" Type="Int32" />
+          <Property Name="ACTIVE_W_ORDERS" Type="Int32" />
+          <Property Name="UNPLANNED_REL_S" Type="Int32" />
+          <Property Name="PLANNED_REL_S" Type="Int32" />
+          <Property Name="FIRM_REL_S" Type="Int32" />
+          <Property Name="SHELF_LIFE" Type="Int32" />
+          <Property Name="LAST_SO_DATE" Type="DateTime" />
+          <Property Name="OPT_LOT_SIZE" Type="Int32" />
+          <Property Name="FIXED_SCRAP_RATE" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="CATALOG_NUMBER" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="STANDARD_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="STANDARD_MATERIAL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="STANDARD_OVERHEAD" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="INTERNAL_ECN_COUNTER" Type="Int32" />
+          <Property Name="EXTERNAL_ECN_COUNTER" Type="Int32" />
+          <Property Name="GENERIC_BOM_POINTER" Type="Int32" />
+          <Property Name="CURRENT_ACT_ACTIVITY" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="CURRENT_ACT_MATERIAL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="LAST_CURNT_COST_UPDT" Type="DateTime" />
+          <Property Name="LAST_STD_COST_UPDT" Type="DateTime" />
+          <Property Name="ALLOW_EDIT_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="REPORT_UNIT_VALUE1" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="REPORT_UNIT_VALUE2" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="REPORT_UNIT_VALUE3" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="SALES_ORDER_UNIT_PTR" Type="Int32" />
+          <Property Name="SALES_ORDER_UNIT_VAL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="ON_HOLD_DATE" Type="DateTime" />
+          <Property Name="ON_HOLD_BY_PTR" Type="Int32" />
+          <Property Name="RELEASE_OPT_LOT_SIZE" Type="Int32" />
+          <Property Name="SET_UP_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="PROCESS_COST" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="INDIRECT_MATERIAL1" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="INDIRECT_MATERIAL2" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="DIRECT_MATERIAL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="OVER_HEAD" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="ONHOLD_PLANNING_FLAG" Type="Int32" />
+          <Property Name="ONHOLD_RELEASE_FLAG" Type="Int32" />
+          <Property Name="ONHOLD_SALES_FLAG" Type="Int32" />
+          <Property Name="CUSTPART_ENT_DATE" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_BY_PTR" Type="Int32" />
+          <Property Name="LAST_MODIFIED_DATE" Type="DateTime" />
+          <Property Name="AUTO_PLANNING_FLAG" Type="Int32" />
+          <Property Name="AUTO_RELEASE_FLAG" Type="Int32" />
+          <Property Name="CUR_MONTH_OPEN_BAL" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="ANALYSIS_CODE_1" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_2" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_3" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ACTIVE_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CONSUME_FORECASTS" Type="Int32" />
+          <Property Name="BACKWARD_DAYS" Type="Int32" />
+          <Property Name="FORWARD_DAYS" Type="Int32" />
+          <Property Name="PLANNING_HORIZON" Type="Int32" />
+          <Property Name="RAW_HORIZON" Type="Int32" />
+          <Property Name="VISIBILITY_HORIZON" Type="Int32" />
+          <Property Name="DAYS_EARLY_SCHEDULE" Type="Int32" />
+          <Property Name="LOT_NUMBER_COUNT" Type="Int32" />
+          <Property Name="APPLY_IN_TRANSIT" Type="Int32" />
+          <Property Name="DO_SMOOTHING" Type="Int32" />
+          <Property Name="SMOOTHING_THRESHOLD" Type="Int32" />
+          <Property Name="ANALYSIS_CODE_4" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="ANALYSIS_CODE_5" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="PRODUCTION_PART_PTR" Type="Int32" />
+          <Property Name="PLAN_INNER_LAYER" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LAST_SO_PRICE" Type="Decimal" Precision="21" Scale="8" />
+          <Property Name="PBS_PART" Type="Int32" />
+          <Property Name="LAST_MODIFIED_TIME" Type="Int32" />
+          <Property Name="MIN_STOCK" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="CIMNET_KEY" Type="Binary" MaxLength="12" FixedLength="false" />
+          <Property Name="LONG_CUSTOMER_PART_NUMBER" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="LONG_CUSTOMER_PART_DESC" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="DATE_CODE_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DATA0006" EntityType="Self.DATA0006" />
+          <EntitySet Name="DATA0050" EntityType="Self.DATA0050" />
+          <EntitySet Name="DATA0035" EntityType="Model.DATA0035" />
+          <EntitySet Name="DATA0038" EntityType="Model.DATA0038" />
+        </EntityContainer>
+        <EntityType Name="DATA0035">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCTION_PARAMETER" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DATA0038">
+          <Key>
+            <PropertyRef Name="RKEY" />
+          </Key>
+          <Property Name="RKEY" Type="Int32" Nullable="false" />
+          <Property Name="TTYPE" Type="Int32" />
+          <Property Name="SOURCE_PTR" Type="Int32" />
+          <Property Name="DEPT_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_INST_1_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_INST_2_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_INST_3_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_INST_4_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_INST_5_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_1_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_2_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_3_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_4_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_5_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_6_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_7_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_8_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_9_PTR" Type="Int32" />
+          <Property Name="DEF_ROUT_PARA_10_PTR" Type="Int32" />
+          <Property Name="PARAMETER_1" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_2" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_3" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_4" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_5" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_6" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_7" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_8" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_9" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="PARAMETER_10" Type="String" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="SETUP_TIME" Type="Int32" />
+          <Property Name="QUEUE_TIME" Type="Int32" />
+          <Property Name="PROCESS_TIME" Type="Int32" />
+          <Property Name="PERCENT_COMPLETE" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="STEP_NUMBER" Type="Int32" />
+          <Property Name="UNIT_VALUE" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="UNIT_FLAG" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="YIELD" Type="Decimal" Precision="20" Scale="7" />
+          <Property Name="STEP_HOLD" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="WIP_APPROVAL_FLAG" Type="Int32" />
+          <Property Name="PROCESS_NAME" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="CIMNET_KEY" Type="Binary" MaxLength="12" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="DATA0006">
+            <EntityTypeMapping TypeName="Model.DATA0006">
+              <MappingFragment StoreEntitySet="DATA0006">
+                <ScalarProperty Name="RKEY" ColumnName="RKEY" />
+                <ScalarProperty Name="WORK_ORDER_NUMBER" ColumnName="WORK_ORDER_NUMBER" />
+                <ScalarProperty Name="INVENTORY_PTR" ColumnName="INVENTORY_PTR" />
+                <ScalarProperty Name="CUST_PART_PTR" ColumnName="CUST_PART_PTR" />
+                <ScalarProperty Name="ROOT_PTR" ColumnName="ROOT_PTR" />
+                <ScalarProperty Name="WHOUSE_PTR" ColumnName="WHOUSE_PTR" />
+                <ScalarProperty Name="ENGG_RTE_PTR" ColumnName="ENGG_RTE_PTR" />
+                <ScalarProperty Name="PROD_RTE_PTR" ColumnName="PROD_RTE_PTR" />
+                <ScalarProperty Name="CSI_USER_PTR" ColumnName="CSI_USER_PTR" />
+                <ScalarProperty Name="EMPLOYEE_PTR" ColumnName="EMPLOYEE_PTR" />
+                <ScalarProperty Name="BOM_PTR" ColumnName="BOM_PTR" />
+                <ScalarProperty Name="SUB_LEVELS" ColumnName="SUB_LEVELS" />
+                <ScalarProperty Name="PRIORITY_CODE" ColumnName="PRIORITY_CODE" />
+                <ScalarProperty Name="ENGG_STATUS" ColumnName="ENGG_STATUS" />
+                <ScalarProperty Name="PROD_STATUS" ColumnName="PROD_STATUS" />
+                <ScalarProperty Name="ENGG_PROD_FLAG" ColumnName="ENGG_PROD_FLAG" />
+                <ScalarProperty Name="ENGG_RTE_MOD_FLAG" ColumnName="ENGG_RTE_MOD_FLAG" />
+                <ScalarProperty Name="PROD_RTE_MOD_FLAG" ColumnName="PROD_RTE_MOD_FLAG" />
+                <ScalarProperty Name="BOM_MOD_FLAG" ColumnName="BOM_MOD_FLAG" />
+                <ScalarProperty Name="QUAN_SCH" ColumnName="QUAN_SCH" />
+                <ScalarProperty Name="QUAN_REJ" ColumnName="QUAN_REJ" />
+                <ScalarProperty Name="QUAN_PROD" ColumnName="QUAN_PROD" />
+                <ScalarProperty Name="ENT_DATE" ColumnName="ENT_DATE" />
+                <ScalarProperty Name="ENT_TIME" ColumnName="ENT_TIME" />
+                <ScalarProperty Name="SCH_COMPL_DATE" ColumnName="SCH_COMPL_DATE" />
+                <ScalarProperty Name="PROJ_START_DATE" ColumnName="PROJ_START_DATE" />
+                <ScalarProperty Name="PROJ_COMPL_DATE" ColumnName="PROJ_COMPL_DATE" />
+                <ScalarProperty Name="CANCEL_HOLD_DATE" ColumnName="CANCEL_HOLD_DATE" />
+                <ScalarProperty Name="ACT_COMPL_DATE" ColumnName="ACT_COMPL_DATE" />
+                <ScalarProperty Name="CUST_PART_REV_NO" ColumnName="CUST_PART_REV_NO" />
+                <ScalarProperty Name="BOM_REV_NO" ColumnName="BOM_REV_NO" />
+                <ScalarProperty Name="TAG_PTR" ColumnName="TAG_PTR" />
+                <ScalarProperty Name="DT_PTRAV_PRN" ColumnName="DT_PTRAV_PRN" />
+                <ScalarProperty Name="DT_ETRAV_PRN" ColumnName="DT_ETRAV_PRN" />
+                <ScalarProperty Name="SCRAP_RATE" ColumnName="SCRAP_RATE" />
+                <ScalarProperty Name="QUAN_BAL" ColumnName="QUAN_BAL" />
+                <ScalarProperty Name="BASE_WO" ColumnName="BASE_WO" />
+                <ScalarProperty Name="PARENT_PTR" ColumnName="PARENT_PTR" />
+                <ScalarProperty Name="RMA_PTR" ColumnName="RMA_PTR" />
+                <ScalarProperty Name="JOB_COST_FLAG" ColumnName="JOB_COST_FLAG" />
+                <ScalarProperty Name="LOCATION_PTR" ColumnName="LOCATION_PTR" />
+                <ScalarProperty Name="DIRECT_COST" ColumnName="DIRECT_COST" />
+                <ScalarProperty Name="PARTS_PER_PANEL" ColumnName="PARTS_PER_PANEL" />
+                <ScalarProperty Name="PRODUCTION_COST" ColumnName="PRODUCTION_COST" />
+                <ScalarProperty Name="MATERIAL_COST" ColumnName="MATERIAL_COST" />
+                <ScalarProperty Name="OVERHEAD_COST" ColumnName="OVERHEAD_COST" />
+                <ScalarProperty Name="EDITED_BY" ColumnName="EDITED_BY" />
+                <ScalarProperty Name="PLANNED_QTY" ColumnName="PLANNED_QTY" />
+                <ScalarProperty Name="RELEASE_DATE" ColumnName="RELEASE_DATE" />
+                <ScalarProperty Name="TRAV_PRINTED_BY_PTR" ColumnName="TRAV_PRINTED_BY_PTR" />
+                <ScalarProperty Name="LOT_NUMBER_COUNT" ColumnName="LOT_NUMBER_COUNT" />
+                <ScalarProperty Name="HOLD_STEP_NO" ColumnName="HOLD_STEP_NO" />
+                <ScalarProperty Name="HARD_LINK_TO_PARENT" ColumnName="HARD_LINK_TO_PARENT" />
+                <ScalarProperty Name="ANALYSIS_CODE_1" ColumnName="ANALYSIS_CODE_1" />
+                <ScalarProperty Name="ANALYSIS_CODE_2" ColumnName="ANALYSIS_CODE_2" />
+                <ScalarProperty Name="ANALYSIS_CODE_3" ColumnName="ANALYSIS_CODE_3" />
+                <ScalarProperty Name="ANALYSIS_CODE_4" ColumnName="ANALYSIS_CODE_4" />
+                <ScalarProperty Name="ANALYSIS_CODE_5" ColumnName="ANALYSIS_CODE_5" />
+                <ScalarProperty Name="DATE_CODE" ColumnName="DATE_CODE" />
+                <ScalarProperty Name="QUAN_SCH_PANELS" ColumnName="QUAN_SCH_PANELS" />
+                <ScalarProperty Name="QUAN_REJ_PANELS" ColumnName="QUAN_REJ_PANELS" />
+                <ScalarProperty Name="QUAN_PROD_PANELS" ColumnName="QUAN_PROD_PANELS" />
+                <ScalarProperty Name="QUAN_BAL_PANELS" ColumnName="QUAN_BAL_PANELS" />
+                <ScalarProperty Name="XOUT_UNIT_PTR" ColumnName="XOUT_UNIT_PTR" />
+                <ScalarProperty Name="PARTS_PER_XOUT" ColumnName="PARTS_PER_XOUT" />
+                <ScalarProperty Name="QUAN_SCH_XOUT" ColumnName="QUAN_SCH_XOUT" />
+                <ScalarProperty Name="QUAN_REJ_XOUT" ColumnName="QUAN_REJ_XOUT" />
+                <ScalarProperty Name="QUAN_PROD_XOUT" ColumnName="QUAN_PROD_XOUT" />
+                <ScalarProperty Name="QUAN_BAL_XOUT" ColumnName="QUAN_BAL_XOUT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DATA0050">
+            <EntityTypeMapping TypeName="Model.DATA0050">
+              <MappingFragment StoreEntitySet="DATA0050">
+                <ScalarProperty Name="RKEY" ColumnName="RKEY" />
+                <ScalarProperty Name="CUSTOMER_PART_NUMBER" ColumnName="CUSTOMER_PART_NUMBER" />
+                <ScalarProperty Name="CUSTOMER_PART_DESC" ColumnName="CUSTOMER_PART_DESC" />
+                <ScalarProperty Name="CP_REV" ColumnName="CP_REV" />
+                <ScalarProperty Name="QTY_SCH" ColumnName="QTY_SCH" />
+                <ScalarProperty Name="QTY_REJ" ColumnName="QTY_REJ" />
+                <ScalarProperty Name="QTY_ON_HAND" ColumnName="QTY_ON_HAND" />
+                <ScalarProperty Name="QTY_ALLOC" ColumnName="QTY_ALLOC" />
+                <ScalarProperty Name="EST_SCRAP" ColumnName="EST_SCRAP" />
+                <ScalarProperty Name="ENGG_ROUTE_PTR" ColumnName="ENGG_ROUTE_PTR" />
+                <ScalarProperty Name="PROD_ROUTE_PTR" ColumnName="PROD_ROUTE_PTR" />
+                <ScalarProperty Name="CUSTOMER_PTR" ColumnName="CUSTOMER_PTR" />
+                <ScalarProperty Name="BOM_PTR" ColumnName="BOM_PTR" />
+                <ScalarProperty Name="PROD_CODE_PTR" ColumnName="PROD_CODE_PTR" />
+                <ScalarProperty Name="ENGG_ROUTE_MOD_FLAG" ColumnName="ENGG_ROUTE_MOD_FLAG" />
+                <ScalarProperty Name="PROD_ROUTE_MOD_FLAG" ColumnName="PROD_ROUTE_MOD_FLAG" />
+                <ScalarProperty Name="MFG_LEAD_TIME" ColumnName="MFG_LEAD_TIME" />
+                <ScalarProperty Name="ACTIVE_S_ORDERS" ColumnName="ACTIVE_S_ORDERS" />
+                <ScalarProperty Name="ACTIVE_W_ORDERS" ColumnName="ACTIVE_W_ORDERS" />
+                <ScalarProperty Name="UNPLANNED_REL_S" ColumnName="UNPLANNED_REL_S" />
+                <ScalarProperty Name="PLANNED_REL_S" ColumnName="PLANNED_REL_S" />
+                <ScalarProperty Name="FIRM_REL_S" ColumnName="FIRM_REL_S" />
+                <ScalarProperty Name="SHELF_LIFE" ColumnName="SHELF_LIFE" />
+                <ScalarProperty Name="LAST_SO_DATE" ColumnName="LAST_SO_DATE" />
+                <ScalarProperty Name="OPT_LOT_SIZE" ColumnName="OPT_LOT_SIZE" />
+                <ScalarProperty Name="FIXED_SCRAP_RATE" ColumnName="FIXED_SCRAP_RATE" />
+                <ScalarProperty Name="CATALOG_NUMBER" ColumnName="CATALOG_NUMBER" />
+                <ScalarProperty Name="STANDARD_COST" ColumnName="STANDARD_COST" />
+                <ScalarProperty Name="STANDARD_MATERIAL" ColumnName="STANDARD_MATERIAL" />
+                <ScalarProperty Name="STANDARD_OVERHEAD" ColumnName="STANDARD_OVERHEAD" />
+                <ScalarProperty Name="INTERNAL_ECN_COUNTER" ColumnName="INTERNAL_ECN_COUNTER" />
+                <ScalarProperty Name="EXTERNAL_ECN_COUNTER" ColumnName="EXTERNAL_ECN_COUNTER" />
+                <ScalarProperty Name="GENERIC_BOM_POINTER" ColumnName="GENERIC_BOM_POINTER" />
+                <ScalarProperty Name="CURRENT_ACT_ACTIVITY" ColumnName="CURRENT_ACT_ACTIVITY" />
+                <ScalarProperty Name="CURRENT_ACT_MATERIAL" ColumnName="CURRENT_ACT_MATERIAL" />
+                <ScalarProperty Name="LAST_CURNT_COST_UPDT" ColumnName="LAST_CURNT_COST_UPDT" />
+                <ScalarProperty Name="LAST_STD_COST_UPDT" ColumnName="LAST_STD_COST_UPDT" />
+                <ScalarProperty Name="ALLOW_EDIT_FLAG" ColumnName="ALLOW_EDIT_FLAG" />
+                <ScalarProperty Name="REPORT_UNIT_VALUE1" ColumnName="REPORT_UNIT_VALUE1" />
+                <ScalarProperty Name="REPORT_UNIT_VALUE2" ColumnName="REPORT_UNIT_VALUE2" />
+                <ScalarProperty Name="REPORT_UNIT_VALUE3" ColumnName="REPORT_UNIT_VALUE3" />
+                <ScalarProperty Name="SALES_ORDER_UNIT_PTR" ColumnName="SALES_ORDER_UNIT_PTR" />
+                <ScalarProperty Name="SALES_ORDER_UNIT_VAL" ColumnName="SALES_ORDER_UNIT_VAL" />
+                <ScalarProperty Name="ON_HOLD_DATE" ColumnName="ON_HOLD_DATE" />
+                <ScalarProperty Name="ON_HOLD_BY_PTR" ColumnName="ON_HOLD_BY_PTR" />
+                <ScalarProperty Name="RELEASE_OPT_LOT_SIZE" ColumnName="RELEASE_OPT_LOT_SIZE" />
+                <ScalarProperty Name="SET_UP_COST" ColumnName="SET_UP_COST" />
+                <ScalarProperty Name="PROCESS_COST" ColumnName="PROCESS_COST" />
+                <ScalarProperty Name="INDIRECT_MATERIAL1" ColumnName="INDIRECT_MATERIAL1" />
+                <ScalarProperty Name="INDIRECT_MATERIAL2" ColumnName="INDIRECT_MATERIAL2" />
+                <ScalarProperty Name="DIRECT_MATERIAL" ColumnName="DIRECT_MATERIAL" />
+                <ScalarProperty Name="OVER_HEAD" ColumnName="OVER_HEAD" />
+                <ScalarProperty Name="ONHOLD_PLANNING_FLAG" ColumnName="ONHOLD_PLANNING_FLAG" />
+                <ScalarProperty Name="ONHOLD_RELEASE_FLAG" ColumnName="ONHOLD_RELEASE_FLAG" />
+                <ScalarProperty Name="ONHOLD_SALES_FLAG" ColumnName="ONHOLD_SALES_FLAG" />
+                <ScalarProperty Name="CUSTPART_ENT_DATE" ColumnName="CUSTPART_ENT_DATE" />
+                <ScalarProperty Name="LAST_MODIFIED_BY_PTR" ColumnName="LAST_MODIFIED_BY_PTR" />
+                <ScalarProperty Name="LAST_MODIFIED_DATE" ColumnName="LAST_MODIFIED_DATE" />
+                <ScalarProperty Name="AUTO_PLANNING_FLAG" ColumnName="AUTO_PLANNING_FLAG" />
+                <ScalarProperty Name="AUTO_RELEASE_FLAG" ColumnName="AUTO_RELEASE_FLAG" />
+                <ScalarProperty Name="CUR_MONTH_OPEN_BAL" ColumnName="CUR_MONTH_OPEN_BAL" />
+                <ScalarProperty Name="ANALYSIS_CODE_1" ColumnName="ANALYSIS_CODE_1" />
+                <ScalarProperty Name="ANALYSIS_CODE_2" ColumnName="ANALYSIS_CODE_2" />
+                <ScalarProperty Name="ANALYSIS_CODE_3" ColumnName="ANALYSIS_CODE_3" />
+                <ScalarProperty Name="ACTIVE_FLAG" ColumnName="ACTIVE_FLAG" />
+                <ScalarProperty Name="CONSUME_FORECASTS" ColumnName="CONSUME_FORECASTS" />
+                <ScalarProperty Name="BACKWARD_DAYS" ColumnName="BACKWARD_DAYS" />
+                <ScalarProperty Name="FORWARD_DAYS" ColumnName="FORWARD_DAYS" />
+                <ScalarProperty Name="PLANNING_HORIZON" ColumnName="PLANNING_HORIZON" />
+                <ScalarProperty Name="RAW_HORIZON" ColumnName="RAW_HORIZON" />
+                <ScalarProperty Name="VISIBILITY_HORIZON" ColumnName="VISIBILITY_HORIZON" />
+                <ScalarProperty Name="DAYS_EARLY_SCHEDULE" ColumnName="DAYS_EARLY_SCHEDULE" />
+                <ScalarProperty Name="LOT_NUMBER_COUNT" ColumnName="LOT_NUMBER_COUNT" />
+                <ScalarProperty Name="APPLY_IN_TRANSIT" ColumnName="APPLY_IN_TRANSIT" />
+                <ScalarProperty Name="DO_SMOOTHING" ColumnName="DO_SMOOTHING" />
+                <ScalarProperty Name="SMOOTHING_THRESHOLD" ColumnName="SMOOTHING_THRESHOLD" />
+                <ScalarProperty Name="ANALYSIS_CODE_4" ColumnName="ANALYSIS_CODE_4" />
+                <ScalarProperty Name="ANALYSIS_CODE_5" ColumnName="ANALYSIS_CODE_5" />
+                <ScalarProperty Name="PRODUCTION_PART_PTR" ColumnName="PRODUCTION_PART_PTR" />
+                <ScalarProperty Name="PLAN_INNER_LAYER" ColumnName="PLAN_INNER_LAYER" />
+                <ScalarProperty Name="LAST_SO_PRICE" ColumnName="LAST_SO_PRICE" />
+                <ScalarProperty Name="PBS_PART" ColumnName="PBS_PART" />
+                <ScalarProperty Name="LAST_MODIFIED_TIME" ColumnName="LAST_MODIFIED_TIME" />
+                <ScalarProperty Name="MIN_STOCK" ColumnName="MIN_STOCK" />
+                <ScalarProperty Name="CIMNET_KEY" ColumnName="CIMNET_KEY" />
+                <ScalarProperty Name="LONG_CUSTOMER_PART_NUMBER" ColumnName="LONG_CUSTOMER_PART_NUMBER" />
+                <ScalarProperty Name="LONG_CUSTOMER_PART_DESC" ColumnName="LONG_CUSTOMER_PART_DESC" />
+                <ScalarProperty Name="DATE_CODE_FLAG" ColumnName="DATE_CODE_FLAG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DATA0035">
+            <EntityTypeMapping TypeName="Model.DATA0035">
+              <MappingFragment StoreEntitySet="DATA0035">
+                <ScalarProperty Name="PRODUCTION_PARAMETER" ColumnName="PRODUCTION_PARAMETER" />
+                <ScalarProperty Name="RKEY" ColumnName="RKEY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DATA0038">
+            <EntityTypeMapping TypeName="Model.DATA0038">
+              <MappingFragment StoreEntitySet="DATA0038">
+                <ScalarProperty Name="CIMNET_KEY" ColumnName="CIMNET_KEY" />
+                <ScalarProperty Name="PROCESS_NAME" ColumnName="PROCESS_NAME" />
+                <ScalarProperty Name="WIP_APPROVAL_FLAG" ColumnName="WIP_APPROVAL_FLAG" />
+                <ScalarProperty Name="STEP_HOLD" ColumnName="STEP_HOLD" />
+                <ScalarProperty Name="YIELD" ColumnName="YIELD" />
+                <ScalarProperty Name="UNIT_FLAG" ColumnName="UNIT_FLAG" />
+                <ScalarProperty Name="UNIT_VALUE" ColumnName="UNIT_VALUE" />
+                <ScalarProperty Name="STEP_NUMBER" ColumnName="STEP_NUMBER" />
+                <ScalarProperty Name="PERCENT_COMPLETE" ColumnName="PERCENT_COMPLETE" />
+                <ScalarProperty Name="PROCESS_TIME" ColumnName="PROCESS_TIME" />
+                <ScalarProperty Name="QUEUE_TIME" ColumnName="QUEUE_TIME" />
+                <ScalarProperty Name="SETUP_TIME" ColumnName="SETUP_TIME" />
+                <ScalarProperty Name="PARAMETER_10" ColumnName="PARAMETER_10" />
+                <ScalarProperty Name="PARAMETER_9" ColumnName="PARAMETER_9" />
+                <ScalarProperty Name="PARAMETER_8" ColumnName="PARAMETER_8" />
+                <ScalarProperty Name="PARAMETER_7" ColumnName="PARAMETER_7" />
+                <ScalarProperty Name="PARAMETER_6" ColumnName="PARAMETER_6" />
+                <ScalarProperty Name="PARAMETER_5" ColumnName="PARAMETER_5" />
+                <ScalarProperty Name="PARAMETER_4" ColumnName="PARAMETER_4" />
+                <ScalarProperty Name="PARAMETER_3" ColumnName="PARAMETER_3" />
+                <ScalarProperty Name="PARAMETER_2" ColumnName="PARAMETER_2" />
+                <ScalarProperty Name="PARAMETER_1" ColumnName="PARAMETER_1" />
+                <ScalarProperty Name="DEF_ROUT_PARA_10_PTR" ColumnName="DEF_ROUT_PARA_10_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_9_PTR" ColumnName="DEF_ROUT_PARA_9_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_8_PTR" ColumnName="DEF_ROUT_PARA_8_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_7_PTR" ColumnName="DEF_ROUT_PARA_7_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_6_PTR" ColumnName="DEF_ROUT_PARA_6_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_5_PTR" ColumnName="DEF_ROUT_PARA_5_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_4_PTR" ColumnName="DEF_ROUT_PARA_4_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_3_PTR" ColumnName="DEF_ROUT_PARA_3_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_2_PTR" ColumnName="DEF_ROUT_PARA_2_PTR" />
+                <ScalarProperty Name="DEF_ROUT_PARA_1_PTR" ColumnName="DEF_ROUT_PARA_1_PTR" />
+                <ScalarProperty Name="DEF_ROUT_INST_5_PTR" ColumnName="DEF_ROUT_INST_5_PTR" />
+                <ScalarProperty Name="DEF_ROUT_INST_4_PTR" ColumnName="DEF_ROUT_INST_4_PTR" />
+                <ScalarProperty Name="DEF_ROUT_INST_3_PTR" ColumnName="DEF_ROUT_INST_3_PTR" />
+                <ScalarProperty Name="DEF_ROUT_INST_2_PTR" ColumnName="DEF_ROUT_INST_2_PTR" />
+                <ScalarProperty Name="DEF_ROUT_INST_1_PTR" ColumnName="DEF_ROUT_INST_1_PTR" />
+                <ScalarProperty Name="DEPT_PTR" ColumnName="DEPT_PTR" />
+                <ScalarProperty Name="SOURCE_PTR" ColumnName="SOURCE_PTR" />
+                <ScalarProperty Name="TTYPE" ColumnName="TTYPE" />
+                <ScalarProperty Name="RKEY" ColumnName="RKEY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
