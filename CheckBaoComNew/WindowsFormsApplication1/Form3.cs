@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Forms;
@@ -110,6 +111,38 @@ namespace WindowsFormsApplication1
             using (var client = new HttpClient())
             {
                 var serializedProduct = JsonConvert.SerializeObject(ck);
+                var content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
+                var result = await client.PostAsync(APIbaocom, content);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            InsertNhomKy();
+        }
+        private async void InsertNhomKy()
+        {
+            List<nhomky> mk = new List<nhomky>()
+            {
+                new nhomky {User_id="dsfsdfdf7868dsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="tú" },
+                new nhomky {User_id="dsfsdfdfdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="tuấn" },
+                new nhomky {User_id="dsfsdfdf74dsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="toàn" },
+                new nhomky {User_id="dsfsdfdfdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="huy" },
+                new nhomky {User_id="dsfsdfdyuyfdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="hùng" },
+                new nhomky {User_id="dsfsdfdfdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="dũng" },
+                new nhomky {User_id="dsfsdfdlklfdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="an" },
+                new nhomky {User_id="dsfsdfdfdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="khánh" },
+                new nhomky {User_id="dsfsdfdf456dsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="chiến" },
+                new nhomky {User_id="dsfsdfd456fdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="nam" },
+                new nhomky {User_id="dsfsdfd456fdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="quang" },
+                new nhomky {User_id="dsfsdfd456fdsfđfsdf",Nhomky_id=Guid.Parse("4dfa445a-ea72-e911-80fc-40a3cc3b43da"),Username="châu" },
+
+            };
+
+            string APIbaocom = "http://localhost:50209/Api/Data3";
+            using (var client = new HttpClient())
+            {
+                var serializedProduct = JsonConvert.SerializeObject(mk);
                 var content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
                 var result = await client.PostAsync(APIbaocom, content);
             }

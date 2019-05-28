@@ -65,15 +65,10 @@ namespace CheckCom_Version2
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
                 MyConnection.Close();
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    DataRow drow = table.Rows[i];
-
-                    if (drow.RowState != DataRowState.Deleted)
+                    if (table.Rows.Count==1)
                     {
-                        idnhaan = drow["nhaanid"].ToString();
+                        idnhaan = table.Rows[0]["nhaanid"].ToString();
                     }
-                }
             }
             catch (Exception)
             {

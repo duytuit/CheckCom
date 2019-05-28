@@ -23,6 +23,8 @@ namespace CheckCom_Version2
         private string caanid;
         private string caan = null;
         private List<BuaAn> buaan = new List<BuaAn>();
+        List<Bitmap> bm = new List<Bitmap>();
+        int index = 0;
         public Card_Check()
         {
             InitializeComponent();
@@ -139,8 +141,8 @@ namespace CheckCom_Version2
                                 Format = BarcodeFormat.QR_CODE,
                                 Options = new EncodingOptions
                                 {
-                                    Height = 100,
-                                    Width = 100,
+                                    Height = 70,
+                                    Width = 70,
                                     Margin = 0
                                 }
                             };
@@ -173,8 +175,8 @@ namespace CheckCom_Version2
                                 Format = BarcodeFormat.QR_CODE,
                                 Options = new EncodingOptions
                                 {
-                                    Height = 100,
-                                    Width = 100,
+                                    Height = 70,
+                                    Width = 70,
                                     Margin = 0
                                 }
                             };
@@ -207,9 +209,36 @@ namespace CheckCom_Version2
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            Bitmap bitmap=new Bitmap(this.panel1.Width,this.panel1.Height);
-            panel1.DrawToBitmap(bitmap, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
-            e.Graphics.DrawImage(bitmap,0,0);
+            //Bitmap bitmap=new Bitmap(this.panel1.Width,this.panel1.Height);
+            //panel1.DrawToBitmap(bitmap, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
+            //e.Graphics.DrawImage(bitmap, 390,190,this.panel1.Width,this.panel1.Height);
+            //Bitmap bitmap1 = new Bitmap(this.panel1.Width, this.panel1.Height);
+            //panel1.DrawToBitmap(bitmap1, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
+            //e.Graphics.DrawImage(bitmap1, 390, 190*2, this.panel1.Width, this.panel1.Height);
+            if(bm.Count<13)
+            {
+                int chieudai = 0;
+                int chieurong = 0;
+                int rightpage = 0;
+                for (int i = 0; i < bm.Count; i++)
+                {
+                    if (chieudai > e.MarginBounds.Bottom-this.panel1.Height)
+                    {
+                        chieurong = this.panel1.Width;
+                        e.Graphics.DrawImage(bm[i], chieurong, rightpage+3, this.panel1.Width, this.panel1.Height);
+                        rightpage = rightpage + this.panel1.Height;
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(bm[i], 0, chieudai+3, this.panel1.Width, this.panel1.Height);
+                        chieudai = chieudai + this.panel1.Height;
+                    }
+                }
+            }else
+            {
+                MessageBox.Show("In tối đa 12 phiếu ăn!");
+            }
+           
         }
         private async Task<string> GetAllBuaan()
         {
@@ -250,7 +279,7 @@ namespace CheckCom_Version2
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
-                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] order by empid asc", MyConnection);
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] order by manhansu asc", MyConnection);
                 oada.Fill(table);
                 MyConnection.Close();
                 gvdanhsach.DataSource = null;
@@ -303,8 +332,8 @@ namespace CheckCom_Version2
                                     Format = BarcodeFormat.QR_CODE,
                                     Options = new EncodingOptions
                                     {
-                                        Height = 100,
-                                        Width = 100,
+                                        Height = 70,
+                                        Width = 70,
                                         Margin = 0
                                     }
                                 };
@@ -337,8 +366,8 @@ namespace CheckCom_Version2
                                     Format = BarcodeFormat.QR_CODE,
                                     Options = new EncodingOptions
                                     {
-                                        Height = 100,
-                                        Width = 100,
+                                        Height = 70,
+                                        Width = 70,
                                         Margin = 0
                                     }
                                 };
@@ -423,8 +452,8 @@ namespace CheckCom_Version2
                     Format = BarcodeFormat.QR_CODE,
                     Options = new EncodingOptions
                     {
-                        Height = 100,
-                        Width = 100,
+                        Height = 70,
+                        Width = 70,
                         Margin = 0
                     }
                 };
@@ -453,8 +482,8 @@ namespace CheckCom_Version2
                     Format = BarcodeFormat.QR_CODE,
                     Options = new EncodingOptions
                     {
-                        Height = 100,
-                        Width = 100,
+                        Height = 70,
+                        Width = 70,
                         Margin = 0
                     }
                 };
@@ -472,6 +501,120 @@ namespace CheckCom_Version2
                 }
             }
            
+        }
+
+        private void btnA4_Click(object sender, EventArgs e)
+        {
+            if (gvdanhsach.Rows.Count > 0)
+            {
+                bool isSelected = false;
+                for (int i = gvdanhsach.Rows.Count - 1; i >= 0; i--)
+                {
+                    isSelected = Convert.ToBoolean(gvdanhsach.Rows[i].Cells["check"].Value);
+
+                    if (isSelected)
+                    {
+                        string khach = gvdanhsach.Rows[i].Cells["khach"].Value.ToString();
+                        if (khach == "False")
+                        {
+                            lbID.Text = gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString();
+                            lbTen.Text = gvdanhsach.Rows[i].Cells["hoten"].Value.ToString();
+                            lbPhong.Text = gvdanhsach.Rows[i].Cells["phong"].Value.ToString();
+                            lbBan.Text = gvdanhsach.Rows[i].Cells["ban"].Value.ToString();
+                            lbHienTrang.Text = "Nhân Viên";
+                            lbThoiGian.Text = gvdanhsach.Rows[i].Cells["thoigiandat"].Value.ToString() + " / " + gvdanhsach.Rows[i].Cells["bua"].Value.ToString();
+                            var barcodeWriter = new BarcodeWriter
+                            {
+                                Format = BarcodeFormat.QR_CODE,
+                                Options = new EncodingOptions
+                                {
+                                    Height = 70,
+                                    Width = 70,
+                                    Margin = 0
+                                }
+                            };
+
+                            string content = lbID.Text;
+
+                            using (var bitmap = barcodeWriter.Write(content))
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    bitmap.Save(stream, ImageFormat.Png);
+                                    var image = Image.FromStream(stream);
+                                    pictureBox1.Image = image;
+                                    //printDocument1.DocumentName = gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString();
+                                    //printDocument1.Print();
+                                    Bitmap bitmap1 = new Bitmap(this.panel1.Width, this.panel1.Height);
+                                    panel1.DrawToBitmap(bitmap1, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
+                                    //bitmap1.Save(Application.StartupPath + @"\CardNV\" + gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString() + ".png", ImageFormat.Png);
+
+                                    bm.Add(bitmap1);
+                                    gvdanhsach.Rows[i].Cells["check"].Value = check.FalseValue;
+                                }
+                            }
+                           
+                        }
+                        else
+                        {
+                            lbID.Text = gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString();
+                            lbTen.Text = gvdanhsach.Rows[i].Cells["hoten"].Value.ToString();
+                            lbPhong.Text = gvdanhsach.Rows[i].Cells["phong"].Value.ToString();
+                            lbBan.Text = gvdanhsach.Rows[i].Cells["ban"].Value.ToString();
+                            lbHienTrang.Text = "Khách";
+                            lbThoiGian.Text = gvdanhsach.Rows[i].Cells["thoigiandat"].Value.ToString() + " / " + gvdanhsach.Rows[i].Cells["bua"].Value.ToString();
+                            var barcodeWriter = new BarcodeWriter
+                            {
+                                Format = BarcodeFormat.QR_CODE,
+                                Options = new EncodingOptions
+                                {
+                                    Height = 70,
+                                    Width = 70,
+                                    Margin = 0
+                                }
+                            };
+
+                            string content = lbID.Text;
+
+                            using (var bitmap = barcodeWriter.Write(content))
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    bitmap.Save(stream, ImageFormat.Png);
+                                    var image = Image.FromStream(stream);
+                                    pictureBox1.Image = image;
+                                    //printDocument1.DocumentName = gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString();
+                                    //printDocument1.Print();
+                                    Bitmap bitmap1 = new Bitmap(this.panel1.Width, this.panel1.Height);
+                                    panel1.DrawToBitmap(bitmap1, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
+                                    //bitmap1.Save(Application.StartupPath + @"\CardNV\" + gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString() + ".png", ImageFormat.Png);
+
+                                    bm.Add(bitmap1);
+                                    gvdanhsach.Rows[i].Cells["check"].Value = check.FalseValue;
+                                }
+                            }
+                        }
+
+                    }
+                }
+                if(bm.Count<13)
+                {
+                    printDocument1.Print();
+                }
+               else
+                {
+                    bm.Clear();
+                    MessageBox.Show("In tối đa 12 phiếu ăn!");
+                }
+                //PrintPreviewDialog previewDialog = new PrintPreviewDialog();
+                //previewDialog.Document = printDocument1;
+                //previewDialog.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Chưa có dữ liệu!");
+            }
+
         }
     }
 }

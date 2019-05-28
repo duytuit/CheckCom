@@ -65,6 +65,7 @@
     <Compile Include="DTOs\BuaAn.cs" />
     <Compile Include="DTOs\CheckBaoCom.cs" />
     <Compile Include="DTOs\NhaAn.cs" />
+    <Compile Include="DTOs\nhomky.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
