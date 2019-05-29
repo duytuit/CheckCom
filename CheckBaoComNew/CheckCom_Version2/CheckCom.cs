@@ -607,7 +607,7 @@ namespace CheckCom_Version2
                             System.Data.OleDb.OleDbConnection MyConnectionup;
                             System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                             string sqlup = null;
-                            MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
+                            MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                             MyConnectionup.Open();
                             myCommandup.Connection = MyConnectionup;
                             sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
@@ -639,7 +639,7 @@ namespace CheckCom_Version2
                                 System.Data.OleDb.OleDbConnection MyConnectionup;
                                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                                 string sqlup = null;
-                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
+                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                                 MyConnectionup.Open();
                                 myCommandup.Connection = MyConnectionup;
                                 sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
@@ -661,7 +661,7 @@ namespace CheckCom_Version2
                                 System.Data.OleDb.OleDbConnection MyConnectionup;
                                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                                 string sqlup = null;
-                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
+                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                                 MyConnectionup.Open();
                                 myCommandup.Connection = MyConnectionup;
                                 sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
@@ -696,7 +696,7 @@ namespace CheckCom_Version2
                         System.Data.OleDb.OleDbConnection MyConnectionup;
                         System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                         string sqlup = null;
-                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
+                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                         MyConnectionup.Open();
                         myCommandup.Connection = MyConnectionup;
                         sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
@@ -718,7 +718,7 @@ namespace CheckCom_Version2
                         System.Data.OleDb.OleDbConnection MyConnectionup;
                         System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                         string sqlup = null;
-                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
+                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                         MyConnectionup.Open();
                         myCommandup.Connection = MyConnectionup;
                         sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
