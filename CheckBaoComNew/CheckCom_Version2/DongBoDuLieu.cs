@@ -800,6 +800,8 @@ namespace CheckCom_Version2
             Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
             dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
             var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;
+            Excel.Range dfd = worksheetExcel.UsedRange;
+
             ((Excel.Range)worksheetExcel.Rows[RowExcel, Missing.Value]).Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
             workbooksExcel.Save();
             workbooksExcel.Close(false);

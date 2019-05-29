@@ -10,6 +10,7 @@ using System.Linq;
 using System.Media;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -60,7 +61,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\Nhaan\NhaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -90,7 +91,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -431,7 +432,7 @@ namespace CheckCom_Version2
                     string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                     DataTable table = new DataTable();
                     System.Data.OleDb.OleDbConnection MyConnection;
-                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                     MyConnection.Open();
                     OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] where manhansu='" + txtID.Text + "'", MyConnection);
                     oada.Fill(table);
@@ -499,13 +500,14 @@ namespace CheckCom_Version2
                         lbthongtinnv.Text = null;
                         lbthoigiansudung.Text = "Bạn chưa báo cơm. Vui lòng qua bàn đăng ký bổ sung!";
                     }
+                  
                 }
             }
             else
             {
                 txtID.Text = null;
             }
-           
+          
             #region Check Failed
             //=============================================================================================================
 
@@ -589,7 +591,6 @@ namespace CheckCom_Version2
         private async void UpdateCheckBaoCom(CheckBaoCom ck)
         {
             string APIbaocom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs";
-           // string APIbaocom = "";
             try
             {
                 using (var client = new HttpClient())
@@ -606,10 +607,8 @@ namespace CheckCom_Version2
                             System.Data.OleDb.OleDbConnection MyConnectionup;
                             System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                             string sqlup = null;
-                            MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                            MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
                             MyConnectionup.Open();
-                            OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnectionup);
-                            oada.Fill(table);
                             myCommandup.Connection = MyConnectionup;
                             sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
                             myCommandup.CommandText = sqlup;
@@ -618,7 +617,7 @@ namespace CheckCom_Version2
                         }
                         catch (Exception)
                         {
-                            MessageBox.Show("Update dữ liệu lỗi!");
+                            MessageBox.Show("Update dữ liệu client lỗi!");
                         }
                     }
                     else
@@ -626,7 +625,7 @@ namespace CheckCom_Version2
                         string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                         DataTable table1 = new DataTable();
                         System.Data.OleDb.OleDbConnection MyConnection;
-                        MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                        MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                         MyConnection.Open();
                         OleDbDataAdapter oada1 = new OleDbDataAdapter("select * from [Sheet1$] where trangthai2='NG' and manhansu='" + ck.manhansu + "'", MyConnection);
                         oada1.Fill(table1);
@@ -640,10 +639,8 @@ namespace CheckCom_Version2
                                 System.Data.OleDb.OleDbConnection MyConnectionup;
                                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                                 string sqlup = null;
-                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
                                 MyConnectionup.Open();
-                                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnectionup);
-                                oada.Fill(table);
                                 myCommandup.Connection = MyConnectionup;
                                 sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
                                 myCommandup.CommandText = sqlup;
@@ -664,10 +661,8 @@ namespace CheckCom_Version2
                                 System.Data.OleDb.OleDbConnection MyConnectionup;
                                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                                 string sqlup = null;
-                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                                MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
                                 MyConnectionup.Open();
-                                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnectionup);
-                                oada.Fill(table);
                                 myCommandup.Connection = MyConnectionup;
                                 sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
                                 myCommandup.CommandText = sqlup;
@@ -687,7 +682,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table1 = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada1 = new OleDbDataAdapter("select * from [Sheet1$] where trangthai2='NG' and manhansu='" + ck.manhansu + "'", MyConnection);
                 oada1.Fill(table1);
@@ -701,10 +696,8 @@ namespace CheckCom_Version2
                         System.Data.OleDb.OleDbConnection MyConnectionup;
                         System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                         string sqlup = null;
-                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
                         MyConnectionup.Open();
-                        OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnectionup);
-                        oada.Fill(table);
                         myCommandup.Connection = MyConnectionup;
                         sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
                         myCommandup.CommandText = sqlup;
@@ -725,10 +718,8 @@ namespace CheckCom_Version2
                         System.Data.OleDb.OleDbConnection MyConnectionup;
                         System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
                         string sqlup = null;
-                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                        MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=0;'");
                         MyConnectionup.Open();
-                        OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnectionup);
-                        oada.Fill(table);
                         myCommandup.Connection = MyConnectionup;
                         sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
                         myCommandup.CommandText = sqlup;
@@ -770,6 +761,10 @@ namespace CheckCom_Version2
             }
             APICheckBaoCom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs/" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
             GetBaoCom();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

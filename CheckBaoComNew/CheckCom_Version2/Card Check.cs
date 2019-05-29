@@ -24,7 +24,6 @@ namespace CheckCom_Version2
         private string caan = null;
         private List<BuaAn> buaan = new List<BuaAn>();
         List<Bitmap> bm = new List<Bitmap>();
-        int index = 0;
         public Card_Check()
         {
             InitializeComponent();
@@ -209,12 +208,6 @@ namespace CheckCom_Version2
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            //Bitmap bitmap=new Bitmap(this.panel1.Width,this.panel1.Height);
-            //panel1.DrawToBitmap(bitmap, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
-            //e.Graphics.DrawImage(bitmap, 390,190,this.panel1.Width,this.panel1.Height);
-            //Bitmap bitmap1 = new Bitmap(this.panel1.Width, this.panel1.Height);
-            //panel1.DrawToBitmap(bitmap1, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
-            //e.Graphics.DrawImage(bitmap1, 390, 190*2, this.panel1.Width, this.panel1.Height);
             if(bm.Count<13)
             {
                 int chieudai = 0;
@@ -437,16 +430,9 @@ namespace CheckCom_Version2
         }
         private void lvServer_MouseClick(object sender, MouseEventArgs e)
         {
-            //string khach = lvServer.SelectedItems[0].SubItems[6].Text;
             string khach = "False";
             if (khach=="False")
             {
-                //lbID.Text = lvServer.SelectedItems[0].SubItems[1].Text;
-                //lbTen.Text = lvServer.SelectedItems[0].SubItems[2].Text;
-                //lbPhong.Text = lvServer.SelectedItems[0].SubItems[3].Text;
-                //lbBan.Text = lvServer.SelectedItems[0].SubItems[4].Text;
-                //lbHienTrang.Text = "Nhân Viên";
-                //lbThoiGian.Text = lvServer.SelectedItems[0].SubItems[11].Text + " / " + lvServer.SelectedItems[0].SubItems[18].Text;
                 var barcodeWriter = new BarcodeWriter
                 {
                     Format = BarcodeFormat.QR_CODE,
@@ -471,12 +457,6 @@ namespace CheckCom_Version2
                 }
             }else
             {
-                //lbID.Text = lvServer.SelectedItems[0].SubItems[1].Text;
-                //lbTen.Text = lvServer.SelectedItems[0].SubItems[2].Text;
-                //lbPhong.Text = lvServer.SelectedItems[0].SubItems[3].Text;
-                //lbBan.Text = lvServer.SelectedItems[0].SubItems[4].Text;
-                //lbHienTrang.Text = "Khách";
-                //lbThoiGian.Text = lvServer.SelectedItems[0].SubItems[11].Text + " / " + lvServer.SelectedItems[0].SubItems[18].Text;
                 var barcodeWriter = new BarcodeWriter
                 {
                     Format = BarcodeFormat.QR_CODE,
@@ -606,9 +586,6 @@ namespace CheckCom_Version2
                     bm.Clear();
                     MessageBox.Show("In tối đa 12 phiếu ăn!");
                 }
-                //PrintPreviewDialog previewDialog = new PrintPreviewDialog();
-                //previewDialog.Document = printDocument1;
-                //previewDialog.ShowDialog();
             }
             else
             {
