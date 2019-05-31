@@ -52,7 +52,6 @@ namespace CheckCom_Version2
                 caan = " Toi";
                 cbBuaan.Text = "Tối";
             }
-            //GetNhaAnID();
         }
         private void GetNhaAnID()
         {
@@ -600,25 +599,31 @@ namespace CheckCom_Version2
                     var result = await client.PutAsync(String.Format("{0}/{1}", APIbaocom, ck.id), content);
                     if (result.IsSuccessStatusCode)
                     {
-                        try
+
+                        string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                        string MyConnectionup = @"provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'";
+                        using (OleDbConnection conn = new OleDbConnection(MyConnectionup))
                         {
-                            string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
-                            DataTable table = new DataTable();
-                            System.Data.OleDb.OleDbConnection MyConnectionup;
-                            System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
-                            string sqlup = null;
-                            MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
-                            MyConnectionup.Open();
-                            myCommandup.Connection = MyConnectionup;
-                            sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
-                            myCommandup.CommandText = sqlup;
-                            myCommandup.ExecuteNonQuery();
-                            MyConnectionup.Close();
+                            try
+                            {
+                                conn.Open();
+                                System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
+                                myCommandup.Connection = conn;
+                                string sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
+                                myCommandup.CommandText = sqlup;
+                                myCommandup.ExecuteNonQuery();
+                                conn.Close();
+                            }
+                            catch (Exception)
+                            {
+                                lbthongbao.Text = null;
+                                lbthongbao.BackColor = Color.Green;
+                                lbthongtinnv.Text = null;
+                                lbthoigiansudung.Text = null;
+                                txtID.Text = null;
+                            }
                         }
-                        catch (Exception)
-                        {
-                            MessageBox.Show("Update dữ liệu client lỗi!");
-                        }
+                           
                     }
                     else
                     {
@@ -634,44 +639,46 @@ namespace CheckCom_Version2
                         {
                             try
                             {
-                                
-                                DataTable table = new DataTable();
                                 System.Data.OleDb.OleDbConnection MyConnectionup;
                                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
-                                string sqlup = null;
                                 MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                                 MyConnectionup.Open();
                                 myCommandup.Connection = MyConnectionup;
-                                sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
+                                string sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
                                 myCommandup.CommandText = sqlup;
                                 myCommandup.ExecuteNonQuery();
                                 MyConnectionup.Close();
                             }
                             catch (Exception)
                             {
-                                MessageBox.Show("Update dữ liệu client lỗi!");
+                                lbthongbao.Text = null;
+                                lbthongbao.BackColor = Color.Green;
+                                lbthongtinnv.Text = null;
+                                lbthoigiansudung.Text = null;
+                                txtID.Text = null;
                             }
                         }
                         else
                         {
                             try
                             {
-                              
-                                DataTable table = new DataTable();
                                 System.Data.OleDb.OleDbConnection MyConnectionup;
                                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
-                                string sqlup = null;
                                 MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                                 MyConnectionup.Open();
                                 myCommandup.Connection = MyConnectionup;
-                                sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
+                                string sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
                                 myCommandup.CommandText = sqlup;
                                 myCommandup.ExecuteNonQuery();
                                 MyConnectionup.Close();
                             }
                             catch (Exception)
                             {
-                                MessageBox.Show("Update dữ liệu client lỗi!");
+                                lbthongbao.Text = null;
+                                lbthongbao.BackColor = Color.Green;
+                                lbthongtinnv.Text = null;
+                                lbthoigiansudung.Text = null;
+                                txtID.Text = null;
                             }
                         }
                     }
@@ -691,44 +698,46 @@ namespace CheckCom_Version2
                 {
                     try
                     {
-
-                        DataTable table = new DataTable();
                         System.Data.OleDb.OleDbConnection MyConnectionup;
                         System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
-                        string sqlup = null;
                         MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                         MyConnectionup.Open();
                         myCommandup.Connection = MyConnectionup;
-                        sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
+                        string sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + " where manhansu='" + ck.manhansu + "'";
                         myCommandup.CommandText = sqlup;
                         myCommandup.ExecuteNonQuery();
                         MyConnectionup.Close();
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Update dữ liệu client lỗi!");
+                        lbthongbao.Text = null;
+                        lbthongbao.BackColor = Color.Green;
+                        lbthongtinnv.Text = null;
+                        lbthoigiansudung.Text = null;
+                        txtID.Text = null;
                     }
                 }
                 else
                 {
                     try
                     {
-
-                        DataTable table = new DataTable();
                         System.Data.OleDb.OleDbConnection MyConnectionup;
                         System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
-                        string sqlup = null;
                         MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;'");
                         MyConnectionup.Open();
                         myCommandup.Connection = MyConnectionup;
-                        sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
+                        string sqlup = "update [Sheet1$] set sudung=" + ck.sudung + ",thoigiansudung='" + ck.thoigiansudung + "',soxuatandadung=" + ck.soxuatandadung + ",trangthai1='NG' where manhansu='" + ck.manhansu + "'";
                         myCommandup.CommandText = sqlup;
                         myCommandup.ExecuteNonQuery();
                         MyConnectionup.Close();
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Update dữ liệu client lỗi!");
+                        lbthongbao.Text = null;
+                        lbthongbao.BackColor = Color.Green;
+                        lbthongtinnv.Text = null;
+                        lbthoigiansudung.Text = null;
+                        txtID.Text = null;
                     }
                 }
             }

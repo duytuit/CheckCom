@@ -50,7 +50,7 @@ namespace CheckCom_Version2
                 cbBuaan.Text = "Tối";
                 caan = " Toi";
             }
-            GetNhaAnID();
+            
         }
 
         private void GetNhaAnID()
@@ -133,12 +133,10 @@ namespace CheckCom_Version2
             try
             {
                 GetDataClient();
-             
                 btnCapNhap.Enabled = true;
             }
             catch (Exception)
             {
-               
                 btnCapNhap.Enabled = false;
             }
         }
@@ -544,8 +542,9 @@ namespace CheckCom_Version2
         {
         }
 
-        private void cbBuaan_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cbBuaan_SelectedIndexChanged(object sender, EventArgs e)
         {
+           
             if (cbBuaan.Text == "Trưa")
             {
                 caan = " Trua";
@@ -571,12 +570,11 @@ namespace CheckCom_Version2
             }
             APICheckBaoCom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs/" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
             GetBaoCom();
-
             bool Check = CheckData();
             if (Check == true)
             {
                 kiemtratrangthai();
-                GetDataClientChuaUpdateServer();
+                await Task.Run(() => GetDataClientChuaUpdateServer());
             }
             else
             {
@@ -651,7 +649,7 @@ namespace CheckCom_Version2
                         wb.Close();
                         docExcel.Application.Quit();
                     }
-                    kiemtratrangthai();
+                     kiemtratrangthai();
                 }
                 catch (Exception)
                 {
@@ -662,6 +660,7 @@ namespace CheckCom_Version2
                     lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
                 }
             }
+            await Task.Run(() => GetNhaAnID());
         }
 
         private void GetDataClientChuaUpdateServer()

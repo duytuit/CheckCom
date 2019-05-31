@@ -737,8 +737,6 @@ namespace CheckCom_Version2
                     caanid = ba.id;
                 }
             }
-            //APICheckBaoCom = "http://192.84.100.207/MealOrdersAPI/api/BaoComBuaAn/" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
-            //GetCheckCom();
             bool icheck = CheckData();
             if (icheck == true)
             {
