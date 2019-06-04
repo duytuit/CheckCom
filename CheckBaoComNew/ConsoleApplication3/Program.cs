@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,9 +14,25 @@ namespace ConsoleApplication3
         static int sum = 0;
         static void Main(string[] args)
         {
-            start();
-            Console.ReadKey();
 
+            string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\CheckCom\06-01-2019 Chieu.txt";
+            string[] lines = File.ReadAllLines(info);
+            if (lines.Count() > 0)
+            {
+                for (int i = 0; i < lines.Count(); i++)
+                {
+                    if(lines[i].Split('-').Count()==3)
+                    {
+                        if (lines[i].Split('-')[2].Contains("NG1"))
+                        {
+                            lines[i] =  lines[i].Replace(lines[i], lines[i].Split('-')[0] +"-"+ lines[i].Split('-')[1]);
+                        }
+                    }
+                  
+                }
+                    File.WriteAllLines(info, lines);
+            }
+            Console.ReadKey();
         }
         private static async void Sample() { await Task.Run(() => sum = sum + 1); }
         private static async void Sample2() { await Task.Run(() => sum = sum + 10); }

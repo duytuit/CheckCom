@@ -60,42 +60,6 @@ namespace CheckCom_Version2
             gvdanhsach.ClearSelection();
         }
 
-        private void GetCheckCom()
-        {
-            baocom.Clear();
-            try
-            {
-                string pathfile = Application.StartupPath + @"\DLNS\DuLieuNhanSu.xls";
-                DataTable table = new DataTable();
-                System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
-                MyConnection.Open();
-                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
-                oada.Fill(table);
-                MyConnection.Close();
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    DataRow drow = table.Rows[i];
-
-                    if (drow.RowState != DataRowState.Deleted)
-                    {
-                        CheckBaoCom ck = new CheckBaoCom()
-                        {
-                            manhansu = drow["maid"].ToString(),
-                            hoten = drow["hoten"].ToString(),
-                            phong = drow["phong"].ToString(),
-                            ban = drow["ban"].ToString(),
-                            congdoan = drow["congdoan"].ToString()
-                        };
-                        baocom.Add(ck);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         private void GetBuaan()
         {
             try
@@ -265,6 +229,7 @@ namespace CheckCom_Version2
                 Thongtinnhanvien TT = JsonConvert.DeserializeObject<Thongtinnhanvien>(astr);
                 if (TT != null)
                 {
+                    ClearText();
                     txtTennv.Text = TT.hodem + " " + TT.ten;
                     txtTennv.ForeColor = Color.Black;
                     txtTennv.Font = new Font(txtTennv.Font, FontStyle.Regular);
@@ -285,7 +250,7 @@ namespace CheckCom_Version2
                             }
                         }
                     }
-                    catch (AggregateException)
+                    catch (Exception)
                     {
                     }
                     try
@@ -306,7 +271,7 @@ namespace CheckCom_Version2
                         }
                       
                     }
-                    catch (AggregateException)
+                    catch (Exception)
                     {
                     }
                     try
@@ -329,7 +294,7 @@ namespace CheckCom_Version2
                             }
                         }
                     }
-                    catch (AggregateException)
+                    catch (Exception)
                     {
                     }
                 }
@@ -339,36 +304,11 @@ namespace CheckCom_Version2
                     ClearText();
                 }
             }
-            catch (AggregateException)
+            catch (Exception)
             {
                 txtID.Text = null;
                 ClearText();
             }
-            #region faile
-            //=========================================================
-            //if (baocom.Count > 0)
-            //{
-            //    foreach (CheckBaoCom ck in baocom)
-            //    {
-            //        if (ck.manhansu == txtID.Text)
-            //        {
-            //            txtTennv.Text = ck.hoten;
-            //            txtphong.Text = ck.phong;
-            //            txtban.Text = ck.ban;
-            //            txtcongdoan.Text = ck.congdoan;
-            //            txtTennv.ForeColor = Color.Black;
-            //            txtTennv.Font = new Font(txtTennv.Font, FontStyle.Regular);
-            //            txtphong.ForeColor = Color.Black;
-            //            txtphong.Font = new Font(txtphong.Font, FontStyle.Regular);
-            //            txtban.ForeColor = Color.Black;
-            //            txtban.Font = new Font(txtban.Font, FontStyle.Regular);
-            //            txtcongdoan.ForeColor = Color.Black;
-            //            txtcongdoan.Font = new Font(txtcongdoan.Font, FontStyle.Regular);
-            //            break;
-            //        }
-            //    }
-            //}
-            #endregion
 
         }
 
