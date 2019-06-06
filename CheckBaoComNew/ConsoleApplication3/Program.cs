@@ -15,22 +15,15 @@ namespace ConsoleApplication3
         static void Main(string[] args)
         {
 
-            string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\CheckCom\06-01-2019 Chieu.txt";
+            string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\CheckCom\06-05-2019 Chieu.txt";
             string[] lines = File.ReadAllLines(info);
             if (lines.Count() > 0)
             {
                 for (int i = 0; i < lines.Count(); i++)
                 {
-                    if(lines[i].Split('-').Count()==3)
-                    {
-                        if (lines[i].Split('-')[2].Contains("NG1"))
-                        {
-                            lines[i] =  lines[i].Replace(lines[i], lines[i].Split('-')[0] +"-"+ lines[i].Split('-')[1]);
-                        }
-                    }
-                  
+                    Console.WriteLine(lines[i].ToString());
                 }
-                    File.WriteAllLines(info, lines);
+                   
             }
             Console.ReadKey();
         }

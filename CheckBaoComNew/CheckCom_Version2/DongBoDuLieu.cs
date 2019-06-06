@@ -60,7 +60,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\Nhaan\NhaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -262,7 +262,7 @@ namespace CheckCom_Version2
                     string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
                     DataTable table = new DataTable();
                     System.Data.OleDb.OleDbConnection MyConnection;
-                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                     MyConnection.Open();
                     OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                     oada.Fill(table);
@@ -288,6 +288,7 @@ namespace CheckCom_Version2
         {
             baocom.Clear();
             lbServer.Text = "Dữ liệu đăng ký cơm : 0";
+            lbSoxuatan.Text = "Xuất ăn đã dùng :0";
             lvServer.Items.Clear();
             try
             {
@@ -304,6 +305,7 @@ namespace CheckCom_Version2
                     else if (y.manhansu == null) return 1;
                     else return x.manhansu.CompareTo(y.manhansu);
                 });
+                int dem = 0;
                 foreach (CheckBaoCom ck in baocom)
                 {
                     ListViewItem lvi = new ListViewItem(ck.manhansu);
@@ -324,8 +326,13 @@ namespace CheckCom_Version2
                     lvi.SubItems.Add(ck.chot);
                     lvi.SubItems.Add(ck.ghichu);
                     lvi.SubItems.Add(ck.buaan);
+                    if (ck.sudung=="true")
+                    {
+                        dem++;
+                    }
                     lvServer.Items.Add(lvi);
                 }
+                lbSoxuatan.Text = "Xuất ăn đã dùng :"+dem;
                 if (lvServer.Items.Count == 0)
                 {
                     MessageBox.Show("Chưa có dữ liệu!");
@@ -333,6 +340,7 @@ namespace CheckCom_Version2
                     lbClient.Text = "Dữ liệu Client : 0";
                     lvDongbo.Items.Clear();
                     lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
+                    lbSoxuatan.Text = "Xuất ăn đã dùng :0";
                 }
             }
             catch (Exception)
@@ -355,7 +363,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -407,71 +415,50 @@ namespace CheckCom_Version2
         private void btnCapNhap_Click(object sender, EventArgs e)
         {
             string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
-            if (lvDongbo.Items.Count == 0)
+            if (baocom.Count > 0)
             {
-                if (baocom.Count > 0)
+                DataTable table = new DataTable();
+                System.Data.OleDb.OleDbConnection MyConnection;
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection.Open();
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] where trangthai2='NG'", MyConnection);
+                oada.Fill(table);
+                for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    DataTable table = new DataTable();
-                    System.Data.OleDb.OleDbConnection MyConnection;
-                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
-                    MyConnection.Open();
-                    OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] where trangthai2='NG'", MyConnection);
-                    oada.Fill(table);
-                    string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                    string[] lines = File.ReadAllLines(info);
-                    for (int i = 0; i < table.Rows.Count; i++)
+                    DataRow drow = table.Rows[i];
+                    bool check1 = true;
+                    if (drow.RowState != DataRowState.Deleted)
                     {
-                        for (int j = 0; j < lines.Count(); j++)
+                        CheckBaoCom ck = new CheckBaoCom()
                         {
-                            if (lines[j].Split('-')[0].Contains(table.Rows[i]["manhansu"].ToString()))
-                            {
-                                if (lines[j].Split('-').Count() == 3)
-                                {
-                                    if (lines[j].Split('-')[2] == "NG2")
-                                    {
-                                        DataRow drow = table.Rows[i];
-                                        bool check1 = true;
-                                        if (drow.RowState != DataRowState.Deleted)
-                                        {
-                                            CheckBaoCom ck = new CheckBaoCom()
-                                            {
-                                                empid = drow["empid"].ToString(),
-                                                manhansu = drow["manhansu"].ToString(),
-                                                hoten = drow["hoten"].ToString(),
-                                                phongid = string.IsNullOrEmpty(drow["phongid"].ToString()) ? null : drow["phongid"].ToString(),
-                                                phong = string.IsNullOrEmpty(drow["phong"].ToString()) ? null : drow["phong"].ToString(),
-                                                banid = string.IsNullOrEmpty(drow["banid"].ToString()) ? null : drow["banid"].ToString(),
-                                                ban = string.IsNullOrEmpty(drow["ban"].ToString()) ? null : drow["ban"].ToString(),
-                                                congdoanid = string.IsNullOrEmpty(drow["congdoanid"].ToString()) ? null : drow["congdoanid"].ToString(),
-                                                congdoan = string.IsNullOrEmpty(drow["congdoan"].ToString()) ? null : drow["congdoan"].ToString(),
-                                                khach = drow["khach"].ToString(),
-                                                ngay = string.IsNullOrEmpty(drow["ngay"].ToString()) ? null : Convert.ToDateTime(drow["ngay"].ToString()).ToString("yyyy-MM-dd"),
-                                                thang = int.Parse(drow["thang"].ToString()),
-                                                nam = int.Parse(drow["nam"].ToString()),
-                                                thoigiandat = string.IsNullOrEmpty(drow["thoigiandat"].ToString()) ? null : Convert.ToDateTime(drow["thoigiandat"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"),
-                                                sudung = "true",
-                                                dangky = drow["dangky"].ToString(),
-                                                thoigiansudung = string.IsNullOrEmpty(lines[j].Split('-')[1]) ? null : Convert.ToDateTime(lines[j].Split('-')[1]).ToString("yyyy-MM-dd HH:mm:ss"),
-                                                soxuatandadung = 1,
-                                                sotiendadung = 0,
-                                                chot = drow["chot"].ToString(),
-                                                ghichu = drow["ghichu"].ToString(),
-                                                buaanid = drow["buaanid"].ToString(),
-                                                nhaanid = idnhaan,
-                                                dangkybosung = drow["dangkybosung"].ToString()
-                                            };
-                                            check1 = Task.Run(() => InsertCheckBaoCom(ck)).Result;
-                                            if(check1==false)
-                                            {
-                                                lines[j] = lines[j].Replace(lines[j], lines[j].Split('-')[0] + "-" + lines[j].Split('-')[1]);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            empid = drow["empid"].ToString(),
+                            manhansu = drow["manhansu"].ToString(),
+                            hoten = drow["hoten"].ToString(),
+                            phongid = string.IsNullOrEmpty(drow["phongid"].ToString()) ? null : drow["phongid"].ToString(),
+                            phong = string.IsNullOrEmpty(drow["phong"].ToString()) ? null : drow["phong"].ToString(),
+                            banid = string.IsNullOrEmpty(drow["banid"].ToString()) ? null : drow["banid"].ToString(),
+                            ban = string.IsNullOrEmpty(drow["ban"].ToString()) ? null : drow["ban"].ToString(),
+                            congdoanid = string.IsNullOrEmpty(drow["congdoanid"].ToString()) ? null : drow["congdoanid"].ToString(),
+                            congdoan = string.IsNullOrEmpty(drow["congdoan"].ToString()) ? null : drow["congdoan"].ToString(),
+                            khach = drow["khach"].ToString(),
+                            ngay = string.IsNullOrEmpty(drow["ngay"].ToString()) ? null : Convert.ToDateTime(drow["ngay"].ToString()).ToString("yyyy-MM-dd"),
+                            thang = int.Parse(drow["thang"].ToString()),
+                            nam = int.Parse(drow["nam"].ToString()),
+                            thoigiandat = string.IsNullOrEmpty(drow["thoigiandat"].ToString()) ? null : Convert.ToDateTime(drow["thoigiandat"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"),
+                            sudung = drow["sudung"].ToString(),
+                            dangky = drow["dangky"].ToString(),
+                            thoigiansudung = string.IsNullOrEmpty(drow["thoigiansudung"].ToString()) ? null : Convert.ToDateTime(drow["thoigiansudung"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"),
+                            soxuatandadung = 0,
+                            sotiendadung = 0,
+                            chot = drow["chot"].ToString(),
+                            ghichu = drow["ghichu"].ToString(),
+                            buaanid = drow["buaanid"].ToString(),
+                            nhaanid = idnhaan,
+                            dangkybosung = drow["dangkybosung"].ToString()
+                        };
+                        check1 = Task.Run(() => InsertCheckBaoCom(ck)).Result;
                         }
                     }
-                    File.WriteAllLines(info, lines);
                     MyConnection.Close();
                     Task<string> callTask = Task.Run(() => GetAllCheckBaoCom());
                     callTask.Wait();
@@ -492,6 +479,8 @@ namespace CheckCom_Version2
                     var startCell = (Excel.Range)worksheetExcel.Cells[2, 1];
                     var endCell = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 1, dt.Columns.Count];
                     var writeRange = worksheetExcel.Range[startCell, endCell];
+                    var endCell1 = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 50, dt.Columns.Count + 5];
+                    worksheetExcel.Range[startCell, endCell1].Clear();
                     worksheetExcel.Columns[3].NumberFormat = "@";
                     worksheetExcel.Columns[19].NumberFormat = "@";
                     writeRange.Value2 = data;
@@ -501,11 +490,6 @@ namespace CheckCom_Version2
                     GetBaoCom();
                     kiemtratrangthai();
                 }
-            }
-            else
-            {
-                MessageBox.Show("Chưa đồng bộ dữ liệu!");
-            }
         }
 
         private async Task<bool> UpdateCheckBaoCom(CheckBaoCom ck)
@@ -651,7 +635,7 @@ namespace CheckCom_Version2
                         ws.Columns[3].NumberFormat = "@";
                         ws.Columns[19].NumberFormat = "@";
                         writeRange.Value2 = data;
-                        wb.SaveAs(filename.FullName, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlShared, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlLocalSessionChanges);
+                        wb.SaveAs(filename.FullName, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlLocalSessionChanges);
                         wb.Close();
                         docExcel.Application.Quit();
                     }
@@ -678,7 +662,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -729,6 +713,7 @@ namespace CheckCom_Version2
                         }
                     }
                 }
+                info = null;
                 lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : " + dem;
             }
             catch (Exception)
@@ -744,7 +729,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -803,6 +788,7 @@ namespace CheckCom_Version2
                     }
                 }
                 File.WriteAllLines(info, lines);
+                info = null;
             }
             GetBaoCom();
             GetDataClientChuaUpdateServer();

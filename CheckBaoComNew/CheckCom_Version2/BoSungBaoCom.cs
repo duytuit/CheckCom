@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace CheckCom_Version2
         private string idphong = null;
         private string idban = null;
         private string idcongdoan = null;
+
         public BoSungBaoCom()
         {
             InitializeComponent();
@@ -67,7 +69,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -235,7 +237,7 @@ namespace CheckCom_Version2
                     txtTennv.Font = new Font(txtTennv.Font, FontStyle.Regular);
                     try
                     {
-                        if(TT.phong_id!=null)
+                        if (TT.phong_id != null)
                         {
                             idphong = TT.phong_id;
                             string APIphong = "http://192.84.100.207/AsoftAPI/EC0002/" + TT.phong_id + "";
@@ -255,7 +257,7 @@ namespace CheckCom_Version2
                     }
                     try
                     {
-                        if(TT.ban_id!=null)
+                        if (TT.ban_id != null)
                         {
                             idban = TT.ban_id;
                             string APIban = "http://192.84.100.207/AsoftAPI/EC0002/" + TT.ban_id + "";
@@ -269,14 +271,13 @@ namespace CheckCom_Version2
                                 txtban.Font = new Font(txtban.Font, FontStyle.Regular);
                             }
                         }
-                      
                     }
                     catch (Exception)
                     {
                     }
                     try
                     {
-                        if(TT.congdoan_id!=null)
+                        if (TT.congdoan_id != null)
                         {
                             idcongdoan = TT.congdoan_id;
                             string APIcongdoan = "http://192.84.100.207/AsoftAPI/EC0002/" + TT.congdoan_id + "";
@@ -284,7 +285,7 @@ namespace CheckCom_Version2
                             string astrCongdoan = await aClientCongdoan.GetStringAsync(APIcongdoan);
                             if (!string.IsNullOrEmpty(astrCongdoan))
                             {
-                                string dataCongdoan =JObject.Parse(astrCongdoan)["bophan_ten"].ToString();
+                                string dataCongdoan = JObject.Parse(astrCongdoan)["bophan_ten"].ToString();
                                 if (!string.IsNullOrEmpty(dataCongdoan))
                                 {
                                     txtcongdoan.Text = dataCongdoan;
@@ -309,7 +310,6 @@ namespace CheckCom_Version2
                 txtID.Text = null;
                 ClearText();
             }
-
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -324,6 +324,7 @@ namespace CheckCom_Version2
                 {
                     try
                     {
+                        string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                         string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                         FileInfo filename = new FileInfo(pathfile);
                         DataTable table = new DataTable();
@@ -375,6 +376,10 @@ namespace CheckCom_Version2
                             workbooksExcel.Save();
                             workbooksExcel.Close();
                             docExcel.Application.Quit();
+                            using (var writer = new StreamWriter(info, true))
+                            {
+                                writer.WriteLine(txtID.Text + "-" + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + "-NG1");
+                            }
                             GetBoSungToGridView();
                             for (int j = 0; j < gvdanhsach.Rows.Count; j++)
                             {
@@ -408,7 +413,7 @@ namespace CheckCom_Version2
                 string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] where trangthai2='NG'", MyConnection);
                 oada.Fill(table);
@@ -437,7 +442,8 @@ namespace CheckCom_Version2
                 bool isSelected = false;
                 string MessageBoxTitle = "Thông báo";
                 string MessageBoxContent = "Bạn có muốn xóa không?";
-
+                string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                string[] lines = File.ReadAllLines(info);
                 DialogResult dialogResult = MessageBox.Show(MessageBoxContent, MessageBoxTitle, MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -451,8 +457,22 @@ namespace CheckCom_Version2
                                 DataRow drow = table.Rows[j];
                                 if (gvdanhsach.Rows[i].Cells["manhansu"].Value.ToString() == drow["manhansu"].ToString())
                                 {
+                                    string textNS = drow["manhansu"].ToString();
                                     if (drow["sudung"].ToString() == "False")
                                     {
+                                        for (int z = 0; z < lines.Count(); z++)
+                                        {
+                                            if (lines[z].Split('-')[0].Contains(textNS))
+                                            {
+                                                if (lines[z].Split('-').Count() == 3)
+                                                {
+                                                    if (lines[z].Split('-')[2] == "NG1")
+                                                    {
+                                                        lines[z] = null;
+                                                    }
+                                                }
+                                            }
+                                        }
                                         DeleteRowExcel(j + 2);
                                     }
                                     else
@@ -464,6 +484,8 @@ namespace CheckCom_Version2
                             }
                         }
                     }
+                    File.WriteAllLines(info, lines);
+                    info = null;
                 }
                 GetBoSungToGridView();
                 for (int z = 0; z < gvdanhsach.Rows.Count; z++)
@@ -492,7 +514,6 @@ namespace CheckCom_Version2
 
         private void ClearText()
         {
-           
             txtTennv.Text = "Họ tên";
             txtphong.Text = "Phòng";
             txtban.Text = "Ban";
