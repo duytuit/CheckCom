@@ -25,11 +25,13 @@ namespace CheckCom_Version2
         private string idphong = null;
         private string idban = null;
         private string idcongdoan = null;
-
+        private string filecheck = null;
+        private string filebuaan = null;
         public BoSungBaoCom()
         {
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
+            getPath();
             GetBuaan();
             if ((8 <= Gio) && (Gio < 14))
             {
@@ -66,7 +68,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
+                string pathfile = filebuaan+"BuaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -220,7 +222,20 @@ namespace CheckCom_Version2
                 txtLydo.Font = new Font(txtLydo.Font, FontStyle.Regular);
             }
         }
+        private void getPath()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Path.txt";
+                filecheck = File.ReadAllLines(path)[0];
+                filebuaan = File.ReadAllLines(path)[1];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+        }
         private async void txtID_TextChanged(object sender, EventArgs e)
         {
             await Task.Delay(70);
@@ -324,8 +339,8 @@ namespace CheckCom_Version2
                 {
                     try
                     {
-                        string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                         FileInfo filename = new FileInfo(pathfile);
                         DataTable table = new DataTable();
                         System.Data.OleDb.OleDbConnection MyConnection;
@@ -410,7 +425,7 @@ namespace CheckCom_Version2
             gvdanhsach.DataSource = null;
             try
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -431,7 +446,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
@@ -442,7 +457,7 @@ namespace CheckCom_Version2
                 bool isSelected = false;
                 string MessageBoxTitle = "Thông báo";
                 string MessageBoxContent = "Bạn có muốn xóa không?";
-                string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                 string[] lines = File.ReadAllLines(info);
                 DialogResult dialogResult = MessageBox.Show(MessageBoxContent, MessageBoxTitle, MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
@@ -502,7 +517,7 @@ namespace CheckCom_Version2
 
         private void DeleteRowExcel(int RowExcel)
         {
-            string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+            string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
             dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
             var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;
@@ -619,7 +634,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnectionup;
                 System.Data.OleDb.OleDbCommand myCommandup = new System.Data.OleDb.OleDbCommand();
@@ -713,7 +728,7 @@ namespace CheckCom_Version2
         private bool CheckData()
         {
             bool kiemtrabaocom = false;
-            string fileToRead = System.IO.Path.GetDirectoryName(Application.StartupPath + @"\CheckCom\");
+            string fileToRead = System.IO.Path.GetDirectoryName(filecheck);
 
             DirectoryInfo dinfo = new DirectoryInfo(fileToRead);
             FileInfo[] Files = dinfo.GetFiles("*");

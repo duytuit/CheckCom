@@ -24,10 +24,13 @@ namespace CheckCom_Version2
         private string caan = null;
         private string caanid;
         private string idnhaan;
-
+        private string filecheck = null;
+        private string filebuaan = null;
+        private string filenhaan = null;
         public DongBoDuLieu()
         {
             InitializeComponent();
+            getPath();
             GetBuaan();
             int Gio = DateTime.Now.Hour;
 
@@ -57,7 +60,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\Nhaan\NhaAn.xls";
+                string pathfile = filenhaan+"NhaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -74,11 +77,25 @@ namespace CheckCom_Version2
             {
             }
         }
+        private void getPath()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Path.txt";
+                filecheck = File.ReadAllLines(path)[0];
+                filebuaan = File.ReadAllLines(path)[1];
+                filenhaan = File.ReadAllLines(path)[2];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+        }
         private bool CheckData()
         {
             bool kiemtrabaocom = false;
-            string fileToRead = System.IO.Path.GetDirectoryName(Application.StartupPath + @"\CheckCom\");
+            string fileToRead = System.IO.Path.GetDirectoryName(filecheck);
 
             DirectoryInfo dinfo = new DirectoryInfo(fileToRead);
             FileInfo[] Files = dinfo.GetFiles("*");
@@ -97,7 +114,7 @@ namespace CheckCom_Version2
         private bool CheckBuaan()
         {
             bool kiemtrabuaan = false;
-            string fileToRead = System.IO.Path.GetDirectoryName(Application.StartupPath + @"\Buaan\");
+            string fileToRead = System.IO.Path.GetDirectoryName(filebuaan);
 
             DirectoryInfo dinfo = new DirectoryInfo(fileToRead);
             FileInfo[] Files = dinfo.GetFiles("*");
@@ -133,11 +150,9 @@ namespace CheckCom_Version2
             try
             {
                 GetDataClient();
-                btnCapNhap.Enabled = true;
             }
             catch (Exception)
             {
-                btnCapNhap.Enabled = false;
             }
         }
 
@@ -185,7 +200,7 @@ namespace CheckCom_Version2
                     if (check == true)
                     {
                         // update
-                        string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
+                        string pathfile = filebuaan+"BuaAn.xls";
                         Task<string> callTask1 = Task.Run(() => GetAllBuaan());
                         callTask1.Wait();
                         string astr1 = callTask1.Result;
@@ -220,7 +235,7 @@ namespace CheckCom_Version2
                         callTask1.Wait();
                         string astr1 = callTask1.Result;
                         DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr1, typeof(DataTable));
-                        string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
+                        string pathfile = filebuaan+"BuaAn.xls";
                         FileInfo filename = new FileInfo(pathfile);
                         Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
                         Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
@@ -254,12 +269,11 @@ namespace CheckCom_Version2
             }
             catch (Exception)
             {
-                //MessageBox.Show("Lỗi đường truyền");
                 cbBuaan.Items.Clear();
                 bool check = CheckBuaan();
                 if (check == true)
                 {
-                    string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
+                    string pathfile = filebuaan+"BuaAn.xls";
                     DataTable table = new DataTable();
                     System.Data.OleDb.OleDbConnection MyConnection;
                     MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -346,9 +360,7 @@ namespace CheckCom_Version2
             catch (Exception)
             {
                 MessageBox.Show("Lỗi đường truyền");
-                lbServer.Text = "Lỗi đường truyền!";
-                btnCapNhap.Enabled = false;
-                btnDongBo.Enabled = false;
+                lbServer.Text = "Mất kết nối tới server!";
             }
         }
 
@@ -360,7 +372,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -399,22 +411,18 @@ namespace CheckCom_Version2
                         lvClient.Items.Add(lvi);
                     }
                 }
-
-                btnCapNhap.Enabled = true;
             }
             catch (Exception)
             {
                 lvClient.Items.Clear();
                 lbClient.Text = null;
-
-                btnCapNhap.Enabled = false;
                 lbClient.Text = "Dữ liệu Client : 0";
             }
         }
 
         private void btnCapNhap_Click(object sender, EventArgs e)
         {
-            string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+            string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             if (baocom.Count > 0)
             {
                 DataTable table = new DataTable();
@@ -574,9 +582,14 @@ namespace CheckCom_Version2
                     DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr, typeof(DataTable));
                     if (dt.Rows.Count > 0)
                     {
-                        string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        File.Create(info);
-                        string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        using (FileStream f = File.Create(info))
+                        {
+                            f.Close();
+                        }
+                        // File.Create(info);
+                        // File.Exists(info);
+                        string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                         FileInfo filename = new FileInfo(pathfile);
                         Microsoft.Office.Interop.Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
                         Microsoft.Office.Interop.Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
@@ -659,7 +672,7 @@ namespace CheckCom_Version2
             lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
             try
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -670,7 +683,7 @@ namespace CheckCom_Version2
                 lbChuadongbo.Text = null;
                 table.DefaultView.Sort = "manhansu asc";
                 table = table.DefaultView.ToTable(true);
-                string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                 string[] lines = File.ReadAllLines(info);
                
                 int dem = 0;
@@ -726,14 +739,14 @@ namespace CheckCom_Version2
         {
             if (baocom.Count >= 1)
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
-                string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                 string[] lines = File.ReadAllLines(info);
 
                 for (int i = 0; i < table.Rows.Count; i++)
@@ -796,12 +809,11 @@ namespace CheckCom_Version2
 
         private void DeleteRowExcel(int RowExcel)
         {
-            string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+            string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
             dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
             var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;
             Excel.Range dfd = worksheetExcel.UsedRange;
-
             ((Excel.Range)worksheetExcel.Rows[RowExcel, Missing.Value]).Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
             workbooksExcel.Save();
             workbooksExcel.Close(false);

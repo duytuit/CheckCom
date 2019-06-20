@@ -26,13 +26,14 @@ namespace CheckCom_Version2
         private SoundPlayer checkok = new SoundPlayer(Application.StartupPath + @"\sound\Beep_Once.wav");
         private SoundPlayer checkng = new SoundPlayer(Application.StartupPath + @"\sound\buzzer_x.wav");
         private string getthoigian=null;
-        
+        private string filecheck = null;
+        private string filebuaan = null;
         public CheckCom()
         {
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
+            getPath();
             GetBuaaan();
-
             if ((8 <= Gio) && (Gio < 14))
             {
                 caan = " Trua";
@@ -62,7 +63,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\Buaan\BuaAn.xls";
+                string pathfile = filebuaan + "BuaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1'");
@@ -107,7 +108,7 @@ namespace CheckCom_Version2
         private bool CheckData()
         {
             bool kiemtrabaocom = false;
-            string fileToRead = System.IO.Path.GetDirectoryName(Application.StartupPath + @"\CheckCom\");
+            string fileToRead = System.IO.Path.GetDirectoryName(filecheck);
 
             DirectoryInfo dinfo = new DirectoryInfo(fileToRead);
             FileInfo[] Files = dinfo.GetFiles("*");
@@ -152,9 +153,14 @@ namespace CheckCom_Version2
                     DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr, typeof(DataTable));
                     if (dt.Rows.Count > 0)
                     {
-                        string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        File.Create(info);
-                        string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        using (FileStream f = File.Create(info))
+                        {
+                            f.Close();
+                        }
+                        // File.Create(info);
+                        // File.Exists(info);
+                        string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                         FileInfo filename = new FileInfo(pathfile);
                         Microsoft.Office.Interop.Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
                         Microsoft.Office.Interop.Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
@@ -260,7 +266,7 @@ namespace CheckCom_Version2
             else
             {
                 baocom.Clear();
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -306,7 +312,20 @@ namespace CheckCom_Version2
                 }
             }
         }
-
+        private void getPath()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Path.txt";
+                filecheck = File.ReadAllLines(path)[0];
+                filebuaan = File.ReadAllLines(path)[1];
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+          
+        }
         private async void txtID_TextChanged(object sender, EventArgs e)
         {
             await Task.Delay(70);
@@ -314,22 +333,33 @@ namespace CheckCom_Version2
             {
                 if (!string.IsNullOrEmpty(txtID.Text))
                 {
-                    string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                    List<CheckBaoCom> check = baocom.Where(x => x.manhansu == txtID.Text).ToList();
-                    string[] lines = File.ReadAllLines(info);
                     bool checkid = false;//không
-                    if(lines.Count()>0)
+                    try
                     {
-                        for (int i = 0; i < lines.Count(); i++)
+                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        using (StreamReader sr = new StreamReader(fs))
                         {
-                            if (lines[i].Split('-')[0].Contains(txtID.Text))
+                            string[] lines = sr.ReadToEnd().Split('\n');
+                            if (lines.Count() > 0)
                             {
-                                checkid = true;//có
-                                getthoigian = lines[i].Split('-')[1];
-                                break;
+                                for (int i = 0; i < lines.Count(); i++)
+                                {
+                                    if (lines[i].Split('-')[0].Contains(txtID.Text))
+                                    {
+                                        checkid = true;//có
+                                        getthoigian = lines[i].Split('-')[1];
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    List<CheckBaoCom> check = baocom.Where(x => x.manhansu == txtID.Text).ToList();
                     if (check.Count == 1)
                     {
                         CheckBaoCom ck = new CheckBaoCom()
@@ -404,8 +434,8 @@ namespace CheckCom_Version2
 
         private async void UpdateCheckBaoCom(CheckBaoCom ck)
         {
-            string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
-            string info = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+            string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+            string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
             string APIbaocom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs";
             try
             {
@@ -423,9 +453,9 @@ namespace CheckCom_Version2
                                 writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss"));
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Update dữ liệu Client lỗi!");
+                            MessageBox.Show(ex.Message+"Update dữ liệu Client lỗi!");
                         }
 
                     }
@@ -438,9 +468,9 @@ namespace CheckCom_Version2
                                 writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-NG1");
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Update dữ liệu Client lỗi!");
+                            MessageBox.Show(ex.Message + "Update dữ liệu Client lỗi!");
                         }
                     }
                 }
@@ -455,9 +485,9 @@ namespace CheckCom_Version2
                         writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-NG1");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Update dữ liệu Client lỗi!");
+                    MessageBox.Show(ex.Message + "Update dữ liệu Client lỗi!");
                 }
             }
         }
@@ -489,10 +519,6 @@ namespace CheckCom_Version2
             }
             APICheckBaoCom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs/" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
             GetBaoCom();
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

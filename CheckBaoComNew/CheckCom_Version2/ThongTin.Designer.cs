@@ -58,7 +58,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(890, 17);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Desgin : Duytuit";
+            this.label4.Text = "Desgin : tu.nguyenduy@meiko-elec.com";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label3
@@ -70,7 +70,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(890, 17);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Department : IT Việt Nam";
+            this.label3.Text = "Department : IT Meiko Việt Nam";
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label2

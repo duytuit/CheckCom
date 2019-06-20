@@ -14,17 +14,62 @@ namespace ConsoleApplication3
         static int sum = 0;
         static void Main(string[] args)
         {
-
-            string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\CheckCom\06-05-2019 Chieu.txt";
-            string[] lines = File.ReadAllLines(info);
-            if (lines.Count() > 0)
+             string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\Dulieuxuatan\CheckCom\06-07-2019 Chieu.txt";
+            FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read,FileShare.Read);
+            using (StreamReader sr = new StreamReader(fs))
             {
+                string[] lines = sr.ReadToEnd().Split('\n');
                 for (int i = 0; i < lines.Count(); i++)
                 {
-                    Console.WriteLine(lines[i].ToString());
+                    if (lines[i].Split('-')[0].Contains("000405"))
+                    {
+                        Console.WriteLine(lines[i].Split('-')[1]);
+                    }
                 }
-                   
             }
+           
+          //  File.ReadAllLines(fs.ToString());
+           // string[] lines = File.ReadAllLines(fs.ToString());
+            //if (lines.Count() > 0)
+            //{
+            //    for (int i = 0; i < lines.Count(); i++)
+            //    {
+            //        if (lines[i].Split('-')[0].Contains("000405"))
+            //        {
+                      
+            //          Console.WriteLine(lines[i].Split('-')[1]);
+                   
+            //        }
+            //    }
+            //}
+
+
+            //   string lines = File.ReadAllLines(info)[0];
+            //  Console.WriteLine(lines);
+            //if (lines.Count() > 0)
+            //{
+            //    for (int i = 0; i < lines.Count(); i++)
+            //    {
+            //        Console.WriteLine(lines[i].ToString());
+            //    }
+
+            //}
+            //string info = @"\\192.84.100.39\d";
+            //string[] filesPaths = Directory.GetFiles(info);
+            //foreach(string f in filesPaths)
+            //{
+            //    Console.WriteLine(f);
+            //}
+
+            //string[] lines = File.ReadAllLines(info);
+            //if (lines.Count() > 0)
+            //{
+            //    for (int i = 0; i < lines.Count(); i++)
+            //    {
+            //        Console.WriteLine(lines[i].ToString());
+            //    }
+
+            //}
             Console.ReadKey();
         }
         private static async void Sample() { await Task.Run(() => sum = sum + 1); }

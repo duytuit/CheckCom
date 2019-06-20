@@ -24,10 +24,13 @@ namespace CheckCom_Version2
         private string caan = null;
         private List<BuaAn> buaan = new List<BuaAn>();
         List<Bitmap> bm = new List<Bitmap>();
+        private string filecheck = null;
+        private string filebuaan = null;
         public Card_Check()
         {
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
+            getPath();
             GetBuaan();
             if ((8 <= Gio) && (Gio < 14))
             {
@@ -58,7 +61,7 @@ namespace CheckCom_Version2
             }
             else if ((2 <= Gio) && (Gio < 8))
             {
-                cbBuaan.Text = "Sáng";
+                cbBuaan.Text = "Bữa phụ";
                 foreach (BuaAn ba in buaan)
                 {
                     if (ba.ten == cbBuaan.Text)
@@ -66,8 +69,8 @@ namespace CheckCom_Version2
                         caanid = ba.id;
                     }
                 }
-                
-                caan = " Sang";
+
+                caan = " Buaphu";
             }
             else
             {
@@ -86,7 +89,7 @@ namespace CheckCom_Version2
         private bool CheckData()
         {
             bool kiemtrabaocom = false;
-            string fileToRead = System.IO.Path.GetDirectoryName(Application.StartupPath + @"\CheckCom\");
+            string fileToRead = System.IO.Path.GetDirectoryName(filecheck);
 
             DirectoryInfo dinfo = new DirectoryInfo(fileToRead);
             FileInfo[] Files = dinfo.GetFiles("*");
@@ -115,6 +118,20 @@ namespace CheckCom_Version2
                 return Path.GetFileNameWithoutExtension(Original.Name);
             }
         }
+        private void getPath()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Path.txt";
+                filecheck = File.ReadAllLines(path)[0];
+                filebuaan = File.ReadAllLines(path)[1];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             if(gvdanhsach.Rows.Count>0)
@@ -134,7 +151,7 @@ namespace CheckCom_Version2
                             lbPhong.Text = gvdanhsach.Rows[i].Cells["phong"].Value.ToString();
                             lbBan.Text = gvdanhsach.Rows[i].Cells["ban"].Value.ToString();
                             lbHienTrang.Text = "Nhân Viên";
-                            lbThoiGian.Text = gvdanhsach.Rows[i].Cells["thoigiandat"].Value.ToString() + " / " + gvdanhsach.Rows[i].Cells["bua"].Value.ToString();
+                           
                             var barcodeWriter = new BarcodeWriter
                             {
                                 Format = BarcodeFormat.QR_CODE,
@@ -168,7 +185,7 @@ namespace CheckCom_Version2
                             lbPhong.Text = gvdanhsach.Rows[i].Cells["phong"].Value.ToString();
                             lbBan.Text = gvdanhsach.Rows[i].Cells["ban"].Value.ToString();
                             lbHienTrang.Text = "Khách";
-                            lbThoiGian.Text = gvdanhsach.Rows[i].Cells["thoigiandat"].Value.ToString() + " / " + gvdanhsach.Rows[i].Cells["bua"].Value.ToString();
+                           
                             var barcodeWriter = new BarcodeWriter
                             {
                                 Format = BarcodeFormat.QR_CODE,
@@ -267,7 +284,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
@@ -297,7 +314,7 @@ namespace CheckCom_Version2
             {
                 try
                 {
-                    string pathfile = Application.StartupPath + @"\CheckCom\" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                    string pathfile = filecheck+ dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                     DataTable table = new DataTable();
                     System.Data.OleDb.OleDbConnection MyConnectionup;
                     MyConnectionup = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
@@ -319,7 +336,7 @@ namespace CheckCom_Version2
                                 lbPhong.Text = drow["phong"].ToString();
                                 lbBan.Text = drow["ban"].ToString();
                                 lbHienTrang.Text = "Nhân Viên";
-                                lbThoiGian.Text = drow["thoigiandat"].ToString() + " / " + drow["buaan"].ToString();
+                             
                                 var barcodeWriter = new BarcodeWriter
                                 {
                                     Format = BarcodeFormat.QR_CODE,
@@ -340,8 +357,8 @@ namespace CheckCom_Version2
                                         bitmap.Save(stream, ImageFormat.Png);
                                         var image = Image.FromStream(stream);
                                         pictureBox1.Image = image;
-                                        printDocument1.DocumentName = drow["manhansu"].ToString();
-                                        printDocument1.Print();
+                                        printDocument2.DocumentName = drow["manhansu"].ToString();
+                                        printDocument2.Print();
                                     }
                                 }
 
@@ -353,7 +370,7 @@ namespace CheckCom_Version2
                                 lbPhong.Text = drow["phong"].ToString();
                                 lbBan.Text = drow["ban"].ToString();
                                 lbHienTrang.Text = "Nhân Viên";
-                                lbThoiGian.Text = drow["thoigiandat"].ToString() + " / " + drow["buaan"].ToString();
+                               
                                 var barcodeWriter1 = new BarcodeWriter
                                 {
                                     Format = BarcodeFormat.QR_CODE,
@@ -374,8 +391,8 @@ namespace CheckCom_Version2
                                         bitmap.Save(stream, ImageFormat.Png);
                                         var image = Image.FromStream(stream);
                                         pictureBox1.Image = image;
-                                        printDocument1.DocumentName = drow["manhansu"].ToString();
-                                        printDocument1.Print();
+                                        printDocument2.DocumentName = drow["manhansu"].ToString();
+                                        printDocument2.Print();
                                     }
                                 }
                             }
@@ -410,7 +427,7 @@ namespace CheckCom_Version2
             }
             else
             {
-                caan = " Sang";
+                caan = " Buaphu";
             }
             foreach (BuaAn ba in buaan)
             {
@@ -502,7 +519,7 @@ namespace CheckCom_Version2
                             lbPhong.Text = gvdanhsach.Rows[i].Cells["phong"].Value.ToString();
                             lbBan.Text = gvdanhsach.Rows[i].Cells["ban"].Value.ToString();
                             lbHienTrang.Text = "Nhân Viên";
-                            lbThoiGian.Text = gvdanhsach.Rows[i].Cells["thoigiandat"].Value.ToString() + " / " + gvdanhsach.Rows[i].Cells["bua"].Value.ToString();
+                          
                             var barcodeWriter = new BarcodeWriter
                             {
                                 Format = BarcodeFormat.QR_CODE,
@@ -542,7 +559,7 @@ namespace CheckCom_Version2
                             lbPhong.Text = gvdanhsach.Rows[i].Cells["phong"].Value.ToString();
                             lbBan.Text = gvdanhsach.Rows[i].Cells["ban"].Value.ToString();
                             lbHienTrang.Text = "Khách";
-                            lbThoiGian.Text = gvdanhsach.Rows[i].Cells["thoigiandat"].Value.ToString() + " / " + gvdanhsach.Rows[i].Cells["bua"].Value.ToString();
+                          
                             var barcodeWriter = new BarcodeWriter
                             {
                                 Format = BarcodeFormat.QR_CODE,
@@ -592,6 +609,13 @@ namespace CheckCom_Version2
                 MessageBox.Show("Chưa có dữ liệu!");
             }
 
+        }
+
+        private void printDocument2_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(this.panel1.Width, this.panel1.Height);
+            panel1.DrawToBitmap(bitmap, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
+            e.Graphics.DrawImage(bitmap, 0, 0, this.panel1.Width, this.panel1.Height);
         }
     }
 }

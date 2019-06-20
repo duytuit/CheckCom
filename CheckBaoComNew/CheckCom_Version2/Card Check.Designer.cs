@@ -31,14 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Card_Check));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lbThoiGian = new System.Windows.Forms.Label();
             this.lbHienTrang = new System.Windows.Forms.Label();
             this.lbBan = new System.Windows.Forms.Label();
             this.lbPhong = new System.Windows.Forms.Label();
             this.lbTen = new System.Windows.Forms.Label();
             this.lbID = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -59,7 +57,6 @@
             this.bua = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nhaan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.txtIDnhanvien = new System.Windows.Forms.TextBox();
@@ -71,6 +68,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
+            this.printDocument2 = new System.Drawing.Printing.PrintDocument();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -103,14 +101,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.lbThoiGian);
             this.panel1.Controls.Add(this.lbHienTrang);
             this.panel1.Controls.Add(this.lbBan);
             this.panel1.Controls.Add(this.lbPhong);
             this.panel1.Controls.Add(this.lbTen);
             this.panel1.Controls.Add(this.lbID);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -121,20 +117,11 @@
             this.panel1.Size = new System.Drawing.Size(382, 175);
             this.panel1.TabIndex = 0;
             // 
-            // lbThoiGian
-            // 
-            this.lbThoiGian.AutoSize = true;
-            this.lbThoiGian.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbThoiGian.Location = new System.Drawing.Point(119, 139);
-            this.lbThoiGian.Name = "lbThoiGian";
-            this.lbThoiGian.Size = new System.Drawing.Size(0, 21);
-            this.lbThoiGian.TabIndex = 19;
-            // 
             // lbHienTrang
             // 
             this.lbHienTrang.AutoSize = true;
             this.lbHienTrang.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHienTrang.Location = new System.Drawing.Point(119, 113);
+            this.lbHienTrang.Location = new System.Drawing.Point(119, 117);
             this.lbHienTrang.Name = "lbHienTrang";
             this.lbHienTrang.Size = new System.Drawing.Size(0, 21);
             this.lbHienTrang.TabIndex = 18;
@@ -181,16 +168,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(72, 67);
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(6, 142);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(119, 17);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Thời gian đặt : ";
             // 
             // label5
             // 
@@ -386,11 +363,10 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.64734F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.35266F));
-            this.tableLayoutPanel3.Controls.Add(this.button1, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.button2, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.label7, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.txtIDnhanvien, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnA4, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.btnA4, 0, 1);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(579, 274);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
@@ -399,20 +375,6 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.56934F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(388, 274);
             this.tableLayoutPanel3.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(3, 76);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(143, 31);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "In danh sách chọn";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -457,7 +419,7 @@
             // 
             this.btnA4.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnA4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnA4.Location = new System.Drawing.Point(3, 121);
+            this.btnA4.Location = new System.Drawing.Point(3, 76);
             this.btnA4.Name = "btnA4";
             this.btnA4.Size = new System.Drawing.Size(143, 33);
             this.btnA4.TabIndex = 7;
@@ -552,6 +514,10 @@
             this.label8.Text = "Ngày :";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // printDocument2
+            // 
+            this.printDocument2.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument2_PrintPage);
+            // 
             // Card_Check
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -585,7 +551,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -593,11 +558,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Drawing.Printing.PrintDocument printDocument1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtIDnhanvien;
-        private System.Windows.Forms.Label lbThoiGian;
         private System.Windows.Forms.Label lbHienTrang;
         private System.Windows.Forms.Label lbBan;
         private System.Windows.Forms.Label lbPhong;
@@ -622,5 +585,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn bua;
         private System.Windows.Forms.DataGridViewTextBoxColumn nhaan;
         private System.Windows.Forms.Button btnA4;
+        private System.Drawing.Printing.PrintDocument printDocument2;
     }
 }

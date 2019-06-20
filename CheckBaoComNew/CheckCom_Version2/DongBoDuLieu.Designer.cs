@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DongBoDuLieu));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lvServer = new System.Windows.Forms.ListView();
             this.columnHeader21 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -93,9 +94,9 @@
             this.btnCapNhap = new System.Windows.Forms.Button();
             this.cbBuaan = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.lbSoxuatan = new System.Windows.Forms.Label();
             this.btnDongBo = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.lbSoxuatan = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -488,8 +489,8 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.5394F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.435072F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.19978F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.84351F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.100999F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.63374F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.31077F));
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.label2, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnCapNhap, 5, 0);
@@ -500,7 +501,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(901, 36);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(901, 38);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // label1
@@ -512,7 +513,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 36);
+            this.label1.Size = new System.Drawing.Size(55, 38);
             this.label1.TabIndex = 3;
             this.label1.Text = "Ngày :";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -525,22 +526,25 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(196, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 36);
+            this.label2.Size = new System.Drawing.Size(69, 38);
             this.label2.TabIndex = 4;
             this.label2.Text = "Bữa ăn :";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnCapNhap
             // 
-            this.btnCapNhap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnCapNhap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCapNhap.BackColor = System.Drawing.Color.Yellow;
             this.btnCapNhap.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnCapNhap.Location = new System.Drawing.Point(821, 3);
+            this.btnCapNhap.Image = ((System.Drawing.Image)(resources.GetObject("btnCapNhap.Image")));
+            this.btnCapNhap.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCapNhap.Location = new System.Drawing.Point(720, 3);
             this.btnCapNhap.Name = "btnCapNhap";
-            this.btnCapNhap.Size = new System.Drawing.Size(77, 29);
+            this.btnCapNhap.Size = new System.Drawing.Size(178, 32);
             this.btnCapNhap.TabIndex = 2;
-            this.btnCapNhap.Text = "Cập Nhập";
+            this.btnCapNhap.Text = "Cập Nhập Dữ Liệu";
             this.btnCapNhap.UseVisualStyleBackColor = false;
             this.btnCapNhap.Click += new System.EventHandler(this.btnCapNhap_Click);
             // 
@@ -570,16 +574,28 @@
             this.dateTimePicker1.TabIndex = 7;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
+            // lbSoxuatan
+            // 
+            this.lbSoxuatan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbSoxuatan.AutoSize = true;
+            this.lbSoxuatan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSoxuatan.Location = new System.Drawing.Point(453, 0);
+            this.lbSoxuatan.Name = "lbSoxuatan";
+            this.lbSoxuatan.Size = new System.Drawing.Size(0, 38);
+            this.lbSoxuatan.TabIndex = 8;
+            this.lbSoxuatan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // btnDongBo
             // 
             this.btnDongBo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDongBo.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnDongBo.Location = new System.Drawing.Point(812, 3);
+            this.btnDongBo.Location = new System.Drawing.Point(718, 3);
             this.btnDongBo.Name = "btnDongBo";
-            this.btnDongBo.Size = new System.Drawing.Size(86, 30);
+            this.btnDongBo.Size = new System.Drawing.Size(180, 30);
             this.btnDongBo.TabIndex = 3;
-            this.btnDongBo.Text = "Đồng Bộ";
+            this.btnDongBo.Text = "Đồng Bộ Dữ Liệu Client Về Server";
             this.btnDongBo.UseVisualStyleBackColor = false;
             this.btnDongBo.Click += new System.EventHandler(this.btnDongBo_Click);
             // 
@@ -590,8 +606,8 @@
             this.tableLayoutPanel4.ColumnCount = 4;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.41509F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.07658F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.63041F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.09989F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.19756F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.53274F));
             this.tableLayoutPanel4.Controls.Add(this.btnDongBo, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.lbChuadongbo, 0, 0);
             this.tableLayoutPanel4.Location = new System.Drawing.Point(42, 347);
@@ -600,18 +616,6 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(901, 37);
             this.tableLayoutPanel4.TabIndex = 3;
-            // 
-            // lbSoxuatan
-            // 
-            this.lbSoxuatan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbSoxuatan.AutoSize = true;
-            this.lbSoxuatan.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSoxuatan.Location = new System.Drawing.Point(453, 0);
-            this.lbSoxuatan.Name = "lbSoxuatan";
-            this.lbSoxuatan.Size = new System.Drawing.Size(0, 36);
-            this.lbSoxuatan.TabIndex = 8;
-            this.lbSoxuatan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // DongBoDuLieu
             // 

@@ -201,7 +201,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.51932F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tableLayoutPanel5.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.label3, 3, 0);
             this.tableLayoutPanel5.Controls.Add(this.dateTimePicker1, 2, 0);
@@ -219,7 +219,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(557, 0);
+            this.label2.Location = new System.Drawing.Point(555, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 34);
             this.label2.TabIndex = 4;
@@ -232,7 +232,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(749, 0);
+            this.label3.Location = new System.Drawing.Point(747, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 34);
             this.label3.TabIndex = 5;
@@ -246,7 +246,7 @@
             this.dateTimePicker1.CustomFormat = "MM-dd-yyyy";
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(618, 3);
+            this.dateTimePicker1.Location = new System.Drawing.Point(616, 3);
             this.dateTimePicker1.MaxDate = new System.DateTime(2101, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
@@ -258,7 +258,7 @@
             this.cbBuaan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBuaan.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbBuaan.FormattingEnabled = true;
-            this.cbBuaan.Location = new System.Drawing.Point(824, 3);
+            this.cbBuaan.Location = new System.Drawing.Point(822, 3);
             this.cbBuaan.Name = "cbBuaan";
             this.cbBuaan.Size = new System.Drawing.Size(91, 28);
             this.cbBuaan.TabIndex = 7;
