@@ -27,12 +27,21 @@ namespace CheckCom_Version2
         private string idcongdoan = null;
         private string filecheck = null;
         private string filebuaan = null;
+        private string filenhabep = null;
+        private string nhabep = null;
+
+        private string fileApidlbc = null;
+        private string fileApibuaan = null;
+        private string fileApinv = null;
+        private string fileApibp = null;
         public BoSungBaoCom()
         {
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
             getPath();
+            getApi();
             GetBuaan();
+            GetNhaBep();
             if ((8 <= Gio) && (Gio < 14))
             {
                 cbBuaan.Text = "Trưa";
@@ -86,11 +95,7 @@ namespace CheckCom_Version2
                         BuaAn ba = new BuaAn()
                         {
                             id = drow["id"].ToString(),
-                            ma = drow["ma"].ToString(),
-                            ten = drow["ten"].ToString(),
-                            ghichu = drow["ghichu"].ToString(),
-                            loaibuaanid = drow["loaibuaanid"].ToString(),
-                            loaibuaan = drow["loaibuaan"].ToString()
+                            ten = drow["ten"].ToString()
                         };
                         cbBuaan.Items.Add(ba.ten);
                         buaan.Add(ba);
@@ -99,7 +104,7 @@ namespace CheckCom_Version2
             }
             catch (Exception)
             {
-                // MessageBox.Show("Không có dữ liệu bữa ăn!");
+                 MessageBox.Show("Không có dữ liệu bữa ăn!");
             }
         }
 
@@ -222,6 +227,24 @@ namespace CheckCom_Version2
                 txtLydo.Font = new Font(txtLydo.Font, FontStyle.Regular);
             }
         }
+        private void GetNhaBep()
+        {
+            try
+            {
+                string pathfile = filenhabep + "NhaBep.xls";
+                DataTable table = new DataTable();
+                System.Data.OleDb.OleDbConnection MyConnection;
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection.Open();
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                oada.Fill(table);
+                MyConnection.Close();
+                nhabep = table.Rows[0]["tennhabep"].ToString();
+            }
+            catch (Exception)
+            {
+            }
+        }
         private void getPath()
         {
             try
@@ -229,6 +252,7 @@ namespace CheckCom_Version2
                 string path = Application.StartupPath + @"\Path.txt";
                 filecheck = File.ReadAllLines(path)[0];
                 filebuaan = File.ReadAllLines(path)[1];
+                filenhabep = File.ReadAllLines(path)[3];
             }
             catch (Exception ex)
             {
@@ -242,7 +266,7 @@ namespace CheckCom_Version2
             try
             {
                 HttpClient aClient = new HttpClient();
-                string astr = await aClient.GetStringAsync("http://192.84.100.207/AsoftAPI/E00003/GetByCode/" + txtID.Text + "");
+                string astr = await aClient.GetStringAsync(fileApinv + txtID.Text + "");
                 Thongtinnhanvien TT = JsonConvert.DeserializeObject<Thongtinnhanvien>(astr);
                 if (TT != null)
                 {
@@ -250,12 +274,13 @@ namespace CheckCom_Version2
                     txtTennv.Text = TT.hodem + " " + TT.ten;
                     txtTennv.ForeColor = Color.Black;
                     txtTennv.Font = new Font(txtTennv.Font, FontStyle.Regular);
+                    btnThem.Focus();
                     try
                     {
                         if (TT.phong_id != null)
                         {
                             idphong = TT.phong_id;
-                            string APIphong = "http://192.84.100.207/AsoftAPI/EC0002/" + TT.phong_id + "";
+                            string APIphong = fileApibp + TT.phong_id + "";
                             HttpClient aClientPhong = new HttpClient();
                             string astrPhong = await aClientPhong.GetStringAsync(APIphong);
                             string dataPhong = JObject.Parse(astrPhong)["bophan_ten"].ToString();
@@ -275,7 +300,7 @@ namespace CheckCom_Version2
                         if (TT.ban_id != null)
                         {
                             idban = TT.ban_id;
-                            string APIban = "http://192.84.100.207/AsoftAPI/EC0002/" + TT.ban_id + "";
+                            string APIban = fileApibp + TT.ban_id + "";
                             HttpClient aClientBan = new HttpClient();
                             string astrBan = await aClientBan.GetStringAsync(APIban);
                             string dataBan = JObject.Parse(astrBan)["bophan_ten"].ToString();
@@ -295,7 +320,7 @@ namespace CheckCom_Version2
                         if (TT.congdoan_id != null)
                         {
                             idcongdoan = TT.congdoan_id;
-                            string APIcongdoan = "http://192.84.100.207/AsoftAPI/EC0002/" + TT.congdoan_id + "";
+                            string APIcongdoan = fileApibp + TT.congdoan_id + "";
                             HttpClient aClientCongdoan = new HttpClient();
                             string astrCongdoan = await aClientCongdoan.GetStringAsync(APIcongdoan);
                             if (!string.IsNullOrEmpty(astrCongdoan))
@@ -334,6 +359,7 @@ namespace CheckCom_Version2
                 if (txtID.Text == "ID" && txtTennv.Text == "Họ tên")
                 {
                     MessageBox.Show("Không để trống các trường!");
+                    txtID.Focus();
                 }
                 else
                 {
@@ -387,13 +413,15 @@ namespace CheckCom_Version2
                             worksheetExcel.Cells[i + 2, 27] = caanid;
                             worksheetExcel.Cells[i + 2, 28] = cbBuaan.Text;
                             worksheetExcel.Cells[i + 2, 35] = "TRUE";
+                            worksheetExcel.Cells[i + 2, 36] = nhabep;
                             worksheetExcel.Cells[i + 2, 37] = "NG";
+                            docExcel.DisplayAlerts = false;
                             workbooksExcel.Save();
                             workbooksExcel.Close();
                             docExcel.Application.Quit();
                             using (var writer = new StreamWriter(info, true))
                             {
-                                writer.WriteLine(txtID.Text + "-" + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + "-NG1");
+                                writer.WriteLine(txtID.Text + "-" + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + "-" + nhabep + "-NG1");
                             }
                             GetBoSungToGridView();
                             for (int j = 0; j < gvdanhsach.Rows.Count; j++)
@@ -401,22 +429,29 @@ namespace CheckCom_Version2
                                 gvdanhsach.Rows[j].Cells[0].Value = j + 1;
                             }
                             MessageBox.Show("Thêm thành công!");
+                            txtID.Text = null;
                             ClearText();
+                            txtID.Focus();
                         }
                         else
                         {
                             MessageBox.Show("Bạn đã báo cơm rồi!");
+                            ClearText();
+                            txtID.Text = null;
+                            txtID.Focus();
                         }
                     }
                     catch (Exception)
                     {
                         MessageBox.Show("Bạn chưa tạo dữ liệu Client!");
+                        txtID.Focus();
                     }
                 }
             }
             else
             {
                 MessageBox.Show("Không để trống các trường!");
+                txtID.Focus();
             }
         }
 
@@ -479,16 +514,17 @@ namespace CheckCom_Version2
                                         {
                                             if (lines[z].Split('-')[0].Contains(textNS))
                                             {
-                                                if (lines[z].Split('-').Count() == 3)
+                                                if (lines[z].Split('-').Count() == 4)
                                                 {
-                                                    if (lines[z].Split('-')[2] == "NG1")
+                                                    if (lines[z].Split('-')[3] == "NG1")
                                                     {
                                                         lines[z] = null;
+                                                        DeleteRowExcel(j + 2);
                                                     }
                                                 }
                                             }
                                         }
-                                        DeleteRowExcel(j + 2);
+                                      
                                     }
                                     else
                                     {
@@ -508,10 +544,12 @@ namespace CheckCom_Version2
                     gvdanhsach.Rows[z].Cells[0].Value = z + 1;
                 }
                 ClearText();
+                txtID.Text = null;
+                txtID.Focus();
             }
             catch (Exception)
             {
-                MessageBox.Show("Bạn chưa tạo dữ liệu Client!");
+                MessageBox.Show("Thất bại!");
             }
         }
 
@@ -632,6 +670,7 @@ namespace CheckCom_Version2
 
         private void btnCapnhap_Click(object sender, EventArgs e)
         {
+           
             try
             {
                 string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
@@ -673,9 +712,13 @@ namespace CheckCom_Version2
                         }
                     }
                 }
+                txtID.Text = null;
+                txtID.Focus();
                 if (icheck == false)
                 {
                     MessageBox.Show("ID không tồn tại!");
+                    txtID.Text = null;
+                    txtID.Focus();
                 }
             }
             catch (Exception)
@@ -724,7 +767,22 @@ namespace CheckCom_Version2
             }
             gvdanhsach.ClearSelection();
         }
+        private void getApi()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Api.txt";
+                fileApidlbc = File.ReadAllLines(path)[0];
+                fileApibuaan = File.ReadAllLines(path)[1];
+                fileApinv = File.ReadAllLines(path)[2];
+                fileApibp = File.ReadAllLines(path)[3];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+        }
         private bool CheckData()
         {
             bool kiemtrabaocom = false;

@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,15 +25,32 @@ namespace CheckCom_Version2
         private string caan = null;
         private SoundPlayer checkok = new SoundPlayer(Application.StartupPath + @"\sound\Beep_Once.wav");
         private SoundPlayer checkng = new SoundPlayer(Application.StartupPath + @"\sound\buzzer_x.wav");
-        private string getthoigian=null;
+        private string getthoigian = null;
         private string filecheck = null;
         private string filebuaan = null;
+        private string filenhaan = null;
+        private string filenhabep = null;
+        private string idnhaan = null;
+        private string nhabep = null;
+        private string fileApidlbc = null;
+        private string fileApibuaan = null;
+        private string fileApinv = null;
+        private string fileApibp = null;
+        private string filelog = null;
+        private Form hienthi = new Form();
+        private TableLayoutPanel dynamicTableLayoutPanel = new TableLayoutPanel();
+        private PictureBox picturebox1 = new PictureBox();
+        private PictureBox picturebox2 = new PictureBox();
+        public int Tong = 0;
+        public int Conlai = 0;
         public CheckCom()
         {
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
             getPath();
+            getApi();
             GetBuaaan();
+            txtNhapSoluong.Visible = false;
             if ((8 <= Gio) && (Gio < 14))
             {
                 caan = " Trua";
@@ -54,11 +71,134 @@ namespace CheckCom_Version2
                 caan = " Toi";
                 cbBuaan.Text = "Tối";
             }
+            // ht.Show();
+            // ht.ControlBox = false; ẩn Close
+
+            hienthi.Width = 946;
+            hienthi.Height = 594;
+            hienthi.Text = "Hiển thị";
+            hienthi.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            hienthi.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            //picturebox1
+            picturebox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                   | System.Windows.Forms.AnchorStyles.Left)
+                   | System.Windows.Forms.AnchorStyles.Right)));
+            picturebox1.Location = new System.Drawing.Point(3, 3);
+            picturebox1.Name = "pictureBox1";
+            picturebox1.Size = new System.Drawing.Size(457, 544);
+            picturebox1.TabIndex = 1;
+            picturebox1.TabStop = false;
+            //picturebox2
+            picturebox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                         | System.Windows.Forms.AnchorStyles.Left)
+                         | System.Windows.Forms.AnchorStyles.Right)));
+            picturebox2.Location = new System.Drawing.Point(466, 3);
+            picturebox2.Name = "pictureBox2";
+            picturebox2.Size = new System.Drawing.Size(457, 544);
+            picturebox2.TabIndex = 2;
+            picturebox2.TabStop = false;
+            // dynamicTableLayoutPanel
+            dynamicTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+          | System.Windows.Forms.AnchorStyles.Left)
+          | System.Windows.Forms.AnchorStyles.Right)));
+            dynamicTableLayoutPanel.ColumnCount = 2;
+            dynamicTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            dynamicTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            dynamicTableLayoutPanel.Controls.Add(picturebox1, 0, 0);
+            dynamicTableLayoutPanel.Controls.Add(picturebox2, 1, 0);
+            dynamicTableLayoutPanel.Location = new System.Drawing.Point(2, 3);
+            dynamicTableLayoutPanel.Name = "tableLayoutPanelHienThi";
+            dynamicTableLayoutPanel.RowCount = 1;
+            dynamicTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            dynamicTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 550F));
+            dynamicTableLayoutPanel.Size = new System.Drawing.Size(926, 550);
+            dynamicTableLayoutPanel.TabIndex = 0;
+
+            hienthi.Controls.Add(dynamicTableLayoutPanel);
+            hienthi.ControlBox = false; //ẩn Close
+            hienthi.Show();
         }
+
         private void CheckCom_Load(object sender, EventArgs e)
         {
+            lbsosuatanconlai.Font = new Font(lbsosuatanconlai.Font.FontFamily, int.Parse(txtFontSize.Text));
+            lbTong.Font = new Font(lbTong.Font.FontFamily, int.Parse(txtFontSize.Text));
         }
-        
+
+        private void GetNhaAnID()
+        {
+            try
+            {
+                string pathfile = filenhaan + "NhaAn.xls";
+                DataTable table = new DataTable();
+                System.Data.OleDb.OleDbConnection MyConnection;
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection.Open();
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                oada.Fill(table);
+                MyConnection.Close();
+                idnhaan = table.Rows[0]["nhaanid"].ToString();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void GetNhaBep()
+        {
+            try
+            {
+                string pathfile = filenhabep + "NhaBep.xls";
+                DataTable table = new DataTable();
+                System.Data.OleDb.OleDbConnection MyConnection;
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection.Open();
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                oada.Fill(table);
+                MyConnection.Close();
+                nhabep = table.Rows[0]["tennhabep"].ToString();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        private void getPath()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Path.txt";
+                filecheck = File.ReadAllLines(path)[0];
+                filebuaan = File.ReadAllLines(path)[1];
+                filenhaan = File.ReadAllLines(path)[2];
+                filenhabep = File.ReadAllLines(path)[3];
+                filelog = File.ReadAllLines(path)[4];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void getApi()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Api.txt";
+                fileApidlbc = File.ReadAllLines(path)[0];
+                fileApibuaan = File.ReadAllLines(path)[1];
+                fileApinv = File.ReadAllLines(path)[2];
+                fileApibp = File.ReadAllLines(path)[3];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void GetBuaaan()
         {
             try
@@ -81,11 +221,7 @@ namespace CheckCom_Version2
                         BuaAn ba = new BuaAn()
                         {
                             id = drow["id"].ToString(),
-                            ma = drow["ma"].ToString(),
-                            ten = drow["ten"].ToString(),
-                            ghichu = drow["ghichu"].ToString(),
-                            loaibuaanid = drow["loaibuaanid"].ToString(),
-                            loaibuaan = drow["loaibuaan"].ToString()
+                            ten = drow["ten"].ToString()
                         };
                         cbBuaan.Items.Add(ba.ten);
                         buaan.Add(ba);
@@ -94,7 +230,7 @@ namespace CheckCom_Version2
             }
             catch (Exception)
             {
-               // MessageBox.Show("Không có dữ liệu bữa ăn!");
+                MessageBox.Show("Không có dữ liệu bữa ăn!");
             }
         }
 
@@ -158,6 +294,11 @@ namespace CheckCom_Version2
                         {
                             f.Close();
                         }
+                        string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        using (FileStream f = File.Create(infolog))
+                        {
+                            f.Close();
+                        }
                         // File.Create(info);
                         // File.Exists(info);
                         string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
@@ -200,7 +341,7 @@ namespace CheckCom_Version2
                         ws.Cells[1, 33] = "thanhtoan";
                         ws.Cells[1, 34] = "phongrieng";
                         ws.Cells[1, 35] = "dangkybosung";
-                        ws.Cells[1, 36] = "trangthai1";
+                        ws.Cells[1, 36] = "nhabep";
                         ws.Cells[1, 37] = "trangthai2";
 
                         var data = new object[dt.Rows.Count, dt.Columns.Count];
@@ -238,6 +379,7 @@ namespace CheckCom_Version2
                                     chot = drow["chot"].ToString(),
                                     buaanid = drow["buaanid"].ToString(),
                                     nhaanid = drow["nhaanid"].ToString(),
+                                    nhaan = drow["nhaan"].ToString(),
                                     dangkybosung = drow["dangkybosung"].ToString()
                                 };
                                 baocom.Add(ck);
@@ -305,6 +447,7 @@ namespace CheckCom_Version2
                             chot = drow["chot"].ToString(),
                             buaanid = drow["buaanid"].ToString(),
                             nhaanid = drow["nhaanid"].ToString(),
+                            nhaan = drow["nhaan"].ToString(),
                             dangkybosung = drow["dangkybosung"].ToString()
                         };
                         baocom.Add(ck);
@@ -312,131 +455,12 @@ namespace CheckCom_Version2
                 }
             }
         }
-        private void getPath()
-        {
-            try
-            {
-                string path = Application.StartupPath + @"\Path.txt";
-                filecheck = File.ReadAllLines(path)[0];
-                filebuaan = File.ReadAllLines(path)[1];
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-          
-        }
-        private async void txtID_TextChanged(object sender, EventArgs e)
-        {
-            await Task.Delay(70);
-            if(CheckData()==true)
-            {
-                if (!string.IsNullOrEmpty(txtID.Text))
-                {
-                    bool checkid = false;//không
-                    try
-                    {
-                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        using (StreamReader sr = new StreamReader(fs))
-                        {
-                            string[] lines = sr.ReadToEnd().Split('\n');
-                            if (lines.Count() > 0)
-                            {
-                                for (int i = 0; i < lines.Count(); i++)
-                                {
-                                    if (lines[i].Split('-')[0].Contains(txtID.Text))
-                                    {
-                                        checkid = true;//có
-                                        getthoigian = lines[i].Split('-')[1];
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    List<CheckBaoCom> check = baocom.Where(x => x.manhansu == txtID.Text).ToList();
-                    if (check.Count == 1)
-                    {
-                        CheckBaoCom ck = new CheckBaoCom()
-                        {
-                            id = check.First().id,
-                            empid = check.First().empid,
-                            manhansu = check.First().manhansu,
-                            hoten = check.First().hoten,
-                            phongid = check.First().phongid,
-                            phong = check.First().phong,
-                            banid = check.First().banid,
-                            ban = check.First().ban,
-                            congdoanid = check.First().congdoanid,
-                            congdoan = check.First().congdoan,
-                            khach = check.First().khach,
-                            ngay = check.First().ngay,
-                            thang = check.First().thang,
-                            nam = check.First().nam,
-                            userid = check.First().userid,
-                            thoigiandat = check.First().thoigiandat,
-                            sudung = check.First().sudung,
-                            dangky = check.First().dangky,
-                            sotiendadung = check.First().sotiendadung,
-                            chot = check.First().chot,
-                            buaanid = check.First().buaanid,
-                            nhaanid = check.First().nhaanid,
-                            dangkybosung = check.First().dangkybosung
-                        };
-                        if (check.First().sudung == "False" && checkid==false)
-                        {
-                            lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
-                            lbthongbao.Text = "OK";
-                            checkok.Play();
-                            checkok.Dispose();
-                            lbthongbao.BackColor = Color.Green;
-                            ck.sudung = "true";
-                            ck.thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            ck.soxuatandadung = Convert.ToInt32(check.First().soxuatandadung) + 1;
-                            UpdateCheckBaoCom(ck);
-                            txtID.Text = null;
-                            lbthoigiansudung.Text = "Thành công: " + DateTime.Now.ToString("dd/MM/yy-HH:mm:ss");
-                        }
-                        else
-                        {
-                            lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
-                            lbthongbao.Text = "NG";
-                            checkng.Play();
-                            checkng.Dispose();
-                            lbthongbao.BackColor = Color.Yellow;
-                            lbthoigiansudung.Text = "Bạn đã lấy cơm lúc: " + getthoigian;
-                            txtID.Text = null;
-                        }
-                    }
-                    else
-                    {
-                        checkng.Play();
-                        checkng.Dispose();
-                        lbthongbao.Text = "NG";
-                        lbthongbao.BackColor = Color.Red;
-                        txtID.Text = null;
-                        lbthongtinnv.Text = null;
-                        lbthoigiansudung.Text = "Bạn chưa báo cơm. Vui lòng qua bàn đăng ký bổ sung!";
-                    }
-                  
-                }
-            }
-            else
-            {
-                txtID.Text = null;
-            }
-        }
 
         private async void UpdateCheckBaoCom(CheckBaoCom ck)
         {
             string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-            string APIbaocom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs";
+            string APIbaocom = fileApidlbc;
             try
             {
                 using (var client = new HttpClient())
@@ -450,14 +474,13 @@ namespace CheckCom_Version2
                         {
                             using (var writer = new StreamWriter(info, true))
                             {
-                                writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss"));
+                                writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid);
                             }
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message+"Update dữ liệu Client lỗi!");
+                            MessageBox.Show(ex.Message + "Update dữ liệu Client lỗi!");
                         }
-
                     }
                     else
                     {
@@ -465,7 +488,7 @@ namespace CheckCom_Version2
                         {
                             using (var writer = new StreamWriter(info, true))
                             {
-                                writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-NG1");
+                                writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
                             }
                         }
                         catch (Exception ex)
@@ -477,12 +500,11 @@ namespace CheckCom_Version2
             }
             catch (Exception)
             {
-
                 try
                 {
                     using (var writer = new StreamWriter(info, true))
                     {
-                        writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-NG1");
+                        writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
                     }
                 }
                 catch (Exception ex)
@@ -517,8 +539,296 @@ namespace CheckCom_Version2
                     caanid = ba.id;
                 }
             }
-            APICheckBaoCom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs/" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
+            GetNhaAnID();
+            GetNhaBep();
+            APICheckBaoCom = fileApidlbc + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
             GetBaoCom();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtNhapSoluong.Visible = true;
+        }
+
+        private void txtNhapSoluong_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                int x;
+                bool checkx = int.TryParse(txtNhapSoluong.Text, out x);
+                if (checkx)
+                {
+                    txtNhapSoluong.Visible = false;
+                    lbsosuatanconlai.Text = txtNhapSoluong.Text;
+                    lbTong.Text = txtNhapSoluong.Text;
+                    Tong = Convert.ToInt32(txtNhapSoluong.Text);
+                    Conlai = Convert.ToInt32(txtNhapSoluong.Text);
+                    getNumber();
+                    txtNhapSoluong.Text = null;
+                    lbsosuatanconlai.BackColor = Color.Green;
+                    lbTong.BackColor = Color.Green;
+                }
+                else
+                {
+                    MessageBox.Show("Nhập số lượng suất ăn!");
+                }
+            }
+        }
+
+        private void txtID_KeyDown(object sender, KeyEventArgs e)
+        {
+          
+        }
+
+        private void txtFontSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+
+        private async void txtID_TextChanged(object sender, EventArgs e)
+        {
+            await Task.Delay(70);
+            if (!string.IsNullOrEmpty(txtID.Text))
+            {
+                bool checkid = false;//không
+                try
+                {
+                    string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                    FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        string[] lines = sr.ReadToEnd().Split('\n');
+                        if (lines.Count() > 0)
+                        {
+                            for (int i = 0; i < lines.Count(); i++)
+                            {
+                                if (lines[i].Split('-')[0].Contains(txtID.Text))
+                                {
+                                    checkid = true;//có
+                                    getthoigian = lines[i].Split('-')[1];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                List<CheckBaoCom> check = baocom.Where(x => x.manhansu == txtID.Text).ToList();
+                if (check.Count >= 1)
+                {
+                    CheckBaoCom ck = new CheckBaoCom()
+                    {
+                        id = check.First().id,
+                        empid = check.First().empid,
+                        manhansu = check.First().manhansu,
+                        hoten = check.First().hoten,
+                        phongid = check.First().phongid,
+                        phong = check.First().phong,
+                        banid = check.First().banid,
+                        ban = check.First().ban,
+                        congdoanid = check.First().congdoanid,
+                        congdoan = check.First().congdoan,
+                        khach = check.First().khach,
+                        ngay = check.First().ngay,
+                        thang = check.First().thang,
+                        nam = check.First().nam,
+                        userid = check.First().userid,
+                        thoigiandat = check.First().thoigiandat,
+                        sudung = check.First().sudung,
+                        dangky = check.First().dangky,
+                        sotiendadung = check.First().sotiendadung,
+                        chot = check.First().chot,
+                        buaanid = check.First().buaanid,
+                        nhaanid = check.First().nhaanid,
+                        dangkybosung = check.First().dangkybosung,
+                    };
+                    if (check.First().sudung == "False" && checkid == false && check.First().nhaanid == idnhaan)
+                    {
+                        lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
+                        lbthongbao.Text = "OK";
+                        checkok.Play();
+                        checkok.Dispose();
+                        lbthongbao.BackColor = Color.Green;
+                        ck.sudung = "true";
+                        ck.bepanid = nhabep;
+                        ck.thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        ck.soxuatandadung = Convert.ToInt32(check.First().soxuatandadung) + 1;
+                        UpdateCheckBaoCom(ck);
+                        txtID.Text = null;
+                        lbthoigiansudung.Text = "Thành công: " + DateTime.Now.ToString("dd/MM/yy-HH:mm:ss");
+
+                        if (lbsosuatanconlai.Text == "0")
+                        {
+                            lbsosuatanconlai.BackColor = Color.Red;
+                            lbTong.BackColor = Color.Red;
+                        }
+                        else
+                        {
+                            lbsosuatanconlai.Text = (int.Parse(lbsosuatanconlai.Text) - 1).ToString();
+                            Conlai = Convert.ToInt32(lbsosuatanconlai.Text);
+                            getNumber();
+                        }
+                    }
+                    else
+                    {
+                        string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
+                        lbthongbao.Text = "NG";
+                        checkng.Play();
+                        checkng.Dispose();
+                        lbthongbao.BackColor = Color.Yellow;
+                        if (getthoigian != null && check.First().nhaanid == idnhaan)
+                        {
+                            lbthoigiansudung.Text = "Bạn đã lấy cơm lúc: " + getthoigian;
+                        }
+                        else if (check.First().nhaanid != idnhaan)
+                        {
+                            if (check.First().thoigiansudung != null)
+                            {
+                                lbthoigiansudung.Text = "Bạn đã sử dụng cơm tại: [" + check.First().nhaan + "] Thời gian sử dụng:[" + check.First().thoigiansudung + "]";
+                                try
+                                {
+                                    using (var writer = new StreamWriter(infolog, true))
+                                    {
+                                        writer.WriteLine(txtID.Text + "-" + lbthoigiansudung.Text);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+                            }
+                            else
+                            {
+                                lbthoigiansudung.Text = "Bạn đã đăng ký cơm tại: [" + check.First().nhaan + "]. Mời bạn sang [" + check.First().nhaan + "] sử dụng cơm!";
+                                try
+                                {
+                                    using (var writer = new StreamWriter(infolog, true))
+                                    {
+                                        writer.WriteLine(txtID.Text+"-"+lbthoigiansudung.Text);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            lbthoigiansudung.Text = "Bạn đã chưa đăng ký cơm ";
+                            try
+                            {
+                                using (var writer = new StreamWriter(infolog, true))
+                                {
+                                    writer.WriteLine(txtID.Text);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                        }
+                        txtID.Text = null;
+                    }
+                }
+                else
+                {
+                    string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                    lbthoigiansudung.Text = "Bạn chưa báo cơm. Vui lòng qua bàn đăng ký bổ sung!";
+                    try
+                    {
+                        using (var writer = new StreamWriter(infolog, true))
+                        {
+                            writer.WriteLine(txtID.Text);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    checkng.Play();
+                    checkng.Dispose();
+                    lbthongbao.Text = "NG";
+                    lbthongbao.BackColor = Color.Red;
+                    txtID.Text = null;
+                    lbthongtinnv.Text = null;
+                }
+            }
+        }
+
+        private void txtFontSize_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                int x;
+                bool checkx = int.TryParse(txtFontSize.Text, out x);
+                if (checkx)
+                {
+                    lbsosuatanconlai.Font = new Font(lbsosuatanconlai.Font.FontFamily, int.Parse(txtFontSize.Text));
+                    lbTong.Font = new Font(lbTong.Font.FontFamily, int.Parse(txtFontSize.Text));
+                }
+                else
+                {
+                    MessageBox.Show("Nhập cỡ chữ!");
+                }
+            }
+        }
+
+        private void CheckCom_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            hienthi.Close();
+        }
+        public void getNumber()
+        {
+            string textNumberTong = string.Format("{0:000}", Tong);
+            string textNumberConlai = string.Format("{0:000}", Conlai);
+            Image pic1 = ImageText(textNumberTong, 1);
+            picturebox1.Image = Zoom(pic1, new Size(1, 90));
+            Image pic2 = ImageText(textNumberConlai, 2);
+            picturebox2.Image = Zoom(pic2, new Size(1, 90));
+        }
+        Image Zoom(Image img, Size size)
+        {
+            Bitmap bmp = new Bitmap(img, img.Width + (img.Width * size.Width / 100), img.Height + (img.Height * size.Height / 100));
+            Graphics g = Graphics.FromImage(bmp);
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            return bmp;
+        }
+        Image ImageText(string textNumber, int number)
+        {
+            Bitmap bitmap1 = new Bitmap(1, 1);
+            Font font = new Font("Microsoft Sans Serif", 400, FontStyle.Regular, GraphicsUnit.Pixel);
+            Graphics grap = Graphics.FromImage(bitmap1);
+            int width = (int)grap.MeasureString(textNumber, font).Width;
+            int heigth = (int)grap.MeasureString(textNumber, font).Height;
+            Bitmap bitmap2 = new Bitmap(bitmap1, new Size(width, heigth));
+            grap = Graphics.FromImage(bitmap2);
+            if (textNumber == "000")
+            {
+                grap.Clear(Color.Red);
+            }
+            else
+            {
+                if (number == 1)
+                {
+                    grap.Clear(Color.Red);
+                }
+                else
+                {
+                    grap.Clear(Color.Green);
+                }
+
+            }
+            grap.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            grap.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            grap.DrawString(textNumber, font, new SolidBrush(Color.White), 0, 0);
+            grap.Flush();
+            grap.Dispose();
+            Image i = (Image)bitmap2;
+            return i;
         }
     }
 }

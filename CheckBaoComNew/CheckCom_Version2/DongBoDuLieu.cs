@@ -23,14 +23,22 @@ namespace CheckCom_Version2
         private List<BuaAn> buaan = new List<BuaAn>();
         private string caan = null;
         private string caanid;
-        private string idnhaan;
         private string filecheck = null;
         private string filebuaan = null;
         private string filenhaan = null;
+        private string filenhabep = null;
+        private string filelog = null;
+        private string idnhaan;
+
+        private string fileApidlbc = null;
+        private string fileApibuaan = null;
+        private string fileApinv = null;
+        private string fileApibp = null;
         public DongBoDuLieu()
         {
             InitializeComponent();
             getPath();
+            getApi();
             GetBuaan();
             int Gio = DateTime.Now.Hour;
 
@@ -55,7 +63,7 @@ namespace CheckCom_Version2
                 caan = " Toi";
             }
         }
-
+       
         private void GetNhaAnID()
         {
             try
@@ -68,10 +76,7 @@ namespace CheckCom_Version2
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
                 MyConnection.Close();
-                if (table.Rows.Count == 1)
-                {
-                    idnhaan = table.Rows[0]["nhaanid"].ToString();
-                }
+                idnhaan = table.Rows[0]["nhaanid"].ToString();
             }
             catch (Exception)
             {
@@ -85,6 +90,8 @@ namespace CheckCom_Version2
                 filecheck = File.ReadAllLines(path)[0];
                 filebuaan = File.ReadAllLines(path)[1];
                 filenhaan = File.ReadAllLines(path)[2];
+                filenhabep = File.ReadAllLines(path)[3];
+                filelog = File.ReadAllLines(path)[4];
             }
             catch (Exception ex)
             {
@@ -155,7 +162,22 @@ namespace CheckCom_Version2
             {
             }
         }
+        private void getApi()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Api.txt";
+                fileApidlbc = File.ReadAllLines(path)[0];
+                fileApibuaan = File.ReadAllLines(path)[1];
+                fileApinv = File.ReadAllLines(path)[2];
+                fileApibp = File.ReadAllLines(path)[3];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+        }
         private void DongBoDuLieu_Load(object sender, EventArgs e)
         {
             lvServer.View = View.Details;
@@ -173,128 +195,39 @@ namespace CheckCom_Version2
             return astr;
         }
 
-        private async Task<string> GetAllBuaan()
-        {
-            HttpClient aClient = new HttpClient();
-            string astr = await aClient.GetStringAsync("http://192.84.100.207/MealOrdersAPI/api/BuaAns");
-            return astr;
-        }
-
         private void GetBuaan()
         {
             buaan.Clear();
             try
             {
+                string pathfile = filebuaan + "BuaAn.xls";
+                DataTable table = new DataTable();
+                System.Data.OleDb.OleDbConnection MyConnection;
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1'");
+                MyConnection.Open();
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                oada.Fill(table);
+                MyConnection.Close();
                 cbBuaan.Items.Clear();
-                Task<string> callTask = Task.Run(() => GetAllBuaan());
-                callTask.Wait();
-                string astr = callTask.Result;
-                buaan = JsonConvert.DeserializeObject<List<BuaAn>>(astr);
-                if (buaan.Count > 0)
+                for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    foreach (BuaAn ba in buaan)
+                    DataRow drow = table.Rows[i];
+
+                    if (drow.RowState != DataRowState.Deleted)
                     {
+                        BuaAn ba = new BuaAn()
+                        {
+                            id = drow["id"].ToString(),
+                            ten = drow["ten"].ToString()
+                        };
                         cbBuaan.Items.Add(ba.ten);
-                    }
-                    bool check = CheckBuaan();
-                    if (check == true)
-                    {
-                        // update
-                        string pathfile = filebuaan+"BuaAn.xls";
-                        Task<string> callTask1 = Task.Run(() => GetAllBuaan());
-                        callTask1.Wait();
-                        string astr1 = callTask1.Result;
-                        DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr1, typeof(DataTable));
-                        Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
-                        dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
-                        var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;
-
-                        var data = new object[dt.Rows.Count, dt.Columns.Count];
-                        for (int row = 0; row < dt.Rows.Count; row++)
-                        {
-                            for (int column = 0; column <= dt.Columns.Count - 1; column++)
-                            {
-                                data[row, column] = dt.Rows[row][column].ToString();
-                            }
-                        }
-
-                        var startCell = (Excel.Range)worksheetExcel.Cells[2, 1];
-                        var endCell = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 1, dt.Columns.Count];
-                        var endCell1 = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 10, dt.Columns.Count];
-                        worksheetExcel.Range[startCell, endCell1].Clear();
-                        var writeRange = worksheetExcel.Range[startCell, endCell];
-                        writeRange.Value2 = data;
-                        workbooksExcel.Save();
-                        workbooksExcel.Close();
-                        docExcel.Application.Quit();
-                    }
-                    else
-                    {
-                        // insert
-                        Task<string> callTask1 = Task.Run(() => GetAllBuaan());
-                        callTask1.Wait();
-                        string astr1 = callTask1.Result;
-                        DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr1, typeof(DataTable));
-                        string pathfile = filebuaan+"BuaAn.xls";
-                        FileInfo filename = new FileInfo(pathfile);
-                        Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
-                        Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
-                        Excel.Worksheet ws = (Excel.Worksheet)docExcel.ActiveSheet;
-                        ws.Cells[1, 1] = "id";
-                        ws.Cells[1, 2] = "ma";
-                        ws.Cells[1, 3] = "ten";
-                        ws.Cells[1, 4] = "ghichu";
-                        ws.Cells[1, 5] = "loaibuaanid";
-                        ws.Cells[1, 6] = "loaibuaan";
-                        ws.Cells[1, 7] = "thutuhienthi";
-
-                        var data = new object[dt.Rows.Count, dt.Columns.Count];
-                        for (int row = 0; row < dt.Rows.Count; row++)
-                        {
-                            for (int column = 0; column <= dt.Columns.Count - 1; column++)
-                            {
-                                data[row, column] = dt.Rows[row][column].ToString();
-                            }
-                        }
-
-                        var startCell = (Excel.Range)ws.Cells[2, 1];
-                        var endCell = (Excel.Range)ws.Cells[dt.Rows.Count + 1, dt.Columns.Count];
-                        var writeRange = ws.Range[startCell, endCell];
-                        writeRange.Value2 = data;
-                        wb.SaveAs(filename.FullName, Excel.XlFileFormat.xlExcel8);
-                        wb.Close();
-                        docExcel.Application.Quit();
+                        buaan.Add(ba);
                     }
                 }
             }
             catch (Exception)
             {
-                cbBuaan.Items.Clear();
-                bool check = CheckBuaan();
-                if (check == true)
-                {
-                    string pathfile = filebuaan+"BuaAn.xls";
-                    DataTable table = new DataTable();
-                    System.Data.OleDb.OleDbConnection MyConnection;
-                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
-                    MyConnection.Open();
-                    OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
-                    oada.Fill(table);
-                    MyConnection.Close();
-                    for (int i = 0; i < table.Rows.Count; i++)
-                    {
-                        DataRow drow = table.Rows[i];
-
-                        if (drow.RowState != DataRowState.Deleted)
-                        {
-                            BuaAn ba = new BuaAn()
-                            {
-                                ten = drow["ten"].ToString()
-                            };
-                            cbBuaan.Items.Add(ba.ten);
-                        }
-                    }
-                }
+                 MessageBox.Show("Không có dữ liệu bữa ăn!");
             }
         }
 
@@ -419,8 +352,7 @@ namespace CheckCom_Version2
                 lbClient.Text = "Dữ liệu Client : 0";
             }
         }
-
-        private void btnCapNhap_Click(object sender, EventArgs e)
+        private void AutoCapnhap()
         {
             string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             if (baocom.Count > 0)
@@ -462,48 +394,56 @@ namespace CheckCom_Version2
                             ghichu = drow["ghichu"].ToString(),
                             buaanid = drow["buaanid"].ToString(),
                             nhaanid = idnhaan,
-                            dangkybosung = drow["dangkybosung"].ToString()
+                            dangkybosung = drow["dangkybosung"].ToString(),
+                            bepanid = string.IsNullOrEmpty(drow["nhabep"].ToString()) ? null : drow["nhabep"].ToString()
                         };
                         check1 = Task.Run(() => InsertCheckBaoCom(ck)).Result;
-                        }
                     }
-                    MyConnection.Close();
-                    Task<string> callTask = Task.Run(() => GetAllCheckBaoCom());
-                    callTask.Wait();
-                    string astr = callTask.Result;
-                    DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr, typeof(DataTable));
-                    Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
-                    dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
-                    var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;
-                    var data = new object[dt.Rows.Count, dt.Columns.Count];
-                    for (int row = 0; row < dt.Rows.Count; row++)
-                    {
-                        for (int column = 0; column <= dt.Columns.Count - 1; column++)
-                        {
-                            data[row, column] = dt.Rows[row][column].ToString();
-                        }
-                    }
-
-                    var startCell = (Excel.Range)worksheetExcel.Cells[2, 1];
-                    var endCell = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 1, dt.Columns.Count];
-                    var writeRange = worksheetExcel.Range[startCell, endCell];
-                    var endCell1 = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 50, dt.Columns.Count + 5];
-                    worksheetExcel.Range[startCell, endCell1].Clear();
-                    worksheetExcel.Columns[3].NumberFormat = "@";
-                    worksheetExcel.Columns[19].NumberFormat = "@";
-                    writeRange.Value2 = data;
-                    workbooksExcel.Save();
-                    workbooksExcel.Close();
-                    docExcel.Application.Quit();
-                    GetBaoCom();
-                    kiemtratrangthai();
                 }
+                MyConnection.Close();
+                Task<string> callTask = Task.Run(() => GetAllCheckBaoCom());
+                callTask.Wait();
+                string astr = callTask.Result;
+                DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr, typeof(DataTable));
+                Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
+                dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
+                var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;
+                var data = new object[dt.Rows.Count, dt.Columns.Count];
+                for (int row = 0; row < dt.Rows.Count; row++)
+                {
+                    for (int column = 0; column <= dt.Columns.Count - 1; column++)
+                    {
+                        data[row, column] = dt.Rows[row][column].ToString();
+                    }
+                }
+
+                var startCell = (Excel.Range)worksheetExcel.Cells[2, 1];
+                var endCell = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 1, dt.Columns.Count];
+                var writeRange = worksheetExcel.Range[startCell, endCell];
+                var endCell1 = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 50, dt.Columns.Count + 5];
+                worksheetExcel.Range[startCell, endCell1].Clear();
+                worksheetExcel.Columns[3].NumberFormat = "@";
+                worksheetExcel.Columns[19].NumberFormat = "@";
+                writeRange.Value2 = data;
+                docExcel.Application.DisplayAlerts = false;
+                workbooksExcel.Save();//lỗi ở đây
+                workbooksExcel.Close();
+                docExcel.Application.Quit();
+                GetBaoCom();
+                kiemtratrangthai();
+                btnDongBo.Enabled = true;
+                btnCapNhap.Enabled = false;
+            }
+        }
+        private void btnCapNhap_Click(object sender, EventArgs e)
+        {
+            AutoCapnhap();
         }
 
         private async Task<bool> UpdateCheckBaoCom(CheckBaoCom ck)
         {
             bool check = false;
-            string APIbaocom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs";
+            string APIbaocom = fileApidlbc;
             using (var client = new HttpClient())
             {
                 var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -521,7 +461,7 @@ namespace CheckCom_Version2
         private async Task<bool> InsertCheckBaoCom(CheckBaoCom ck)
         {
             bool check = false;
-            string APIbaocom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs";
+            string APIbaocom = fileApidlbc;
             using (var client = new HttpClient())
             {
                 var serializedProduct = JsonConvert.SerializeObject(ck);
@@ -564,13 +504,14 @@ namespace CheckCom_Version2
                     caanid = ba.id;
                 }
             }
-            APICheckBaoCom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs/" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
+            APICheckBaoCom = fileApidlbc + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
             GetBaoCom();
             bool Check = CheckData();
             if (Check == true)
             {
                 kiemtratrangthai();
                 GetDataClientChuaUpdateServer();
+                btnDongBo.Enabled = false;
             }
             else
             {
@@ -584,6 +525,11 @@ namespace CheckCom_Version2
                     {
                         string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                         using (FileStream f = File.Create(info))
+                        {
+                            f.Close();
+                        }
+                        string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        using (FileStream f = File.Create(infolog))
                         {
                             f.Close();
                         }
@@ -629,7 +575,7 @@ namespace CheckCom_Version2
                         ws.Cells[1, 33] = "thanhtoan";
                         ws.Cells[1, 34] = "phongrieng";
                         ws.Cells[1, 35] = "dangkybosung";
-                        ws.Cells[1, 36] = "trangthai1";
+                        ws.Cells[1, 36] = "nhabep";
                         ws.Cells[1, 37] = "trangthai2";
 
                         var data = new object[dt.Rows.Count, dt.Columns.Count];
@@ -693,9 +639,9 @@ namespace CheckCom_Version2
                     {
                         if (lines[j].Split('-')[0].Contains(table.Rows[i]["manhansu"].ToString()))
                         {
-                            if (lines[j].Split('-').Count() == 3)
+                            if (lines[j].Split('-').Count() == 4)
                             {
-                                if (lines[j].Split('-')[2] == "NG1")
+                                if (lines[j].Split('-')[3] == "NG1")
                                 {
                                     dem++;
                                     DataRow drow = table.Rows[i];
@@ -755,9 +701,9 @@ namespace CheckCom_Version2
                     {
                         if (lines[j].Split('-')[0].Contains(table.Rows[i]["manhansu"].ToString()))
                         {
-                            if (lines[j].Split('-').Count() == 3)
+                            if (lines[j].Split('-').Count() == 4)
                             {
-                                if (lines[j].Split('-')[2] == "NG1")
+                                if (lines[j].Split('-')[3] == "NG1")
                                 {
                                     DataRow drow = table.Rows[i];
                                     bool check1 = false;
@@ -788,12 +734,13 @@ namespace CheckCom_Version2
                                         ghichu = string.IsNullOrEmpty(drow["ghichu"].ToString()) ? null : drow["ghichu"].ToString(),
                                         buaanid = drow["buaanid"].ToString(),
                                         nhaanid = idnhaan,
-                                        dangkybosung = drow["dangkybosung"].ToString()
+                                        dangkybosung = drow["dangkybosung"].ToString(),
+                                        bepanid = string.IsNullOrEmpty(lines[j].Split('-')[2]) ? null : lines[j].Split('-')[2]
                                     };
                                     check1 = Task.Run(() => UpdateCheckBaoCom(ck)).Result;
                                     if (check1 == true)
                                     {
-                                        lines[j] = lines[j].Replace(lines[j], lines[j].Split('-')[0] + "-" + lines[j].Split('-')[1]);
+                                        lines[j] = lines[j].Replace(lines[j], lines[j].Split('-')[0] + "-" + lines[j].Split('-')[1]+"-" + lines[j].Split('-')[2]);
                                     }
                                 }
                             }
@@ -805,6 +752,8 @@ namespace CheckCom_Version2
             }
             GetBaoCom();
             GetDataClientChuaUpdateServer();
+            btnDongBo.Enabled = false;
+            btnCapNhap.Enabled = true;
         }
 
         private void DeleteRowExcel(int RowExcel)

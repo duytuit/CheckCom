@@ -21,6 +21,7 @@ namespace CheckCom_Version2
         {
 
             CheckCom ck = new CheckCom();
+           
             if (KiemTraTonTai("CheckCom") == true)
                 ck.Activate();
             else

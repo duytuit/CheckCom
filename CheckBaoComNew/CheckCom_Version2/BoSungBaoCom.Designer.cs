@@ -137,7 +137,7 @@
             this.btnCapnhap.Location = new System.Drawing.Point(669, 3);
             this.btnCapnhap.Name = "btnCapnhap";
             this.btnCapnhap.Size = new System.Drawing.Size(65, 32);
-            this.btnCapnhap.TabIndex = 7;
+            this.btnCapnhap.TabIndex = 13;
             this.btnCapnhap.Text = "Cập Nhập";
             this.btnCapnhap.UseVisualStyleBackColor = false;
             this.btnCapnhap.Click += new System.EventHandler(this.btnCapnhap_Click);
@@ -150,7 +150,7 @@
             this.btnThem.Location = new System.Drawing.Point(588, 3);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(75, 32);
-            this.btnThem.TabIndex = 13;
+            this.btnThem.TabIndex = 7;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = false;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);

@@ -44,5 +44,6 @@ namespace WindowsFormsApplication1.DTOs
         public int thanhtoan { get; set; }
         public int phongrieng { get; set; }
         public string dangkybosung { get; set; }
+        public string nhabep { get; set; }
     }
 }

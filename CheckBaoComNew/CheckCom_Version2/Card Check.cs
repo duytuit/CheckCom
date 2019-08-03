@@ -26,63 +26,36 @@ namespace CheckCom_Version2
         List<Bitmap> bm = new List<Bitmap>();
         private string filecheck = null;
         private string filebuaan = null;
+
+        private string fileApidlbc = null;
+        private string fileApibuaan = null;
+        private string fileApinv = null;
+        private string fileApibp = null;
         public Card_Check()
         {
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
             getPath();
+            getApi();
             GetBuaan();
             if ((8 <= Gio) && (Gio < 14))
             {
                 cbBuaan.Text = "Trưa";
-                foreach (BuaAn ba in buaan)
-                {
-                    if (ba.ten == cbBuaan.Text)
-                    {
-                        caanid = ba.id;
-                    }
-                }
-                
                 caan = " Trua";
             }
             else if ((14 <= Gio) && (Gio < 20))
             {
                 cbBuaan.Text = "Chiều";
-                foreach (BuaAn ba in buaan)
-                {
-                    if (ba.ten == cbBuaan.Text)
-                    {
-                        caanid = ba.id;
-                    }
-                }
-               
-
                 caan = " Chieu";
             }
             else if ((2 <= Gio) && (Gio < 8))
             {
                 cbBuaan.Text = "Bữa phụ";
-                foreach (BuaAn ba in buaan)
-                {
-                    if (ba.ten == cbBuaan.Text)
-                    {
-                        caanid = ba.id;
-                    }
-                }
-
                 caan = " Buaphu";
             }
             else
             {
                 cbBuaan.Text = "Tối";
-                foreach (BuaAn ba in buaan)
-                {
-                    if (ba.ten == cbBuaan.Text)
-                    {
-                        caanid = ba.id;
-                    }
-                }
-                
                 caan = " Toi";
             }
         }
@@ -117,6 +90,22 @@ namespace CheckCom_Version2
             {
                 return Path.GetFileNameWithoutExtension(Original.Name);
             }
+        }
+        private void getApi()
+        {
+            try
+            {
+                string path = Application.StartupPath + @"\Api.txt";
+                fileApidlbc = File.ReadAllLines(path)[0];
+                fileApibuaan = File.ReadAllLines(path)[1];
+                fileApinv = File.ReadAllLines(path)[2];
+                fileApibp = File.ReadAllLines(path)[3];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
         private void getPath()
         {
@@ -250,34 +239,40 @@ namespace CheckCom_Version2
             }
            
         }
-        private async Task<string> GetAllBuaan()
-        {
-            HttpClient aClient = new HttpClient();
-            string astr = await aClient.GetStringAsync("http://192.84.100.207/MealOrdersAPI/api/BuaAns");
-            return astr;
-        }
 
         private void GetBuaan()
         {
             buaan.Clear();
             try
             {
+                string pathfile = filebuaan + "BuaAn.xls";
+                DataTable table = new DataTable();
+                System.Data.OleDb.OleDbConnection MyConnection;
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1'");
+                MyConnection.Open();
+                OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                oada.Fill(table);
+                MyConnection.Close();
                 cbBuaan.Items.Clear();
-                Task<string> callTask = Task.Run(() => GetAllBuaan());
-                callTask.Wait();
-                string astr = callTask.Result;
-                buaan = JsonConvert.DeserializeObject<List<BuaAn>>(astr);
-                if (buaan.Count > 0)
+                for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    foreach (BuaAn ba in buaan)
+                    DataRow drow = table.Rows[i];
+
+                    if (drow.RowState != DataRowState.Deleted)
                     {
+                        BuaAn ba = new BuaAn()
+                        {
+                            id = drow["id"].ToString(),
+                            ten = drow["ten"].ToString()
+                        };
                         cbBuaan.Items.Add(ba.ten);
+                        buaan.Add(ba);
                     }
                 }
             }
-            catch (AggregateException)
+            catch (Exception)
             {
-                MessageBox.Show("Lỗi đường truyền");
+                MessageBox.Show("Không có dữ liệu bữa ăn!");
             }
         }
         private void GetDataClient()

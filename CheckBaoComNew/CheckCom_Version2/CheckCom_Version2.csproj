@@ -86,6 +86,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
@@ -135,6 +136,12 @@
     <Compile Include="DTOs\CheckBaoCom.cs" />
     <Compile Include="DTOs\NhaAn.cs" />
     <Compile Include="DTOs\Thongtinnhanvien.cs" />
+    <Compile Include="Hienthi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hienthi.Designer.cs">
+      <DependentUpon>Hienthi.cs</DependentUpon>
+    </Compile>
     <Compile Include="HuongDan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DongBoDuLieu.resx">
       <DependentUpon>DongBoDuLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Hienthi.resx">
+      <DependentUpon>Hienthi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HuongDan.resx">
       <DependentUpon>HuongDan.cs</DependentUpon>

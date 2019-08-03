@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1.DTOs;
 
@@ -20,8 +22,8 @@ namespace WindowsFormsApplication1
             //Update
             CheckBaoCom ck = new CheckBaoCom()
             {
-                id = "00058EF5E55743078B9D66C6864A5DB6",
-                empid = null,
+                id = "000AC574909E4BF99B8139438D89F1B6",
+                empid = "c4c54c04-f171-40fb-a2d6-a00621e726e0",
                 manhansu = "008809",
                 hoten = "Nguyễn Thị Minh Tuyết",
                 phongid = null,
@@ -31,18 +33,18 @@ namespace WindowsFormsApplication1
                 congdoanid = null,
                 congdoan = null,
                 khach = "false",
-                ngay = DateTime.Now.ToString("2019-05-11"),
-                thang = 5,
+                ngay = DateTime.Now.ToString("2019-07-15"),
+                thang = 7,
                 nam = 2019,
                 userid = null,
-                thoigiandat = DateTime.Now.ToString("2019-05-11"),
+                thoigiandat = DateTime.Now.ToString("2019-07-15"),
                 sudung = "true",
                 dangky = "true",
-                thoigiansudung = DateTime.Now.ToString("2019-05-11 HH:mm:ss"),
+                thoigiansudung = DateTime.Now.ToString("2019-07-15 HH:mm:ss"),
                 soxuatandadung = 0,
                 sotiendadung = 0,
                 chot = "true",
-                ghichu = "update123",
+                ghichu = "update123test",
                // thucdontheobuaid = null,
               //  thucdontheobua = null,
               //  kieudoan = 0,
@@ -54,9 +56,11 @@ namespace WindowsFormsApplication1
                // loaidouong = 0,
                // thanhtoan = 0,
                // phongrieng = 0,
-                dangkybosung = "false"
+                dangkybosung = "false",
+                nhabep = "Bếp Nhật 2"
             };
-            UpdateCheckBaoCom(ck);
+            bool check;
+           check= Task.Run(() => UpdateCheckBaoCom(ck)).Result;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -64,15 +68,15 @@ namespace WindowsFormsApplication1
             //Insert
             CheckBaoCom ck = new CheckBaoCom()
             {
-                empid = "1434",
-                manhansu = "0001434",
-                hoten = "Đinh Thị OO",
-                phongid = null,
-                phong = "QC5",
-                banid = null,
-                ban = "CSP",
+                empid = "71946318-e147-4aea-8c19-861353f72f1b",
+                manhansu = "007468",
+                hoten = "Nguyễn Duy Tú",
+                phongid = "98556f84-6d3e-42fa-a084-6b9d22839181",
+                phong = "IT",
+                banid = "b5c69e5b-61f9-48c4-9ccd-b8cd6f426b93",
+                ban = "Phần cứng",
                 congdoanid = null,
-                congdoan = "---",
+                congdoan = null,
                 khach = "false",
                 ngay = DateTime.Now.ToString("yyyy-MM-dd"),
                 thang = 4,
@@ -85,24 +89,31 @@ namespace WindowsFormsApplication1
                 soxuatandadung = 0,
                 sotiendadung = 0,
                 chot = "true",
-                ghichu = "test2",
+                ghichu = null,
                 buaanid = "275AD44F777F4C679B8F72B8F299A931",
                 nhaanid = "D982F0F304104EB3A9A903CCC23958C3",
-                dangkybosung="true"
+                dangkybosung = "false",
+                nhabep = "110FD7D62B2341F18086AD673C07A96D"
             };
             InsertCheckBaoCom(ck);
         }
 
-        private async void UpdateCheckBaoCom(CheckBaoCom ck)
+        private async Task<bool> UpdateCheckBaoCom(CheckBaoCom ck)
         {
+            bool check = false;
             string APIbaocom = "http://192.84.100.207/MealOrdersAPI/api/DulieuBaoComs";
-
             using (var client = new HttpClient())
             {
+                var response = new HttpResponseMessage(HttpStatusCode.OK);
                 var serializedProduct = JsonConvert.SerializeObject(ck);
                 var content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
                 var result = await client.PutAsync(String.Format("{0}/{1}", APIbaocom, ck.id), content);
+                if (result.IsSuccessStatusCode)
+                {
+                    check = true;
+                }
             }
+            return await Task.FromResult(check);
         }
 
         private async void InsertCheckBaoCom(CheckBaoCom ck)
