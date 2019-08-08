@@ -1,5 +1,6 @@
 ﻿using CheckCom_Version2.DTOs;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -43,6 +44,7 @@ namespace CheckCom_Version2
         private PictureBox picturebox2 = new PictureBox();
         public int Tong = 0;
         public int Conlai = 0;
+        List<string> IDChuaBaoCom = new List<string>();
         public CheckCom()
         {
             InitializeComponent();
@@ -290,12 +292,12 @@ namespace CheckCom_Version2
                     if (dt.Rows.Count > 0)
                     {
                         string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        using (FileStream f = File.Create(info))
+                        using (FileStream f = new FileStream(info, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             f.Close();
                         }
                         string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        using (FileStream f = File.Create(infolog))
+                        using (FileStream f = new FileStream(infolog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             f.Close();
                         }
@@ -472,10 +474,10 @@ namespace CheckCom_Version2
                     {
                         try
                         {
-                            using (var writer = new StreamWriter(info, true))
-                            {
-                                writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid);
-                            }
+                                using (StreamWriter writer = new StreamWriter(info,true))
+                                {
+                                    writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid);
+                                }
                         }
                         catch (Exception ex)
                         {
@@ -486,10 +488,10 @@ namespace CheckCom_Version2
                     {
                         try
                         {
-                            using (var writer = new StreamWriter(info, true))
-                            {
-                                writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
-                            }
+                                using (StreamWriter writer = new StreamWriter(info,true))
+                                {
+                                    writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
+                                }
                         }
                         catch (Exception ex)
                         {
@@ -502,10 +504,10 @@ namespace CheckCom_Version2
             {
                 try
                 {
-                    using (var writer = new StreamWriter(info, true))
-                    {
-                        writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
-                    }
+                        using (StreamWriter writer = new StreamWriter(info,true))
+                        {
+                            writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
+                        }
                 }
                 catch (Exception ex)
                 {
@@ -575,186 +577,223 @@ namespace CheckCom_Version2
             }
         }
 
-        private void txtID_KeyDown(object sender, KeyEventArgs e)
+        private async void txtID_KeyDown(object sender, KeyEventArgs e)
         {
-          
-        }
-
-        private void txtFontSize_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
-
-        private async void txtID_TextChanged(object sender, EventArgs e)
-        {
-            await Task.Delay(70);
-            if (!string.IsNullOrEmpty(txtID.Text))
+            if (e.KeyCode == Keys.Enter)
             {
-                bool checkid = false;//không
-                try
+                if (!string.IsNullOrEmpty(txtID.Text))
                 {
-                    string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                    FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        string[] lines = sr.ReadToEnd().Split('\n');
-                        if (lines.Count() > 0)
-                        {
-                            for (int i = 0; i < lines.Count(); i++)
-                            {
-                                if (lines[i].Split('-')[0].Contains(txtID.Text))
-                                {
-                                    checkid = true;//có
-                                    getthoigian = lines[i].Split('-')[1];
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                List<CheckBaoCom> check = baocom.Where(x => x.manhansu == txtID.Text).ToList();
-                if (check.Count >= 1)
-                {
-                    CheckBaoCom ck = new CheckBaoCom()
-                    {
-                        id = check.First().id,
-                        empid = check.First().empid,
-                        manhansu = check.First().manhansu,
-                        hoten = check.First().hoten,
-                        phongid = check.First().phongid,
-                        phong = check.First().phong,
-                        banid = check.First().banid,
-                        ban = check.First().ban,
-                        congdoanid = check.First().congdoanid,
-                        congdoan = check.First().congdoan,
-                        khach = check.First().khach,
-                        ngay = check.First().ngay,
-                        thang = check.First().thang,
-                        nam = check.First().nam,
-                        userid = check.First().userid,
-                        thoigiandat = check.First().thoigiandat,
-                        sudung = check.First().sudung,
-                        dangky = check.First().dangky,
-                        sotiendadung = check.First().sotiendadung,
-                        chot = check.First().chot,
-                        buaanid = check.First().buaanid,
-                        nhaanid = check.First().nhaanid,
-                        dangkybosung = check.First().dangkybosung,
-                    };
-                    if (check.First().sudung == "False" && checkid == false && check.First().nhaanid == idnhaan)
-                    {
-                        lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
-                        lbthongbao.Text = "OK";
-                        checkok.Play();
-                        checkok.Dispose();
-                        lbthongbao.BackColor = Color.Green;
-                        ck.sudung = "true";
-                        ck.bepanid = nhabep;
-                        ck.thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        ck.soxuatandadung = Convert.ToInt32(check.First().soxuatandadung) + 1;
-                        UpdateCheckBaoCom(ck);
-                        txtID.Text = null;
-                        lbthoigiansudung.Text = "Thành công: " + DateTime.Now.ToString("dd/MM/yy-HH:mm:ss");
-
-                        if (lbsosuatanconlai.Text == "0")
-                        {
-                            lbsosuatanconlai.BackColor = Color.Red;
-                            lbTong.BackColor = Color.Red;
-                        }
-                        else
-                        {
-                            lbsosuatanconlai.Text = (int.Parse(lbsosuatanconlai.Text) - 1).ToString();
-                            Conlai = Convert.ToInt32(lbsosuatanconlai.Text);
-                            getNumber();
-                        }
-                    }
-                    else
-                    {
-                        string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
-                        lbthongbao.Text = "NG";
-                        checkng.Play();
-                        checkng.Dispose();
-                        lbthongbao.BackColor = Color.Yellow;
-                        if (getthoigian != null && check.First().nhaanid == idnhaan)
-                        {
-                            lbthoigiansudung.Text = "Bạn đã lấy cơm lúc: " + getthoigian;
-                        }
-                        else if (check.First().nhaanid != idnhaan)
-                        {
-                            if (check.First().thoigiansudung != null)
-                            {
-                                lbthoigiansudung.Text = "Bạn đã sử dụng cơm tại: [" + check.First().nhaan + "] Thời gian sử dụng:[" + check.First().thoigiansudung + "]";
-                                try
-                                {
-                                    using (var writer = new StreamWriter(infolog, true))
-                                    {
-                                        writer.WriteLine(txtID.Text + "-" + lbthoigiansudung.Text);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                }
-                            }
-                            else
-                            {
-                                lbthoigiansudung.Text = "Bạn đã đăng ký cơm tại: [" + check.First().nhaan + "]. Mời bạn sang [" + check.First().nhaan + "] sử dụng cơm!";
-                                try
-                                {
-                                    using (var writer = new StreamWriter(infolog, true))
-                                    {
-                                        writer.WriteLine(txtID.Text+"-"+lbthoigiansudung.Text);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            lbthoigiansudung.Text = "Bạn đã chưa đăng ký cơm ";
-                            try
-                            {
-                                using (var writer = new StreamWriter(infolog, true))
-                                {
-                                    writer.WriteLine(txtID.Text);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                        }
-                        txtID.Text = null;
-                    }
-                }
-                else
-                {
-                    string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                    lbthoigiansudung.Text = "Bạn chưa báo cơm. Vui lòng qua bàn đăng ký bổ sung!";
+                    bool checkid = false;//không
                     try
                     {
-                        using (var writer = new StreamWriter(infolog, true))
+                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        using (StreamReader sr = new StreamReader(fs))
                         {
-                            writer.WriteLine(txtID.Text);
+                            string[] lines = sr.ReadToEnd().Split('\n');
+                            if (lines.Count() > 0)
+                            {
+                                for (int i = 0; i < lines.Count(); i++)
+                                {
+                                    if (lines[i].Split('-')[0].Contains(txtID.Text))
+                                    {
+                                        checkid = true;//có
+                                        getthoigian = lines[i].Split('-')[1];
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
-                    checkng.Play();
-                    checkng.Dispose();
-                    lbthongbao.Text = "NG";
-                    lbthongbao.BackColor = Color.Red;
-                    txtID.Text = null;
-                    lbthongtinnv.Text = null;
+                    List<CheckBaoCom> check = baocom.Where(x => x.manhansu == txtID.Text).ToList();
+                    if (check.Count >= 1)
+                    {
+                        CheckBaoCom ck = new CheckBaoCom()
+                        {
+                            id = check.First().id,
+                            empid = check.First().empid,
+                            manhansu = check.First().manhansu,
+                            hoten = check.First().hoten,
+                            phongid = check.First().phongid,
+                            phong = check.First().phong,
+                            banid = check.First().banid,
+                            ban = check.First().ban,
+                            congdoanid = check.First().congdoanid,
+                            congdoan = check.First().congdoan,
+                            khach = check.First().khach,
+                            ngay = check.First().ngay,
+                            thang = check.First().thang,
+                            nam = check.First().nam,
+                            userid = check.First().userid,
+                            thoigiandat = check.First().thoigiandat,
+                            sudung = check.First().sudung,
+                            dangky = check.First().dangky,
+                            sotiendadung = check.First().sotiendadung,
+                            chot = check.First().chot,
+                            buaanid = check.First().buaanid,
+                            nhaanid = check.First().nhaanid,
+                            dangkybosung = check.First().dangkybosung,
+                        };
+                        if (check.First().sudung == "False" && checkid == false && check.First().nhaanid == idnhaan)
+                        {
+                            lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
+                            lbthongbao.Text = "OK";
+                            checkok.Play();
+                            checkok.Dispose();
+                            lbthongbao.BackColor = Color.Green;
+                            ck.sudung = "true";
+                            ck.bepanid = nhabep;
+                            ck.thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            ck.soxuatandadung = Convert.ToInt32(check.First().soxuatandadung) + 1;
+                            UpdateCheckBaoCom(ck);
+                            txtID.Text = null;
+                            lbthoigiansudung.Text = "Thành công: " + DateTime.Now.ToString("dd/MM/yy-HH:mm:ss");
+
+                            if (lbsosuatanconlai.Text == "0")
+                            {
+                                lbsosuatanconlai.BackColor = Color.Red;
+                                lbTong.BackColor = Color.Red;
+                            }
+                            else
+                            {
+                                lbsosuatanconlai.Text = (int.Parse(lbsosuatanconlai.Text) - 1).ToString();
+                                Conlai = Convert.ToInt32(lbsosuatanconlai.Text);
+                                if (lbsosuatanconlai.Text == "0")
+                                {
+                                    lbsosuatanconlai.BackColor = Color.Red;
+                                    lbTong.BackColor = Color.Red;
+                                }
+                                getNumber();
+                            }
+                        }
+                        else
+                        {
+                            string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                            lbthongtinnv.Text = check.First().manhansu + "-" + check.First().hoten + "-" + check.First().phong + "-" + check.First().ban;
+                            lbthongbao.Text = "NG";
+                            checkng.Play();
+                            checkng.Dispose();
+                            lbthongbao.BackColor = Color.Yellow;
+                            if (getthoigian != null && check.First().nhaanid == idnhaan)
+                            {
+                                lbthoigiansudung.Text = "Bạn đã lấy cơm lúc: " + getthoigian;
+                            }
+                            else if (check.First().nhaanid != idnhaan)
+                            {
+                                if (check.First().thoigiansudung != null)
+                                {
+                                    lbthoigiansudung.Text = "Bạn đã sử dụng cơm tại: [" + check.First().nhaan + "] Thời gian sử dụng:[" + check.First().thoigiansudung + "]";
+                                    try
+                                    {
+                                        using (var writer = new StreamWriter(infolog, true))
+                                        {
+                                            writer.WriteLine(txtID.Text + "-" + lbthoigiansudung.Text);
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                }
+                                else
+                                {
+                                    lbthoigiansudung.Text = "Bạn đã đăng ký cơm tại: [" + check.First().nhaan + "]. Mời bạn sang [" + check.First().nhaan + "] sử dụng cơm!";
+                                    try
+                                    {
+                                        using (var writer = new StreamWriter(infolog, true))
+                                        {
+                                            writer.WriteLine(txtID.Text + "-" + lbthoigiansudung.Text);
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                lbthoigiansudung.Text = "Bạn đã chưa đăng ký cơm ";
+                                try
+                                {
+                                    using (var writer = new StreamWriter(infolog, true))
+                                    {
+                                        writer.WriteLine(txtID.Text);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+                            }
+                            txtID.Text = null;
+                        }
+                    }
+                    else
+                    {
+                        string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        lbthoigiansudung.Text = "Bạn chưa báo cơm. Vui lòng qua bàn đăng ký bổ sung!";
+                        checkng.Play();
+                        checkng.Dispose();
+                        lbthongbao.Text = "NG";
+                        lbthongbao.BackColor = Color.Red;
+                        if (txtID.Text.Length >= 6)
+                        {
+                            bool checkRepeatID = false;//không trùng
+                            for (int i = 0; i < IDChuaBaoCom.Count; i++)
+                            {
+                                if (IDChuaBaoCom[i] == txtID.Text)
+                                {
+                                    checkRepeatID = true;//trùng
+                                    break;
+                                }
+                            }
+                            if (checkRepeatID == false)
+                            {
+                                try
+                                {
+                                    using (var writer = new StreamWriter(infolog, true))
+                                    {
+                                        writer.WriteLine(txtID.Text);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+                                if (txtID.Text.Length == 6)
+                                {
+                                    await Task.Run(() => ThemNhanVienBaoCom(txtID.Text));
+                                }
+                                IDChuaBaoCom.Add(txtID.Text);
+                                txtID.Text = null;
+                                lbthongtinnv.Text = null;
+                                if (lbsosuatanconlai.Text == "0")
+                                {
+                                    lbsosuatanconlai.BackColor = Color.Red;
+                                    lbTong.BackColor = Color.Red;
+                                }
+                                else
+                                {
+                                    lbsosuatanconlai.Text = (int.Parse(lbsosuatanconlai.Text) - 1).ToString();
+                                    Conlai = Convert.ToInt32(lbsosuatanconlai.Text);
+                                    if (lbsosuatanconlai.Text == "0")
+                                    {
+                                        lbsosuatanconlai.BackColor = Color.Red;
+                                        lbTong.BackColor = Color.Red;
+                                    }
+                                    getNumber();
+                                }
+                            }
+                        }
+                        txtID.Text = null;
+                        lbthongtinnv.Text = null;
+
+                    }
                 }
             }
         }
@@ -829,6 +868,120 @@ namespace CheckCom_Version2
             grap.Dispose();
             Image i = (Image)bitmap2;
             return i;
+        }
+        private async void ThemNhanVienBaoCom(string IDnhanvien)
+        {
+            CheckBaoCom ck = new CheckBaoCom()
+            {
+                empid = null,
+                manhansu = IDnhanvien,
+                hoten = null,
+                phongid = null,
+                phong = null,
+                banid = null,
+                ban = null,
+                congdoanid = null,
+                congdoan = null,
+                khach = "false",
+                ngay = DateTime.Now.ToString("yyyy-MM-dd"),
+                thang = DateTime.Now.Month,
+                nam = DateTime.Now.Year,
+                thoigiandat = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                sudung = "true",
+                dangky = "false",
+                thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                soxuatandadung = 1,
+                sotiendadung = 0,
+                chot = "false",
+                ghichu = "Bổ sung báo cơm",
+                buaanid = caanid,
+                nhaanid = idnhaan,
+                dangkybosung = "true",
+                bepanid = nhabep
+            };
+            Task<string> callTask = Task.Run(() => GetThongTinNhanVien(fileApinv + IDnhanvien));
+            callTask.Wait();
+            string astr = callTask.Result;
+            Thongtinnhanvien TT = JsonConvert.DeserializeObject<Thongtinnhanvien>(astr);
+            if (TT != null)
+            {
+               ck.hoten = TT.hodem + " " + TT.ten;
+               ck.empid = TT.id;
+                try
+                {
+                    if (TT.phong_id != null)
+                    {
+                        ck.phongid = TT.phong_id;
+                        string APIphong = fileApibp + TT.phong_id;
+                        Task<string> callTaskPhong = Task.Run(() => GetThongTinNhanVien(APIphong));
+                        callTaskPhong.Wait();
+                        string astrPhong = callTaskPhong.Result;
+                        string dataPhong = JObject.Parse(astrPhong)["bophan_ten"].ToString();
+                        if (!string.IsNullOrEmpty(dataPhong))
+                        {
+                            ck.phong = dataPhong;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    if (TT.ban_id != null)
+                    {
+                        ck.banid = TT.ban_id;
+                        string APIban = fileApibp + TT.ban_id;
+                        Task<string> callTaskBan = Task.Run(() => GetThongTinNhanVien(APIban));
+                        callTaskBan.Wait();
+                        string astrBan = callTaskBan.Result;
+                        string dataBan = JObject.Parse(astrBan)["bophan_ten"].ToString();
+                        if (!string.IsNullOrEmpty(dataBan))
+                        {
+                            ck.ban = dataBan;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    if (TT.congdoan_id != null)
+                    {
+                        ck.congdoanid = TT.congdoan_id;
+                        string APIcongdoan = fileApibp + TT.congdoan_id;
+                        Task<string> callTaskCongdoan = Task.Run(() => GetThongTinNhanVien(APIcongdoan));
+                        callTaskCongdoan.Wait();
+                        string astrCongdoan = callTaskCongdoan.Result;
+                        if (!string.IsNullOrEmpty(astrCongdoan))
+                        {
+                            string dataCongdoan = JObject.Parse(astrCongdoan)["bophan_ten"].ToString();
+                            if (!string.IsNullOrEmpty(dataCongdoan))
+                            {
+                                ck.congdoan = dataCongdoan;
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            string APIbaocom = fileApidlbc;
+            using (var client = new HttpClient())
+            {
+                var serializedProduct = JsonConvert.SerializeObject(ck);
+                var content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
+                var result = await client.PostAsync(APIbaocom, content);
+            }
+        }
+        private async Task<string> GetThongTinNhanVien(string path)
+        {
+            HttpClient aClient = new HttpClient();
+            string astr = await aClient.GetStringAsync(path);
+            return astr;
         }
     }
 }

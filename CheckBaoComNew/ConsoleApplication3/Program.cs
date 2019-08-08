@@ -14,19 +14,38 @@ namespace ConsoleApplication3
         static int sum = 0;
         static void Main(string[] args)
         {
-             string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\Dulieuxuatan\CheckCom\06-07-2019 Chieu.txt";
-            FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read,FileShare.Read);
-            using (StreamReader sr = new StreamReader(fs))
+            bool check = false;
+            List<string> f = new List<string>();
+            //f.Add("f");
+            for (int i= 0;i< f.Count;i++)
             {
-                string[] lines = sr.ReadToEnd().Split('\n');
-                for (int i = 0; i < lines.Count(); i++)
+                if(f[i]=="f")
                 {
-                    if (lines[i].Split('-')[0].Contains("000405"))
-                    {
-                        Console.WriteLine(lines[i].Split('-')[1]);
-                    }
+                    check = true;
                 }
+               
             }
+
+            if(check==true)
+            {
+                Console.WriteLine("true");
+            }else
+            {
+                Console.WriteLine("false");
+            }
+            // string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\Dulieuxuatan\CheckCom\06-07-2019 Chieu.txt";
+            //FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read,FileShare.Read);
+            //using (StreamReader sr = new StreamReader(fs))
+            //{
+            //    string[] lines = sr.ReadToEnd().Split('\n');
+            //    for (int i = 0; i < lines.Count(); i++)
+            //    {
+            //        if (lines[i].Split('-')[0].Contains("000405"))
+            //        {
+            //            Console.WriteLine(lines[i].Split('-')[1]);
+            //        }
+            //    }
+            //}
            
           //  File.ReadAllLines(fs.ToString());
            // string[] lines = File.ReadAllLines(fs.ToString());

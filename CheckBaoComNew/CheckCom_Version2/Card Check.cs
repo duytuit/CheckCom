@@ -24,6 +24,7 @@ namespace CheckCom_Version2
         private string caan = null;
         private List<BuaAn> buaan = new List<BuaAn>();
         List<Bitmap> bm = new List<Bitmap>();
+        List<Bitmap> bmNew = new List<Bitmap>();
         private string filecheck = null;
         private string filebuaan = null;
 
@@ -214,30 +215,24 @@ namespace CheckCom_Version2
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            if(bm.Count<13)
+            int chieudai = 0;
+            int chieurong = 0;
+            int rightpage = 0;
+            for (int i = 0; i < bmNew.Count; i++)
             {
-                int chieudai = 0;
-                int chieurong = 0;
-                int rightpage = 0;
-                for (int i = 0; i < bm.Count; i++)
+                if (chieudai > e.MarginBounds.Bottom - this.panel1.Height)
                 {
-                    if (chieudai > e.MarginBounds.Bottom-this.panel1.Height)
-                    {
-                        chieurong = this.panel1.Width;
-                        e.Graphics.DrawImage(bm[i], chieurong, rightpage+3, this.panel1.Width, this.panel1.Height);
-                        rightpage = rightpage + this.panel1.Height;
-                    }
-                    else
-                    {
-                        e.Graphics.DrawImage(bm[i], 0, chieudai+3, this.panel1.Width, this.panel1.Height);
-                        chieudai = chieudai + this.panel1.Height;
-                    }
+                    chieurong = this.panel1.Width;
+                    e.Graphics.DrawImage(bmNew[i], chieurong+5, rightpage + 3, this.panel1.Width, this.panel1.Height);
+                    rightpage = rightpage + this.panel1.Height;
                 }
-            }else
-            {
-                MessageBox.Show("In tối đa 12 phiếu ăn!");
+                else
+                {
+                    e.Graphics.DrawImage(bmNew[i], 0, chieudai + 3, this.panel1.Width, this.panel1.Height);
+                    chieudai = chieudai + this.panel1.Height;
+                }
             }
-           
+
         }
 
         private void GetBuaan()
@@ -589,15 +584,31 @@ namespace CheckCom_Version2
 
                     }
                 }
-                if(bm.Count<13)
+               // MessageBox.Show(bm.Count.ToString());
+                int kq1 = bm.Count / 10;
+                int tong = 10;
+                for (int i = 0; i < kq1; i++)
                 {
-                    printDocument1.Print();
+                    if (tong <= bm.Count)
+                    {
+                        bmNew.Clear();
+                        for (int j = tong - 10; j < tong; j++)
+                        {
+                            bmNew.Add(bm[j]);
+                        }
+                        printDocument1.DocumentName = "Document-" + i;
+                        printDocument1.Print();
+                        tong += 10;
+                    }
+
                 }
-               else
+                bmNew.Clear();
+                for (int z = tong - 10; z < bm.Count; z++)
                 {
-                    bm.Clear();
-                    MessageBox.Show("In tối đa 12 phiếu ăn!");
+                    bmNew.Add(bm[z]);
                 }
+                printDocument1.DocumentName = "Document-End";
+                printDocument1.Print();
             }
             else
             {
@@ -612,5 +623,7 @@ namespace CheckCom_Version2
             panel1.DrawToBitmap(bitmap, new Rectangle(0, 0, this.panel1.Width, this.panel1.Height));
             e.Graphics.DrawImage(bitmap, 0, 0, this.panel1.Width, this.panel1.Height);
         }
+
+       
     }
 }

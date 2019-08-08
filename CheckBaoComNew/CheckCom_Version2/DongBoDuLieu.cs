@@ -524,12 +524,12 @@ namespace CheckCom_Version2
                     if (dt.Rows.Count > 0)
                     {
                         string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        using (FileStream f = File.Create(info))
+                        using (FileStream f = new FileStream(info, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             f.Close();
                         }
                         string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        using (FileStream f = File.Create(infolog))
+                        using (FileStream f = new FileStream(infolog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             f.Close();
                         }
@@ -602,11 +602,11 @@ namespace CheckCom_Version2
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Chưa có dữ liệu!");
                     lvClient.Items.Clear();
                     lvDongbo.Items.Clear();
                     lbClient.Text = "Dữ liệu Client : 0";
                     lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
+                    MessageBox.Show("Chưa có dữ liệu!");
                 }
             }
             await Task.Run(() => GetNhaAnID());

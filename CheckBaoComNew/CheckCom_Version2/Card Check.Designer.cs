@@ -446,10 +446,12 @@
             this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel4.ColumnCount = 4;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00001F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Controls.Add(this.cbBuaan, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.label9, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.dateTimePicker1, 1, 0);
@@ -457,7 +459,7 @@
             this.tableLayoutPanel4.Location = new System.Drawing.Point(27, 25);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(502, 40);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
@@ -468,9 +470,9 @@
             this.cbBuaan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBuaan.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbBuaan.FormattingEnabled = true;
-            this.cbBuaan.Location = new System.Drawing.Point(388, 3);
+            this.cbBuaan.Location = new System.Drawing.Point(378, 3);
             this.cbBuaan.Name = "cbBuaan";
-            this.cbBuaan.Size = new System.Drawing.Size(111, 28);
+            this.cbBuaan.Size = new System.Drawing.Size(121, 28);
             this.cbBuaan.TabIndex = 8;
             this.cbBuaan.SelectedIndexChanged += new System.EventHandler(this.cbBuaan_SelectedIndexChanged);
             // 
@@ -480,7 +482,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(313, 0);
+            this.label9.Location = new System.Drawing.Point(303, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(69, 40);
             this.label9.TabIndex = 8;
@@ -494,11 +496,11 @@
             this.dateTimePicker1.CustomFormat = "MM-dd-yyyy";
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(143, 3);
+            this.dateTimePicker1.Location = new System.Drawing.Point(128, 3);
             this.dateTimePicker1.MaxDate = new System.DateTime(2101, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(134, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(119, 26);
             this.dateTimePicker1.TabIndex = 7;
             // 
             // label8
@@ -507,7 +509,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(82, 0);
+            this.label8.Location = new System.Drawing.Point(67, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(55, 40);
             this.label8.TabIndex = 5;

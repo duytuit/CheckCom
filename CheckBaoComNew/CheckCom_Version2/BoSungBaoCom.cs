@@ -266,7 +266,7 @@ namespace CheckCom_Version2
             try
             {
                 HttpClient aClient = new HttpClient();
-                string astr = await aClient.GetStringAsync(fileApinv + txtID.Text + "");
+                string astr = await aClient.GetStringAsync(fileApinv + txtID.Text);
                 Thongtinnhanvien TT = JsonConvert.DeserializeObject<Thongtinnhanvien>(astr);
                 if (TT != null)
                 {
@@ -280,7 +280,7 @@ namespace CheckCom_Version2
                         if (TT.phong_id != null)
                         {
                             idphong = TT.phong_id;
-                            string APIphong = fileApibp + TT.phong_id + "";
+                            string APIphong = fileApibp + TT.phong_id;
                             HttpClient aClientPhong = new HttpClient();
                             string astrPhong = await aClientPhong.GetStringAsync(APIphong);
                             string dataPhong = JObject.Parse(astrPhong)["bophan_ten"].ToString();
@@ -300,7 +300,7 @@ namespace CheckCom_Version2
                         if (TT.ban_id != null)
                         {
                             idban = TT.ban_id;
-                            string APIban = fileApibp + TT.ban_id + "";
+                            string APIban = fileApibp + TT.ban_id;
                             HttpClient aClientBan = new HttpClient();
                             string astrBan = await aClientBan.GetStringAsync(APIban);
                             string dataBan = JObject.Parse(astrBan)["bophan_ten"].ToString();
@@ -320,7 +320,7 @@ namespace CheckCom_Version2
                         if (TT.congdoan_id != null)
                         {
                             idcongdoan = TT.congdoan_id;
-                            string APIcongdoan = fileApibp + TT.congdoan_id + "";
+                            string APIcongdoan = fileApibp + TT.congdoan_id;
                             HttpClient aClientCongdoan = new HttpClient();
                             string astrCongdoan = await aClientCongdoan.GetStringAsync(APIcongdoan);
                             if (!string.IsNullOrEmpty(astrCongdoan))
