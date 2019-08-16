@@ -354,6 +354,8 @@ namespace CheckCom_Version2
         }
         private void AutoCapnhap()
         {
+            btnDongBo.Enabled = true;
+            btnCapNhap.Enabled = false;
             string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             if (baocom.Count > 0)
             {
@@ -431,8 +433,6 @@ namespace CheckCom_Version2
                 docExcel.Application.Quit();
                 GetBaoCom();
                 kiemtratrangthai();
-                btnDongBo.Enabled = true;
-                btnCapNhap.Enabled = false;
             }
         }
         private void btnCapNhap_Click(object sender, EventArgs e)

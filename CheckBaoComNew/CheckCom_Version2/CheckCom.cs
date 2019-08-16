@@ -746,7 +746,7 @@ namespace CheckCom_Version2
                             bool checkRepeatID = false;//không trùng
                             for (int i = 0; i < IDChuaBaoCom.Count; i++)
                             {
-                                if (IDChuaBaoCom[i] == txtID.Text)
+                                if (IDChuaBaoCom[i].Contains(txtID.Text))
                                 {
                                     checkRepeatID = true;//trùng
                                     break;
@@ -754,6 +754,7 @@ namespace CheckCom_Version2
                             }
                             if (checkRepeatID == false)
                             {
+                                IDChuaBaoCom.Add(txtID.Text);
                                 try
                                 {
                                     using (var writer = new StreamWriter(infolog, true))
@@ -769,7 +770,7 @@ namespace CheckCom_Version2
                                 {
                                     await Task.Run(() => ThemNhanVienBaoCom(txtID.Text));
                                 }
-                                IDChuaBaoCom.Add(txtID.Text);
+                                
                                 txtID.Text = null;
                                 lbthongtinnv.Text = null;
                                 if (lbsosuatanconlai.Text == "0")
@@ -792,7 +793,6 @@ namespace CheckCom_Version2
                         }
                         txtID.Text = null;
                         lbthongtinnv.Text = null;
-
                     }
                 }
             }
@@ -883,13 +883,13 @@ namespace CheckCom_Version2
                 congdoanid = null,
                 congdoan = null,
                 khach = "false",
-                ngay = DateTime.Now.ToString("yyyy-MM-dd"),
-                thang = DateTime.Now.Month,
-                nam = DateTime.Now.Year,
-                thoigiandat = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                ngay = dateTimePicker1.Value.ToString("yyyy-MM-dd"),
+                thang = dateTimePicker1.Value.Month,
+                nam = dateTimePicker1.Value.Year,
+                thoigiandat = dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                 sudung = "true",
                 dangky = "false",
-                thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                thoigiansudung = dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                 soxuatandadung = 1,
                 sotiendadung = 0,
                 chot = "false",

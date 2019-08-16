@@ -14,25 +14,44 @@ namespace ConsoleApplication3
         static int sum = 0;
         static void Main(string[] args)
         {
-            bool check = false;
-            List<string> f = new List<string>();
-            //f.Add("f");
-            for (int i= 0;i< f.Count;i++)
-            {
-                if(f[i]=="f")
-                {
-                    check = true;
-                }
-               
-            }
 
-            if(check==true)
-            {
-                Console.WriteLine("true");
-            }else
-            {
-                Console.WriteLine("false");
-            }
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //bool check = false;
+            //List<string> f = new List<string>();
+            ////f.Add("f");
+            //for (int i= 0;i< f.Count;i++)
+            //{
+            //    if(f[i]=="f")
+            //    {
+            //        check = true;
+            //    }
+               
+            //}
+
+            //if(check==true)
+            //{
+            //    Console.WriteLine("true");
+            //}else
+            //{
+            //    Console.WriteLine("false");
+            //}
             // string info = @"D:\du an 2019\CheckCom\CheckBaoComNew\CheckCom_Version2\bin\Debug\Dulieuxuatan\CheckCom\06-07-2019 Chieu.txt";
             //FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read,FileShare.Read);
             //using (StreamReader sr = new StreamReader(fs))
