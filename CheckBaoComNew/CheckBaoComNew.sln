@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication3", "Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mathCeiling", "mathCeiling\mathCeiling.csproj", "{E79CD0FF-F8FC-4BFA-89CA-18B20335D7A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication4", "ConsoleApplication4\ConsoleApplication4.csproj", "{0281EC17-78F1-42D6-AF34-FCED0A95C77A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication5", "ConsoleApplication5\ConsoleApplication5.csproj", "{3B671E6E-7F92-43F7-8E80-0EA18D8645FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{E79CD0FF-F8FC-4BFA-89CA-18B20335D7A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E79CD0FF-F8FC-4BFA-89CA-18B20335D7A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E79CD0FF-F8FC-4BFA-89CA-18B20335D7A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0281EC17-78F1-42D6-AF34-FCED0A95C77A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0281EC17-78F1-42D6-AF34-FCED0A95C77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0281EC17-78F1-42D6-AF34-FCED0A95C77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0281EC17-78F1-42D6-AF34-FCED0A95C77A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B671E6E-7F92-43F7-8E80-0EA18D8645FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B671E6E-7F92-43F7-8E80-0EA18D8645FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B671E6E-7F92-43F7-8E80-0EA18D8645FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B671E6E-7F92-43F7-8E80-0EA18D8645FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

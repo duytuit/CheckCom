@@ -51,8 +51,8 @@ namespace CheckCom_Version2
             }
             else if ((2 <= Gio) && (Gio < 8))
             {
-                cbBuaan.Text = "Bữa phụ";
-                caan = " Buaphu";
+                cbBuaan.Text = "Bữa nhẹ";
+                caan = " Buanhe";
             }
             else
             {
@@ -417,7 +417,7 @@ namespace CheckCom_Version2
             }
             else
             {
-                caan = " Buaphu";
+                caan = " Buanhe";
             }
             foreach (BuaAn ba in buaan)
             {

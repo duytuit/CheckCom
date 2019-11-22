@@ -47,6 +47,7 @@ namespace CheckCom_Version2
         List<string> IDChuaBaoCom = new List<string>();
         public CheckCom()
         {
+            
             InitializeComponent();
             int Gio = DateTime.Now.Hour;
             getPath();
@@ -65,8 +66,8 @@ namespace CheckCom_Version2
             }
             else if ((2 <= Gio) && (Gio < 8))
             {
-                caan = " Buaphu";
-                cbBuaan.Text = "Bữa phụ";
+                caan = " Buanhe";
+                cbBuaan.Text = "Bữa nhẹ";
             }
             else
             {
@@ -103,22 +104,24 @@ namespace CheckCom_Version2
             dynamicTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
           | System.Windows.Forms.AnchorStyles.Left)
           | System.Windows.Forms.AnchorStyles.Right)));
-            dynamicTableLayoutPanel.ColumnCount = 2;
-            dynamicTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            dynamicTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            dynamicTableLayoutPanel.ColumnCount = 1;
+            dynamicTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            dynamicTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             dynamicTableLayoutPanel.Controls.Add(picturebox1, 0, 0);
-            dynamicTableLayoutPanel.Controls.Add(picturebox2, 1, 0);
+            dynamicTableLayoutPanel.Controls.Add(picturebox2, 0, 1);
             dynamicTableLayoutPanel.Location = new System.Drawing.Point(2, 3);
             dynamicTableLayoutPanel.Name = "tableLayoutPanelHienThi";
-            dynamicTableLayoutPanel.RowCount = 1;
-            dynamicTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            dynamicTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 550F));
+            dynamicTableLayoutPanel.RowCount = 2;
+            dynamicTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            dynamicTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             dynamicTableLayoutPanel.Size = new System.Drawing.Size(926, 550);
             dynamicTableLayoutPanel.TabIndex = 0;
 
             hienthi.Controls.Add(dynamicTableLayoutPanel);
             hienthi.ControlBox = false; //ẩn Close
             hienthi.Show();
+            //================================
+
         }
 
         private void CheckCom_Load(object sender, EventArgs e)
@@ -308,45 +311,16 @@ namespace CheckCom_Version2
                         Microsoft.Office.Interop.Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
                         Microsoft.Office.Interop.Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
                         Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)docExcel.ActiveSheet;
-                        ws.Cells[1, 1] = "id";
-                        ws.Cells[1, 2] = "empid";
-                        ws.Cells[1, 3] = "manhansu";
-                        ws.Cells[1, 4] = "hoten";
-                        ws.Cells[1, 5] = "phongid";
-                        ws.Cells[1, 6] = "phong";
-                        ws.Cells[1, 7] = "banid";
-                        ws.Cells[1, 8] = "ban";
-                        ws.Cells[1, 9] = "congdoanid";
-                        ws.Cells[1, 10] = "congdoan";
-                        ws.Cells[1, 11] = "khach";
-                        ws.Cells[1, 12] = "ngay";
-                        ws.Cells[1, 13] = "thang";
-                        ws.Cells[1, 14] = "nam";
-                        ws.Cells[1, 15] = "userid";
-                        ws.Cells[1, 16] = "thoigiandat";
-                        ws.Cells[1, 17] = "sudung";
-                        ws.Cells[1, 18] = "dangky";
-                        ws.Cells[1, 19] = "thoigiansudung";
-                        ws.Cells[1, 20] = "soxuatandadung";
-                        ws.Cells[1, 21] = "sotiendadung";
-                        ws.Cells[1, 22] = "chot";
-                        ws.Cells[1, 23] = "ghichu";
-                        ws.Cells[1, 24] = "thucdontheobuaid";
-                        ws.Cells[1, 25] = "thucdontheobua";
-                        ws.Cells[1, 26] = "kieudoan";
-                        ws.Cells[1, 27] = "buaanid";
-                        ws.Cells[1, 28] = "buaan";
-                        ws.Cells[1, 29] = "ca";
-                        ws.Cells[1, 30] = "nhaanid";
-                        ws.Cells[1, 31] = "nhaan";
-                        ws.Cells[1, 32] = "loaidouong";
-                        ws.Cells[1, 33] = "thanhtoan";
-                        ws.Cells[1, 34] = "phongrieng";
-                        ws.Cells[1, 35] = "dangkybosung";
-                        ws.Cells[1, 36] = "nhabep";
-                        ws.Cells[1, 37] = "trangthai2";
 
                         var data = new object[dt.Rows.Count, dt.Columns.Count];
+                        int coldt = 1;
+                        foreach (DataColumn dtcolumns in dt.Columns)
+                        {
+                            ws.Cells[1, coldt] = dtcolumns.ColumnName;
+                            ws.Columns[coldt].NumberFormat = "@";
+                            coldt++;
+                        }
+                        ws.Cells[1, dt.Columns.Count + 1] = "trangthai2";
                         for (int row = 0; row < dt.Rows.Count; row++)
                         {
                             for (int column = 0; column <= dt.Columns.Count - 1; column++)
@@ -390,8 +364,6 @@ namespace CheckCom_Version2
                         var startCell = (Microsoft.Office.Interop.Excel.Range)ws.Cells[2, 1];
                         var endCell = (Microsoft.Office.Interop.Excel.Range)ws.Cells[dt.Rows.Count + 1, dt.Columns.Count];
                         var writeRange = ws.Range[startCell, endCell];
-                        ws.Columns[3].NumberFormat = "@";
-                        ws.Columns[19].NumberFormat = "@";
                         writeRange.Value2 = data;
                         wb.SaveAs(filename.FullName, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlLocalSessionChanges);
                         wb.Close();
@@ -477,6 +449,7 @@ namespace CheckCom_Version2
                                 using (StreamWriter writer = new StreamWriter(info,true))
                                 {
                                     writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid);
+                                    writer.Close();
                                 }
                         }
                         catch (Exception ex)
@@ -491,6 +464,7 @@ namespace CheckCom_Version2
                                 using (StreamWriter writer = new StreamWriter(info,true))
                                 {
                                     writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
+                                    writer.Close();
                                 }
                         }
                         catch (Exception ex)
@@ -507,6 +481,7 @@ namespace CheckCom_Version2
                         using (StreamWriter writer = new StreamWriter(info,true))
                         {
                             writer.WriteLine(ck.manhansu + "-" + Convert.ToDateTime(ck.thoigiansudung).ToString("dd/MM/yy HH:mm:ss") + "-" + ck.bepanid + "-NG1");
+                            writer.Close();
                         }
                 }
                 catch (Exception ex)
@@ -532,7 +507,7 @@ namespace CheckCom_Version2
             }
             else
             {
-                caan = " Buaphu";
+                caan = " Buanhe";
             }
             foreach (BuaAn ba in buaan)
             {
@@ -579,15 +554,96 @@ namespace CheckCom_Version2
 
         private async void txtID_KeyDown(object sender, KeyEventArgs e)
         {
+            
             if (e.KeyCode == Keys.Enter)
             {
+                int Gio = DateTime.Now.Hour;
+                string CA = null;
+                string BA = null;
+                if ((8 <= Gio) && (Gio < 14))
+                {
+                    CA = " Trua";
+                    BA = "Trưa";
+                }
+                else if ((14 <= Gio) && (Gio < 20))
+                {
+                    CA = " Chieu";
+                    BA = "Chiều";
+                }
+                else if ((2 <= Gio) && (Gio < 8))
+                {
+                    CA = " Buanhe";
+                    BA = "Bữa nhẹ";
+                }
+                else
+                {
+                    CA = " Toi";
+                    BA = "Tối";
+                }
+                if (CA!=caan)
+                {
+                    foreach (BuaAn ba in buaan)
+                    {
+                        if (ba.ten == BA)
+                        {
+                            caanid = ba.id;
+                        }
+                    }
+                    caan = CA;
+                    baocom.Clear();
+                    string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                    DataTable table = new DataTable();
+                    System.Data.OleDb.OleDbConnection MyConnection;
+                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                    MyConnection.Open();
+                    OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
+                    oada.Fill(table);
+                    MyConnection.Close();
+
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        DataRow drow = table.Rows[i];
+
+                        if (drow.RowState != DataRowState.Deleted)
+                        {
+                            CheckBaoCom ck = new CheckBaoCom()
+                            {
+                                id = drow["id"].ToString(),
+                                empid = string.IsNullOrEmpty(drow["empid"].ToString()) ? null : drow["empid"].ToString(),
+                                manhansu = drow["manhansu"].ToString(),
+                                hoten = drow["hoten"].ToString(),
+                                phongid = string.IsNullOrEmpty(drow["phongid"].ToString()) ? null : drow["phongid"].ToString(),
+                                phong = string.IsNullOrEmpty(drow["phong"].ToString()) ? null : drow["phong"].ToString(),
+                                banid = string.IsNullOrEmpty(drow["banid"].ToString()) ? null : drow["banid"].ToString(),
+                                ban = string.IsNullOrEmpty(drow["ban"].ToString()) ? null : drow["ban"].ToString(),
+                                congdoanid = string.IsNullOrEmpty(drow["congdoanid"].ToString()) ? null : drow["congdoanid"].ToString(),
+                                congdoan = string.IsNullOrEmpty(drow["congdoan"].ToString()) ? null : drow["congdoanid"].ToString(),
+                                khach = drow["khach"].ToString(),
+                                ngay = Convert.ToDateTime(drow["ngay"].ToString()).ToString("yyyy-MM-dd"),
+                                thang = int.Parse(drow["thang"].ToString()),
+                                nam = int.Parse(drow["nam"].ToString()),
+                                userid = string.IsNullOrEmpty(drow["userid"].ToString()) ? null : drow["userid"].ToString(),
+                                thoigiandat = Convert.ToDateTime(drow["thoigiandat"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"),
+                                sudung = drow["sudung"].ToString(),
+                                dangky = drow["dangky"].ToString(),
+                                sotiendadung = int.Parse(drow["sotiendadung"].ToString()),
+                                chot = drow["chot"].ToString(),
+                                buaanid = drow["buaanid"].ToString(),
+                                nhaanid = drow["nhaanid"].ToString(),
+                                nhaan = drow["nhaan"].ToString(),
+                                dangkybosung = drow["dangkybosung"].ToString()
+                            };
+                            baocom.Add(ck);
+                        }
+                    }
+                }
                 if (!string.IsNullOrEmpty(txtID.Text))
                 {
                     bool checkid = false;//không
                     try
                     {
                         string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
-                        FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        FileStream fs = new FileStream(info, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         using (StreamReader sr = new StreamReader(fs))
                         {
                             string[] lines = sr.ReadToEnd().Split('\n');
@@ -603,7 +659,9 @@ namespace CheckCom_Version2
                                     }
                                 }
                             }
+                            sr.Close();
                         }
+                        fs.Close();
                     }
                     catch (Exception ex)
                     {
@@ -692,6 +750,7 @@ namespace CheckCom_Version2
                                         using (var writer = new StreamWriter(infolog, true))
                                         {
                                             writer.WriteLine(txtID.Text + "-" + lbthoigiansudung.Text);
+                                            writer.Close();
                                         }
                                     }
                                     catch (Exception ex)
@@ -707,6 +766,7 @@ namespace CheckCom_Version2
                                         using (var writer = new StreamWriter(infolog, true))
                                         {
                                             writer.WriteLine(txtID.Text + "-" + lbthoigiansudung.Text);
+                                            writer.Close();
                                         }
                                     }
                                     catch (Exception ex)
@@ -723,6 +783,7 @@ namespace CheckCom_Version2
                                     using (var writer = new StreamWriter(infolog, true))
                                     {
                                         writer.WriteLine(txtID.Text);
+                                        writer.Close();
                                     }
                                 }
                                 catch (Exception ex)
@@ -760,6 +821,7 @@ namespace CheckCom_Version2
                                     using (var writer = new StreamWriter(infolog, true))
                                     {
                                         writer.WriteLine(txtID.Text);
+                                        writer.Close();
                                     }
                                 }
                                 catch (Exception ex)
@@ -825,9 +887,9 @@ namespace CheckCom_Version2
             string textNumberTong = string.Format("{0:000}", Tong);
             string textNumberConlai = string.Format("{0:000}", Conlai);
             Image pic1 = ImageText(textNumberTong, 1);
-            picturebox1.Image = Zoom(pic1, new Size(1, 90));
+            picturebox1.Image = Zoom(pic1, new Size(70, -10));
             Image pic2 = ImageText(textNumberConlai, 2);
-            picturebox2.Image = Zoom(pic2, new Size(1, 90));
+            picturebox2.Image = Zoom(pic2, new Size(70, -10));
         }
         Image Zoom(Image img, Size size)
         {
@@ -886,10 +948,10 @@ namespace CheckCom_Version2
                 ngay = dateTimePicker1.Value.ToString("yyyy-MM-dd"),
                 thang = dateTimePicker1.Value.Month,
                 nam = dateTimePicker1.Value.Year,
-                thoigiandat = dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                thoigiandat = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 sudung = "true",
                 dangky = "false",
-                thoigiansudung = dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                thoigiansudung = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 soxuatandadung = 1,
                 sotiendadung = 0,
                 chot = "false",
@@ -900,7 +962,7 @@ namespace CheckCom_Version2
                 bepanid = nhabep
             };
             Task<string> callTask = Task.Run(() => GetThongTinNhanVien(fileApinv + IDnhanvien));
-            callTask.Wait();
+           // callTask.Wait();
             string astr = callTask.Result;
             Thongtinnhanvien TT = JsonConvert.DeserializeObject<Thongtinnhanvien>(astr);
             if (TT != null)
@@ -914,7 +976,7 @@ namespace CheckCom_Version2
                         ck.phongid = TT.phong_id;
                         string APIphong = fileApibp + TT.phong_id;
                         Task<string> callTaskPhong = Task.Run(() => GetThongTinNhanVien(APIphong));
-                        callTaskPhong.Wait();
+                       // callTaskPhong.Wait();
                         string astrPhong = callTaskPhong.Result;
                         string dataPhong = JObject.Parse(astrPhong)["bophan_ten"].ToString();
                         if (!string.IsNullOrEmpty(dataPhong))
@@ -933,7 +995,7 @@ namespace CheckCom_Version2
                         ck.banid = TT.ban_id;
                         string APIban = fileApibp + TT.ban_id;
                         Task<string> callTaskBan = Task.Run(() => GetThongTinNhanVien(APIban));
-                        callTaskBan.Wait();
+                       // callTaskBan.Wait();
                         string astrBan = callTaskBan.Result;
                         string dataBan = JObject.Parse(astrBan)["bophan_ten"].ToString();
                         if (!string.IsNullOrEmpty(dataBan))
@@ -952,7 +1014,7 @@ namespace CheckCom_Version2
                         ck.congdoanid = TT.congdoan_id;
                         string APIcongdoan = fileApibp + TT.congdoan_id;
                         Task<string> callTaskCongdoan = Task.Run(() => GetThongTinNhanVien(APIcongdoan));
-                        callTaskCongdoan.Wait();
+                       // callTaskCongdoan.Wait();
                         string astrCongdoan = callTaskCongdoan.Result;
                         if (!string.IsNullOrEmpty(astrCongdoan))
                         {

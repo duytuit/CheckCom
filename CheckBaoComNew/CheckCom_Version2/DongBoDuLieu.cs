@@ -34,6 +34,7 @@ namespace CheckCom_Version2
         private string fileApibuaan = null;
         private string fileApinv = null;
         private string fileApibp = null;
+
         public DongBoDuLieu()
         {
             InitializeComponent();
@@ -54,8 +55,8 @@ namespace CheckCom_Version2
             }
             else if ((2 <= Gio) && (Gio < 8))
             {
-                cbBuaan.Text = "Bữa phụ";
-                caan = " Buaphu";
+                cbBuaan.Text = "Bữa nhẹ";
+                caan = " Buanhe";
             }
             else
             {
@@ -63,12 +64,12 @@ namespace CheckCom_Version2
                 caan = " Toi";
             }
         }
-       
+
         private void GetNhaAnID()
         {
             try
             {
-                string pathfile = filenhaan+"NhaAn.xls";
+                string pathfile = filenhaan + "NhaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
@@ -82,6 +83,7 @@ namespace CheckCom_Version2
             {
             }
         }
+
         private void getPath()
         {
             try
@@ -97,8 +99,8 @@ namespace CheckCom_Version2
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
+
         private bool CheckData()
         {
             bool kiemtrabaocom = false;
@@ -162,6 +164,7 @@ namespace CheckCom_Version2
             {
             }
         }
+
         private void getApi()
         {
             try
@@ -176,8 +179,8 @@ namespace CheckCom_Version2
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
+
         private void DongBoDuLieu_Load(object sender, EventArgs e)
         {
             lvServer.View = View.Details;
@@ -227,7 +230,7 @@ namespace CheckCom_Version2
             }
             catch (Exception)
             {
-                 MessageBox.Show("Không có dữ liệu bữa ăn!");
+                MessageBox.Show("Không có dữ liệu bữa ăn!");
             }
         }
 
@@ -273,13 +276,13 @@ namespace CheckCom_Version2
                     lvi.SubItems.Add(ck.chot);
                     lvi.SubItems.Add(ck.ghichu);
                     lvi.SubItems.Add(ck.buaan);
-                    if (ck.sudung=="true")
+                    if (ck.sudung == "true")
                     {
                         dem++;
                     }
                     lvServer.Items.Add(lvi);
                 }
-                lbSoxuatan.Text = "Xuất ăn đã dùng :"+dem;
+                lbSoxuatan.Text = "Xuất ăn đã dùng :" + dem;
                 if (lvServer.Items.Count == 0)
                 {
                     MessageBox.Show("Chưa có dữ liệu!");
@@ -352,6 +355,7 @@ namespace CheckCom_Version2
                 lbClient.Text = "Dữ liệu Client : 0";
             }
         }
+
         private void AutoCapnhap()
         {
             btnDongBo.Enabled = true;
@@ -397,7 +401,7 @@ namespace CheckCom_Version2
                             buaanid = drow["buaanid"].ToString(),
                             nhaanid = idnhaan,
                             dangkybosung = drow["dangkybosung"].ToString(),
-                            bepanid = string.IsNullOrEmpty(drow["nhabep"].ToString()) ? null : drow["nhabep"].ToString()
+                            bepanid = string.IsNullOrEmpty(drow["bepanid"].ToString()) ? null : drow["bepanid"].ToString()
                         };
                         check1 = Task.Run(() => InsertCheckBaoCom(ck)).Result;
                     }
@@ -424,8 +428,12 @@ namespace CheckCom_Version2
                 var writeRange = worksheetExcel.Range[startCell, endCell];
                 var endCell1 = (Excel.Range)worksheetExcel.Cells[dt.Rows.Count + 50, dt.Columns.Count + 5];
                 worksheetExcel.Range[startCell, endCell1].Clear();
-                worksheetExcel.Columns[3].NumberFormat = "@";
-                worksheetExcel.Columns[19].NumberFormat = "@";
+                int coldt = 1;
+                foreach (DataColumn dtcolumns in dt.Columns)
+                {
+                    worksheetExcel.Columns[coldt].NumberFormat = "@";
+                    coldt++;
+                }
                 writeRange.Value2 = data;
                 docExcel.Application.DisplayAlerts = false;
                 workbooksExcel.Save();//lỗi ở đây
@@ -435,6 +443,7 @@ namespace CheckCom_Version2
                 kiemtratrangthai();
             }
         }
+
         private void btnCapNhap_Click(object sender, EventArgs e)
         {
             AutoCapnhap();
@@ -495,7 +504,7 @@ namespace CheckCom_Version2
             }
             else
             {
-                caan = " Buaphu";
+                caan = " Buanhe";
             }
             foreach (BuaAn ba in buaan)
             {
@@ -521,6 +530,7 @@ namespace CheckCom_Version2
                     callTask.Wait();
                     string astr = callTask.Result;
                     DataTable dt = (DataTable)JsonConvert.DeserializeObject(astr, typeof(DataTable));
+
                     if (dt.Rows.Count > 0)
                     {
                         string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
@@ -540,46 +550,16 @@ namespace CheckCom_Version2
                         Microsoft.Office.Interop.Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
                         Microsoft.Office.Interop.Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
                         Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)docExcel.ActiveSheet;
-                        ws.Cells[1, 1] = "id";
-                        ws.Cells[1, 2] = "empid";
-                        ws.Cells[1, 3] = "manhansu";
-                        ws.Cells[1, 4] = "hoten";
-                        ws.Cells[1, 5] = "phongid";
-                        ws.Cells[1, 6] = "phong";
-                        ws.Cells[1, 7] = "banid";
-                        ws.Cells[1, 8] = "ban";
-                        ws.Cells[1, 9] = "congdoanid";
-                        ws.Cells[1, 10] = "congdoan";
-                        ws.Cells[1, 11] = "khach";
-                        ws.Cells[1, 12] = "ngay";
-                        ws.Cells[1, 13] = "thang";
-                        ws.Cells[1, 14] = "nam";
-                        ws.Cells[1, 15] = "userid";
-                        ws.Cells[1, 16] = "thoigiandat";
-                        ws.Cells[1, 17] = "sudung";
-                        ws.Cells[1, 18] = "dangky";
-                        ws.Cells[1, 19] = "thoigiansudung";
-                        ws.Cells[1, 20] = "soxuatandadung";
-                        ws.Cells[1, 21] = "sotiendadung";
-                        ws.Cells[1, 22] = "chot";
-                        ws.Cells[1, 23] = "ghichu";
-                        ws.Cells[1, 24] = "thucdontheobuaid";
-                        ws.Cells[1, 25] = "thucdontheobua";
-                        ws.Cells[1, 26] = "kieudoan";
-                        ws.Cells[1, 27] = "buaanid";
-                        ws.Cells[1, 28] = "buaan";
-                        ws.Cells[1, 29] = "ca";
-                        ws.Cells[1, 30] = "nhaanid";
-                        ws.Cells[1, 31] = "nhaan";
-                        ws.Cells[1, 32] = "loaidouong";
-                        ws.Cells[1, 33] = "thanhtoan";
-                        ws.Cells[1, 34] = "phongrieng";
-                        ws.Cells[1, 35] = "dangkybosung";
-                        ws.Cells[1, 36] = "nhabep";
-                        ws.Cells[1, 37] = "trangthai2";
 
                         var data = new object[dt.Rows.Count, dt.Columns.Count];
-
+                        int coldt = 1;
+                        foreach (DataColumn dtcolumns in dt.Columns)
+                        {
+                            ws.Cells[1, coldt] = dtcolumns.ColumnName;
+                            ws.Columns[coldt].NumberFormat = "@";
+                            coldt++;
+                        }
+                        ws.Cells[1, dt.Columns.Count+1] = "trangthai2";
                         for (int row = 0; row < dt.Rows.Count; row++)
                         {
                             for (int column = 0; column <= dt.Columns.Count - 1; column++)
@@ -591,8 +571,6 @@ namespace CheckCom_Version2
                         var startCell = (Microsoft.Office.Interop.Excel.Range)ws.Cells[2, 1];
                         var endCell = (Microsoft.Office.Interop.Excel.Range)ws.Cells[dt.Rows.Count + 1, dt.Columns.Count];
                         var writeRange = ws.Range[startCell, endCell];
-                        ws.Columns[3].NumberFormat = "@";
-                        ws.Columns[19].NumberFormat = "@";
                         writeRange.Value2 = data;
                         wb.SaveAs(filename.FullName, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlLocalSessionChanges);
                         wb.Close();
@@ -631,7 +609,7 @@ namespace CheckCom_Version2
                 table = table.DefaultView.ToTable(true);
                 string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                 string[] lines = File.ReadAllLines(info);
-               
+
                 int dem = 0;
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
@@ -677,7 +655,7 @@ namespace CheckCom_Version2
             }
             catch (Exception)
             {
-               lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
+                lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
             }
         }
 
@@ -740,7 +718,7 @@ namespace CheckCom_Version2
                                     check1 = Task.Run(() => UpdateCheckBaoCom(ck)).Result;
                                     if (check1 == true)
                                     {
-                                        lines[j] = lines[j].Replace(lines[j], lines[j].Split('-')[0] + "-" + lines[j].Split('-')[1]+"-" + lines[j].Split('-')[2]);
+                                        lines[j] = lines[j].Replace(lines[j], lines[j].Split('-')[0] + "-" + lines[j].Split('-')[1] + "-" + lines[j].Split('-')[2]);
                                     }
                                 }
                             }
