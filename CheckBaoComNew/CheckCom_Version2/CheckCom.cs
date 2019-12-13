@@ -137,7 +137,7 @@ namespace CheckCom_Version2
                 string pathfile = filenhaan + "NhaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -156,7 +156,7 @@ namespace CheckCom_Version2
                 string pathfile = filenhabep + "NhaBep.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -211,7 +211,7 @@ namespace CheckCom_Version2
                 string pathfile = filebuaan + "BuaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -385,7 +385,7 @@ namespace CheckCom_Version2
                 string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -554,7 +554,28 @@ namespace CheckCom_Version2
 
         private async void txtID_KeyDown(object sender, KeyEventArgs e)
         {
-            
+            if(e.KeyCode == Keys.F1)
+            {
+                lbsosuatanconlai.Text = (int.Parse(lbsosuatanconlai.Text) - 1).ToString();
+                Conlai = Convert.ToInt32(lbsosuatanconlai.Text);
+                if (lbsosuatanconlai.Text == "0")
+                {
+                    lbsosuatanconlai.BackColor = Color.Red;
+                    lbTong.BackColor = Color.Red;
+                }
+                getNumber();
+            }
+            if (e.KeyCode == Keys.F2)
+            {
+                lbsosuatanconlai.Text = (int.Parse(lbsosuatanconlai.Text) + 1).ToString();
+                Conlai = Convert.ToInt32(lbsosuatanconlai.Text);
+                if (lbsosuatanconlai.Text == "0")
+                {
+                    lbsosuatanconlai.BackColor = Color.Red;
+                    lbTong.BackColor = Color.Red;
+                }
+                getNumber();
+            }
             if (e.KeyCode == Keys.Enter)
             {
                 int Gio = DateTime.Now.Hour;
@@ -594,7 +615,7 @@ namespace CheckCom_Version2
                     string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                     DataTable table = new DataTable();
                     System.Data.OleDb.OleDbConnection MyConnection;
-                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                    MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                     MyConnection.Open();
                     OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                     oada.Fill(table);

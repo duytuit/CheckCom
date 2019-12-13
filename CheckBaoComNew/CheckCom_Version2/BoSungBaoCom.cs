@@ -80,7 +80,7 @@ namespace CheckCom_Version2
                 string pathfile = filebuaan+"BuaAn.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -234,7 +234,7 @@ namespace CheckCom_Version2
                 string pathfile = filenhabep + "NhaBep.xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
@@ -463,7 +463,7 @@ namespace CheckCom_Version2
                 string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
-                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + pathfile + "';Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'");
+                MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$] where trangthai2='NG'", MyConnection);
                 oada.Fill(table);
