@@ -111,7 +111,7 @@ namespace CheckCom_Version2
             foreach (FileInfo file in Files)
             {
                 var path = new TestPath(file);
-                if (path.ToString() == dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan)
+                if (path.ToString() == dttodate.Value.ToString("MM-dd-yyyy") + caan)
                 {
                     kiemtrabaocom = true;
                     break;
@@ -308,7 +308,7 @@ namespace CheckCom_Version2
         {
             try
             {
-                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
@@ -360,7 +360,7 @@ namespace CheckCom_Version2
         {
             btnDongBo.Enabled = true;
             btnCapNhap.Enabled = false;
-            string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+            string pathfile = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             if (baocom.Count > 0)
             {
                 DataTable table = new DataTable();
@@ -513,7 +513,7 @@ namespace CheckCom_Version2
                     caanid = ba.id;
                 }
             }
-            APICheckBaoCom = fileApidlbc + dateTimePicker1.Value.ToString("MM-dd-yyyy") + "/" + caanid;
+            APICheckBaoCom = fileApidlbc + dttodate.Value.ToString("MM-dd-yyyy") + "/" + caanid;
             GetBaoCom();
             bool Check = CheckData();
             if (Check == true)
@@ -533,19 +533,19 @@ namespace CheckCom_Version2
 
                     if (dt.Rows.Count > 0)
                     {
-                        string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        string info = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                         using (FileStream f = new FileStream(info, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             f.Close();
                         }
-                        string infolog = filelog + "log-" + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                        string infolog = filelog + "log-" + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                         using (FileStream f = new FileStream(infolog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             f.Close();
                         }
                         // File.Create(info);
                         // File.Exists(info);
-                        string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                        string pathfile = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                         FileInfo filename = new FileInfo(pathfile);
                         Microsoft.Office.Interop.Excel.Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
                         Microsoft.Office.Interop.Excel.Workbook wb = docExcel.Workbooks.Add(Type.Missing);
@@ -596,7 +596,7 @@ namespace CheckCom_Version2
             lbChuadongbo.Text = "Dữ liệu chưa đồng bộ : 0";
             try
             {
-                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
@@ -607,7 +607,7 @@ namespace CheckCom_Version2
                 lbChuadongbo.Text = null;
                 table.DefaultView.Sort = "manhansu asc";
                 table = table.DefaultView.ToTable(true);
-                string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                string info = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                 string[] lines = File.ReadAllLines(info);
 
                 int dem = 0;
@@ -663,14 +663,14 @@ namespace CheckCom_Version2
         {
             if (baocom.Count >= 1)
             {
-                string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+                string pathfile = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".xls";
                 DataTable table = new DataTable();
                 System.Data.OleDb.OleDbConnection MyConnection;
                 MyConnection = new System.Data.OleDb.OleDbConnection("provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + pathfile + "';Extended Properties=Excel 8.0;");
                 MyConnection.Open();
                 OleDbDataAdapter oada = new OleDbDataAdapter("select * from [Sheet1$]", MyConnection);
                 oada.Fill(table);
-                string info = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".txt";
+                string info = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".txt";
                 string[] lines = File.ReadAllLines(info);
 
                 for (int i = 0; i < table.Rows.Count; i++)
@@ -736,7 +736,7 @@ namespace CheckCom_Version2
 
         private void DeleteRowExcel(int RowExcel)
         {
-            string pathfile = filecheck + dateTimePicker1.Value.ToString("MM-dd-yyyy") + caan + ".xls";
+            string pathfile = filecheck + dttodate.Value.ToString("MM-dd-yyyy") + caan + ".xls";
             Excel._Application docExcel = new Microsoft.Office.Interop.Excel.Application { Visible = false };
             dynamic workbooksExcel = docExcel.Workbooks.Open(pathfile);
             var worksheetExcel = (Excel._Worksheet)workbooksExcel.ActiveSheet;

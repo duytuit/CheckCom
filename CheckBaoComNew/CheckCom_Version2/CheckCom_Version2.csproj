@@ -132,10 +132,17 @@
     <Compile Include="DongBoDuLieu.Designer.cs">
       <DependentUpon>DongBoDuLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dongbodulieucheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dongbodulieucheck.Designer.cs">
+      <DependentUpon>Dongbodulieucheck.cs</DependentUpon>
+    </Compile>
     <Compile Include="DTOs\BuaAn.cs" />
     <Compile Include="DTOs\CheckBaoCom.cs" />
     <Compile Include="DTOs\NhaAn.cs" />
     <Compile Include="DTOs\Thongtinnhanvien.cs" />
+    <Compile Include="Helper\helper.cs" />
     <Compile Include="Hienthi.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DongBoDuLieu.resx">
       <DependentUpon>DongBoDuLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dongbodulieucheck.resx">
+      <DependentUpon>Dongbodulieucheck.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Hienthi.resx">
       <DependentUpon>Hienthi.cs</DependentUpon>

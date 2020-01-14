@@ -99,5 +99,17 @@ namespace CheckCom_Version2
                 tt.Show();
             }
         }
+
+        private void đồngBộFileCheckToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dongbodulieucheck tt = new Dongbodulieucheck();
+            if (KiemTraTonTai("Dongbodulieucheck") == true)
+                tt.Activate();
+            else
+            {
+                tt.MdiParent = this;
+                tt.Show();
+            }
+        }
     }
 }

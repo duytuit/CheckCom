@@ -93,7 +93,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnCapNhap = new System.Windows.Forms.Button();
             this.cbBuaan = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dttodate = new System.Windows.Forms.DateTimePicker();
             this.lbSoxuatan = new System.Windows.Forms.Label();
             this.btnDongBo = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -495,7 +495,7 @@
             this.tableLayoutPanel3.Controls.Add(this.label2, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnCapNhap, 5, 0);
             this.tableLayoutPanel3.Controls.Add(this.cbBuaan, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.dateTimePicker1, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.dttodate, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.lbSoxuatan, 4, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(42, 12);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -559,20 +559,20 @@
             this.cbBuaan.TabIndex = 6;
             this.cbBuaan.SelectedIndexChanged += new System.EventHandler(this.cbBuaan_SelectedIndexChanged);
             // 
-            // dateTimePicker1
+            // dttodate
             // 
-            this.dateTimePicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dttodate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimePicker1.CustomFormat = "MM-dd-yyyy";
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(64, 3);
-            this.dateTimePicker1.MaxDate = new System.DateTime(2100, 12, 31, 0, 0, 0, 0);
-            this.dateTimePicker1.MinDate = new System.DateTime(1999, 12, 31, 0, 0, 0, 0);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(125, 29);
-            this.dateTimePicker1.TabIndex = 7;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dttodate.CustomFormat = "MM-dd-yyyy";
+            this.dttodate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dttodate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dttodate.Location = new System.Drawing.Point(64, 3);
+            this.dttodate.MaxDate = new System.DateTime(2100, 12, 31, 0, 0, 0, 0);
+            this.dttodate.MinDate = new System.DateTime(1999, 12, 31, 0, 0, 0, 0);
+            this.dttodate.Name = "dttodate";
+            this.dttodate.Size = new System.Drawing.Size(125, 29);
+            this.dttodate.TabIndex = 7;
+            this.dttodate.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // lbSoxuatan
             // 
@@ -709,7 +709,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.ComboBox cbBuaan;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dttodate;
         private System.Windows.Forms.Label lbSoxuatan;
     }
 }
